@@ -205,8 +205,8 @@ document.addEventListener('DOMContentLoaded', function () {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
-    // ============ Hero 浮动星光 ============
-    function createHeroSparkles() {
+    // ============ Hero 工业火花粒子 ============
+    function createIndustrialSparks() {
         const hero = document.getElementById('hero');
         if (!hero) return;
 
@@ -214,25 +214,24 @@ document.addEventListener('DOMContentLoaded', function () {
         container.className = 'absolute inset-0 pointer-events-none z-0';
         hero.appendChild(container);
 
-        for (let i = 0; i < 25; i++) {
-            const sparkle = document.createElement('div');
-            const size = Math.random() * 3 + 1;
-            sparkle.style.cssText = `
+        for (let i = 0; i < 15; i++) {
+            const spark = document.createElement('div');
+            const size = Math.random() * 2 + 0.5;
+            spark.style.cssText = `
                 position: absolute;
                 left: ${Math.random() * 100}%;
                 top: ${Math.random() * 100}%;
                 width: ${size}px;
                 height: ${size}px;
-                border-radius: 50%;
-                background: ${Math.random() > 0.5 ? 'rgba(200,180,255,0.6)' : 'rgba(180,210,255,0.6)'};
-                animation: sparkleFloat ${Math.random() * 8 + 8}s ease-in-out infinite;
-                animation-delay: ${Math.random() * 8}s;
-                box-shadow: 0 0 ${size * 2}px rgba(180,160,230,0.3);
+                border-radius: 0;
+                background: ${Math.random() > 0.5 ? 'rgba(245,158,11,0.5)' : 'rgba(200,200,200,0.3)'};
+                animation: sparkFloat ${Math.random() * 6 + 6}s ease-in-out infinite;
+                animation-delay: ${Math.random() * 6}s;
             `;
-            container.appendChild(sparkle);
+            container.appendChild(spark);
         }
     }
-    createHeroSparkles();
+    createIndustrialSparks();
 
     // ============ 数字跳动 ============
     function animateCounters() {
@@ -298,14 +297,18 @@ document.addEventListener('DOMContentLoaded', function () {
     console.log('🌌 飞轮储能UPS系统 · 天印制造 · 宇宙星海已就绪');
 });
 
-// Hero 星光浮动动画（注入全局样式）
-const sparkleStyle = document.createElement('style');
-sparkleStyle.textContent = `
-    @keyframes sparkleFloat {
-        0%, 100% { transform: translate(0, 0) scale(1); opacity: 0; }
-        25% { transform: translate(30px, -40px) scale(1.5); opacity: 0.6; }
-        50% { transform: translate(-20px, -80px) scale(0.8); opacity: 0.3; }
-        75% { transform: translate(-40px, -30px) scale(1.3); opacity: 0.5; }
+// 工业火花浮动动画
+const sparkStyle = document.createElement('style');
+sparkStyle.textContent = `
+    @keyframes sparkFloat {
+        0%, 100% { transform: translate(0, 0); opacity: 0; }
+        20% { opacity: 0.7; }
+        50% { transform: translate(20px, -60px); opacity: 0.4; }
+        80% { opacity: 0.1; }
+    }
+    @keyframes industrialSpin {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
     }
 `;
-document.head.appendChild(sparkleStyle);
+document.head.appendChild(sparkStyle);
