@@ -105,7 +105,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const mobileMenuBtn = document.getElementById('mobile-menu-btn');
     const mobileMenu = document.getElementById('mobile-menu');
     const navLinks = document.querySelectorAll('.nav-link');
-    const mobileNavLinks = mobileMenu.querySelectorAll('a');
     const sections = document.querySelectorAll('section[id]');
 
     // ============ 滚动监听 ============
@@ -145,7 +144,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // ============ 滚动渐入动画 ============
     const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
-
     const revealObserver = new IntersectionObserver(function (entries) {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -154,7 +152,6 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     }, { root: null, rootMargin: '0px 0px -50px 0px', threshold: 0.1 });
-
     revealElements.forEach(el => revealObserver.observe(el));
 
     function addRevealClasses() {
@@ -169,29 +166,39 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     addRevealClasses();
 
-    // ============ 移动端菜单 ============
-    mobileMenuBtn.addEventListener('click', function () {
-        const isOpen = !mobileMenu.classList.contains('hidden');
-        if (isOpen) {
-            mobileMenu.classList.add('hidden');
-            mobileMenuBtn.innerHTML = '<i class="fa-solid fa-bars text-xl"></i>';
+    // ============ 移动端菜单（修复版） ============
+    function openMenu() {
+        mobileMenu.classList.remove('hidden');
+        mobileMenuBtn.innerHTML = '<i class="fa-solid fa-xmark text-xl"></i>';
+    }
+    function closeMenu() {
+        mobileMenu.classList.add('hidden');
+        mobileMenuBtn.innerHTML = '<i class="fa-solid fa-bars text-xl"></i>';
+    }
+
+    mobileMenuBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        if (mobileMenu.classList.contains('hidden')) {
+            openMenu();
         } else {
-            mobileMenu.classList.remove('hidden');
-            mobileMenuBtn.innerHTML = '<i class="fa-solid fa-xmark text-xl"></i>';
+            closeMenu();
         }
     });
 
-    mobileNavLinks.forEach(link => {
+    // 移动菜单链接点击关闭
+    const mobileMenuLinks = mobileMenu.querySelectorAll('a');
+    mobileMenuLinks.forEach(link => {
         link.addEventListener('click', function () {
-            mobileMenu.classList.add('hidden');
-            mobileMenuBtn.innerHTML = '<i class="fa-solid fa-bars text-xl"></i>';
+            closeMenu();
         });
     });
 
+    // 点击页面其他地方关闭
     document.addEventListener('click', function (e) {
-        if (!mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
-            mobileMenu.classList.add('hidden');
-            mobileMenuBtn.innerHTML = '<i class="fa-solid fa-bars text-xl"></i>';
+        if (!mobileMenu.classList.contains('hidden') &&
+            !mobileMenu.contains(e.target) &&
+            !mobileMenuBtn.contains(e.target)) {
+            closeMenu();
         }
     });
 

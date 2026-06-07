@@ -323,4 +323,46 @@ tbody tr:hover td { background: rgba(140, 120, 220, 0.04); }
 @media (max-width: 768px) {
     .workflow-card { width: 100%; max-width: 260px; }
     .metric-card, .team-card { padding: 1rem; }
+    .spec-card { padding: 1rem; }
+    .info-card { padding: 1.25rem; }
+    .chart-container { padding: 1rem; }
+    .chart-container canvas { max-height: 220px; }
+
+    /* 表格横向滚动 */
+    table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* 导航移动菜单增强 */
+    #mobile-menu a {
+        padding: 0.75rem 1rem;
+        font-size: 0.9375rem;
+    }
+
+    /* Hero 轨道环缩小 */
+    .orbit-ring {
+        display: none;
+    }
+
+    /* 架构流程图纵向排列 */
+    .flex-wrap.items-center.justify-center {
+        flex-direction: column;
+    }
+
+    /* 英雄区文字缩小 */
+    #hero h1 {
+        font-size: 2rem !important;
+        line-height: 1.3 !important;
+    }
+}
+@media (max-width: 480px) {
+    #hero h1 {
+        font-size: 1.6rem !important;
+    }
+    .metric-card {
+        padding: 0.75rem;
+    }
 }
