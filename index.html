@@ -13,14 +13,14 @@
             theme: {
                 extend: {
                     colors: {
-                        'bg-dark': '#020010',
-                        'card-dark': '#0f0528',
-                        'card-darker': '#0a053c',
-                        'accent': '#a78bfa',
-                        'accent2': '#38bdf8',
-                        'energy': '#22d3ee',
+                        'bg-dark': '#1a1c1e',
+                        'card-dark': '#25282c',
+                        'card-darker': '#1f2226',
+                        'accent': '#f59e0b',
+                        'accent2': '#d97706',
+                        'energy': '#22c55e',
                         'warning': '#f59e0b',
-                        'nebula': '#8b5cf6',
+                        'nebula': '#6b7280',
                     },
                     fontFamily: {
                         'sans': ['"PingFang SC"', '"Microsoft YaHei"', '"Helvetica Neue"', 'Arial', 'sans-serif'],
@@ -41,14 +41,8 @@
 </head>
 <body class="bg-bg-dark text-gray-200 font-sans">
 
-    <!-- 流星 + 星云背景层 -->
-    <div class="shooting-star"></div>
-    <div class="shooting-star"></div>
-    <div class="shooting-star"></div>
-    <div class="stars-wrapper"></div>
-
     <!-- ==================== 导航栏 ==================== -->
-    <nav id="navbar" class="fixed top-0 w-full z-50 transition-all duration-300 bg-[#020010]/80 backdrop-blur-xl border-b border-purple-500/5">
+    <nav id="navbar" class="fixed top-0 w-full z-50 transition-all duration-300 bg-[#1a1c1e]/95 backdrop-blur-md border-b border-[#33363b]">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <div class="flex items-center gap-3">
@@ -95,34 +89,30 @@
     <!-- ==================== 1. Hero 封面区 ==================== -->
     <section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden">
         <!-- 深空背景 -->
-        <div class="absolute inset-0 bg-gradient-to-br from-[#020010] via-[#0a0030] via-[#050020] to-[#020010]"></div>
+        <div class="absolute inset-0 bg-gradient-to-br from-[#1a1c1e] via-[#222528] via-[#1d1f22] to-[#1a1c1e]"></div>
         <!-- 星云雾气 -->
         <div class="absolute inset-0">
-            <div class="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-purple-600/5 rounded-full blur-[150px] animate-pulse"></div>
-            <div class="absolute bottom-1/3 right-1/4 w-[400px] h-[400px] bg-sky-500/4 rounded-full blur-[130px] animate-pulse" style="animation-delay: 3s;"></div>
-            <div class="absolute top-1/2 left-1/2 w-[300px] h-[300px] bg-violet-500/3 rounded-full blur-[100px] animate-pulse" style="animation-delay: 5s;"></div>
+            <div class="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-amber-600/5 rounded-full blur-[150px] animate-pulse"></div>
+            <div class="absolute bottom-1/3 right-1/4 w-[400px] h-[400px] bg-gray-500/4 rounded-full blur-[130px] animate-pulse" style="animation-delay: 3s;"></div>
         </div>
-        <!-- 轨道环（装饰） -->
-        <div class="orbit-ring" style="top:50%;left:50%;width:600px;height:600px;margin-left:-300px;margin-top:-300px;--dur:30s;"></div>
-        <div class="orbit-ring" style="top:50%;left:50%;width:400px;height:400px;margin-left:-200px;margin-top:-200px;--dur:20s;border-color:rgba(139,92,246,0.05);"></div>
         <!-- 网格背景 -->
-        <div class="absolute inset-0 opacity-[0.04]" style="background-image: radial-gradient(circle, rgba(139,92,246,0.3) 1px, transparent 1px); background-size: 50px 50px;"></div>
+        <div class="absolute inset-0 opacity-[0.03]" style="background-image: radial-gradient(circle, rgba(255,255,255,0.15) 1px, transparent 1px); background-size: 50px 50px;"></div>
 
         <div class="relative z-10 text-center px-4 max-w-5xl mx-auto">
             <!-- 标签 -->
             <div class="inline-flex flex-wrap items-center justify-center gap-x-3 gap-y-1 mb-8 animate-fadeIn">
-                <span class="px-4 py-1.5 rounded-full border border-purple-400/30 bg-purple-500/5 text-purple-300 text-sm inline-flex items-center gap-2">
-                    <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
+                <span class="px-4 py-1.5 rounded-full border border-amber-500/30 bg-amber-500/5 text-amber-400 text-sm inline-flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
                     飞轮储能 · 不间断电源 · 智能控制
                 </span>
-                <span class="px-4 py-1.5 rounded-full border border-cyan-400/30 bg-cyan-500/5 text-cyan-300 text-sm font-medium">
+                <span class="px-4 py-1.5 rounded-full border border-gray-400/30 bg-gray-500/5 text-gray-300 text-sm font-medium">
                     天印制造
                 </span>
             </div>
 
             <!-- 主标题 -->
             <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight animate-slideUp">
-                基于 <span class="bg-gradient-to-r from-purple-400 via-sky-300 to-purple-400 bg-clip-text text-transparent">PLC 控制</span>的<br class="sm:hidden">
+                基于 <span class="text-amber-400">PLC 控制</span>的<br class="sm:hidden">
                 飞轮储能 UPS 系统
             </h1>
 
@@ -193,6 +183,14 @@
                     </div>
                     <h3 class="text-white font-semibold mb-3">飞轮储能优势</h3>
                     <p class="text-gray-400 text-sm leading-relaxed">物理储能，响应速度快、循环寿命长、能量转换效率高，全生命周期零化学污染，满足双碳目标。</p>
+                </div>
+            </div>
+
+            <!-- 系统实物图占位 -->
+            <div class="mb-12">
+                <div class="img-placeholder rounded w-full h-48 sm:h-64 flex flex-col items-center justify-center gap-2">
+                    <i class="fa-solid fa-image text-2xl"></i>
+                    <span>系统实物整体图</span>
                 </div>
             </div>
 
@@ -317,7 +315,7 @@
     </section>
 
     <!-- ==================== 3. 技术规格 ==================== -->
-    <section id="specs" class="py-20 lg:py-28 bg-purple-950/5">
+    <section id="specs" class="py-20 lg:py-28 bg-[#1f2226]/50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16 section-heading">
                 <h2 class="text-3xl sm:text-4xl font-bold text-white mb-4">核心技术规格</h2>
@@ -452,6 +450,22 @@
                     </div>
                 </div>
             </div>
+
+            <!-- 组件照片占位 -->
+            <div class="mt-10 grid sm:grid-cols-3 gap-4">
+                <div class="img-placeholder rounded h-40 flex flex-col items-center justify-center gap-1">
+                    <i class="fa-solid fa-image text-xl"></i>
+                    <span class="text-xs">PLC 控制器</span>
+                </div>
+                <div class="img-placeholder rounded h-40 flex flex-col items-center justify-center gap-1">
+                    <i class="fa-solid fa-image text-xl"></i>
+                    <span class="text-xs">储能飞轮总成</span>
+                </div>
+                <div class="img-placeholder rounded h-40 flex flex-col items-center justify-center gap-1">
+                    <i class="fa-solid fa-image text-xl"></i>
+                    <span class="text-xs">飞轮电机与驱动器</span>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -571,6 +585,14 @@
                 </div>
             </div>
 
+            <!-- RS485拓扑图占位 -->
+            <div class="mt-8 mb-6">
+                <div class="img-placeholder rounded h-36 sm:h-48 flex flex-col items-center justify-center gap-2">
+                    <i class="fa-solid fa-diagram-project text-2xl"></i>
+                    <span>RS485 总线拓扑连接图</span>
+                </div>
+            </div>
+
             <!-- 控制程序亮点 -->
             <div class="mt-16">
                 <h3 class="text-xl font-semibold text-white mb-8 text-center">PLC 控制程序设计亮点</h3>
@@ -601,7 +623,7 @@
     </section>
 
     <!-- ==================== 5. 性能测试 ==================== -->
-    <section id="performance" class="py-20 lg:py-28 bg-purple-950/5">
+    <section id="performance" class="py-20 lg:py-28 bg-[#1f2226]/50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16 section-heading">
                 <h2 class="text-3xl sm:text-4xl font-bold text-white mb-4">性能测试与分析</h2>
@@ -652,6 +674,18 @@
                         <canvas id="energyLoadChart"></canvas>
                     </div>
                     <p class="text-gray-500 text-xs mt-3 text-center">初始 1126.2J · 带载输出 20.72s · 剩余 66.7J</p>
+                </div>
+            </div>
+
+            <!-- 测试场景照片占位 -->
+            <div class="mt-8 grid sm:grid-cols-2 gap-4 mb-8">
+                <div class="img-placeholder rounded h-40 flex flex-col items-center justify-center gap-1">
+                    <i class="fa-solid fa-image text-xl"></i>
+                    <span class="text-xs">充能模式测试场景</span>
+                </div>
+                <div class="img-placeholder rounded h-40 flex flex-col items-center justify-center gap-1">
+                    <i class="fa-solid fa-image text-xl"></i>
+                    <span class="text-xs">输出模式测试场景</span>
                 </div>
             </div>
 
@@ -710,7 +744,7 @@
     </section>
 
     <!-- ==================== 6. 汽车飞轮应用 ==================== -->
-    <section id="automotive" class="py-20 lg:py-28 bg-purple-950/5">
+    <section id="automotive" class="py-20 lg:py-28 bg-[#1f2226]/50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16 section-heading">
                 <h2 class="text-3xl sm:text-4xl font-bold text-white mb-4">新能源车 · 动能回收</h2>
@@ -823,7 +857,7 @@
             </div>
 
             <!-- 技术对比 -->
-            <div class="mt-10 p-6 rounded-2xl bg-gradient-to-r from-purple-950/20 to-blue-950/20 border border-purple-500/5">
+            <div class="mt-10 p-6 rounded-2xl bg-gradient-to-r from-[#25282c] to-[#1f2226] border border-[#33363b]">
                 <h4 class="text-white font-semibold mb-4 text-center">飞轮KERS vs 电池KERS</h4>
                 <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 text-center">
                     <div>
@@ -1122,7 +1156,7 @@
     </section>
 
     <!-- ==================== 8. 先行者 ==================== -->
-    <section id="pioneers" class="py-20 lg:py-28 bg-purple-950/5">
+    <section id="pioneers" class="py-20 lg:py-28 bg-[#1f2226]/50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16 section-heading">
                 <h2 class="text-3xl sm:text-4xl font-bold text-white mb-4">先行者</h2>
@@ -1248,7 +1282,7 @@
     </section>
 
     <!-- ==================== 页脚 ==================== -->
-    <footer class="py-12 border-t border-purple-500/10 bg-[#020010]/80 backdrop-blur-sm">
+    <footer class="py-12 border-t border-[#33363b] bg-[#1a1c1e]/95 backdrop-blur-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row items-center justify-between gap-6">
                 <div class="flex items-center gap-3">
@@ -1390,7 +1424,7 @@
             </div>
 
             <!-- 关键指标总览 -->
-            <div class="mt-12 p-8 rounded-2xl bg-gradient-to-r from-purple-950/20 to-blue-950/20 border border-purple-500/5">
+            <div class="mt-12 p-8 rounded-2xl bg-gradient-to-r from-[#25282c] to-[#1f2226] border border-[#33363b]">
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
                     <div>
                         <div class="text-3xl font-bold text-accent">8400<span class="text-sm">rpm</span></div>

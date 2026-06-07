@@ -15,7 +15,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const ctx = canvas.getContext('2d');
         let stars = [];
-        const STAR_COUNT = 200;
+        const STAR_COUNT = 60;
 
         function resize() {
             canvas.width = window.innerWidth;
@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     x: Math.random() * canvas.width,
                     y: Math.random() * canvas.height,
                     r: Math.random() * 1.8 + 0.3,          // 0.3-2.1px
-                    baseAlpha: Math.random() * 0.45 + 0.12,  // 0.12-0.57 提亮
+                    baseAlpha: Math.random() * 0.2 + 0.05,   // 微弱的工业氛围
                     alpha: 0,
                     twinkleSpeed: Math.random() * 0.015 + 0.003, // 闪烁速度
                     twinkleOffset: Math.random() * Math.PI * 2,
@@ -166,39 +166,37 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     addRevealClasses();
 
-    // ============ 移动端菜单（修复版） ============
-    function openMenu() {
-        mobileMenu.classList.remove('hidden');
-        mobileMenuBtn.innerHTML = '<i class="fa-solid fa-xmark text-xl"></i>';
-    }
-    function closeMenu() {
-        mobileMenu.classList.add('hidden');
-        mobileMenuBtn.innerHTML = '<i class="fa-solid fa-bars text-xl"></i>';
-    }
+    // ============ 移动端菜单 ============
+    let menuOpen = false;
 
-    mobileMenuBtn.addEventListener('click', function (e) {
+    mobileMenuBtn.onclick = function(e) {
+        e.preventDefault();
         e.stopPropagation();
-        if (mobileMenu.classList.contains('hidden')) {
-            openMenu();
+        menuOpen = !menuOpen;
+        if (menuOpen) {
+            mobileMenu.style.display = 'block';
+            mobileMenuBtn.innerHTML = '<i class="fa-solid fa-xmark text-xl"></i>';
         } else {
-            closeMenu();
+            mobileMenu.style.display = 'none';
+            mobileMenuBtn.innerHTML = '<i class="fa-solid fa-bars text-xl"></i>';
         }
+    };
+
+    // 菜单内链接点击关闭
+    mobileMenu.querySelectorAll('a').forEach(function(a) {
+        a.onclick = function() {
+            menuOpen = false;
+            mobileMenu.style.display = 'none';
+            mobileMenuBtn.innerHTML = '<i class="fa-solid fa-bars text-xl"></i>';
+        };
     });
 
-    // 移动菜单链接点击关闭
-    const mobileMenuLinks = mobileMenu.querySelectorAll('a');
-    mobileMenuLinks.forEach(link => {
-        link.addEventListener('click', function () {
-            closeMenu();
-        });
-    });
-
-    // 点击页面其他地方关闭
-    document.addEventListener('click', function (e) {
-        if (!mobileMenu.classList.contains('hidden') &&
-            !mobileMenu.contains(e.target) &&
-            !mobileMenuBtn.contains(e.target)) {
-            closeMenu();
+    // 点击外部关闭
+    document.addEventListener('click', function(e) {
+        if (menuOpen && !mobileMenu.contains(e.target) && e.target !== mobileMenuBtn && !mobileMenuBtn.contains(e.target)) {
+            menuOpen = false;
+            mobileMenu.style.display = 'none';
+            mobileMenuBtn.innerHTML = '<i class="fa-solid fa-bars text-xl"></i>';
         }
     });
 

@@ -1,32 +1,12 @@
 /* ============================================
-   飞轮储能UPS系统 - 宇宙主题（淡雅版）
+   飞轮储能UPS系统 - 工业风主题
    天印制造
    ============================================ */
 
 html { scroll-behavior: smooth; }
-body { overflow-x: hidden; background: #060b1f; }
+body { overflow-x: hidden; background: #1a1c1e; }
 
-/* ----- 照片占位 ----- */
-.photo-space {
-    position: relative;
-    overflow: hidden;
-    cursor: default;
-}
-.photo-space::before {
-    content: '';
-    position: absolute;
-    inset: 3px;
-    border-radius: 50%;
-    border: 1.5px dashed rgba(140, 120, 220, 0.15);
-    pointer-events: none;
-    transition: border-color 0.3s;
-}
-.team-card:hover .photo-space::before,
-.pioneer-card:hover .photo-space::before {
-    border-color: rgba(140, 120, 220, 0.3);
-}
-
-/* ----- 深空星场 ----- */
+/* ----- 微妙的暗纹背景 ----- */
 body::before {
     content: '';
     position: fixed;
@@ -35,289 +15,183 @@ body::before {
     pointer-events: none;
     z-index: 0;
     background-image:
-        radial-gradient(0.8px 0.8px at 10% 15%, rgba(255,255,255,0.3), transparent),
-        radial-gradient(0.8px 0.8px at 25% 35%, rgba(255,255,255,0.22), transparent),
-        radial-gradient(0.8px 0.8px at 40% 10%, rgba(255,255,255,0.26), transparent),
-        radial-gradient(0.8px 0.8px at 55% 45%, rgba(255,255,255,0.18), transparent),
-        radial-gradient(0.8px 0.8px at 70% 20%, rgba(255,255,255,0.3), transparent),
-        radial-gradient(0.8px 0.8px at 85% 40%, rgba(255,255,255,0.22), transparent),
-        radial-gradient(0.8px 0.8px at 15% 60%, rgba(255,255,255,0.26), transparent),
-        radial-gradient(0.8px 0.8px at 30% 75%, rgba(255,255,255,0.18), transparent),
-        radial-gradient(0.8px 0.8px at 50% 70%, rgba(255,255,255,0.3), transparent),
-        radial-gradient(0.8px 0.8px at 65% 55%, rgba(255,255,255,0.22), transparent),
-        radial-gradient(0.8px 0.8px at 80% 80%, rgba(255,255,255,0.26), transparent),
-        radial-gradient(0.8px 0.8px at 95% 65%, rgba(255,255,255,0.18), transparent),
-        radial-gradient(0.8px 0.8px at 5% 90%, rgba(255,255,255,0.22), transparent),
-        radial-gradient(0.8px 0.8px at 45% 85%, rgba(255,255,255,0.26), transparent),
-        radial-gradient(0.8px 0.8px at 75% 10%, rgba(255,255,255,0.18), transparent),
-        radial-gradient(1.2px 1.2px at 20% 25%, rgba(160,140,230,0.35), transparent),
-        radial-gradient(1.2px 1.2px at 60% 30%, rgba(130,180,230,0.3), transparent),
-        radial-gradient(1.2px 1.2px at 90% 15%, rgba(160,140,230,0.28), transparent),
-        radial-gradient(1.2px 1.2px at 35% 50%, rgba(170,150,220,0.3), transparent),
-        radial-gradient(1.2px 1.2px at 75% 60%, rgba(130,180,230,0.35), transparent),
-        radial-gradient(1.2px 1.2px at 10% 80%, rgba(160,140,230,0.28), transparent),
-        radial-gradient(1.2px 1.2px at 55% 90%, rgba(170,150,220,0.3), transparent),
-        radial-gradient(1.2px 1.2px at 85% 5%, rgba(130,180,230,0.22), transparent),
-        radial-gradient(1.5px 1.5px at 15% 20%, rgba(255,255,255,0.45), transparent),
-        radial-gradient(1.5px 1.5px at 70% 35%, rgba(255,255,255,0.38), transparent),
-        radial-gradient(1.5px 1.5px at 40% 65%, rgba(255,255,255,0.42), transparent),
-        radial-gradient(1.5px 1.5px at 90% 75%, rgba(255,255,255,0.38), transparent),
-        radial-gradient(1.5px 1.5px at 25% 55%, rgba(255,255,255,0.45), transparent);
-    background-size: 200px 200px, 300px 300px, 400px 400px;
-    animation: starDrift 180s linear infinite;
-}
-
-@keyframes starDrift {
-    from { transform: translateY(0); }
-    to { transform: translateY(-200px); }
-}
-
-/* ----- 星云光晕（大幅降低不透明度） ----- */
-body::after {
-    content: '';
-    position: fixed;
-    pointer-events: none;
-    z-index: 0;
-    top: -20%; left: -10%;
-    width: 60%; height: 80%;
-    background: radial-gradient(ellipse at center, rgba(130, 110, 220, 0.015) 0%, transparent 70%);
-    animation: nebulaFloat 20s ease-in-out infinite;
-}
-.stars-wrapper {
-    position: fixed;
-    pointer-events: none;
-    z-index: 0;
-    top: 40%; right: -10%;
-    width: 50%; height: 60%;
-    background: radial-gradient(ellipse at center, rgba(100, 160, 220, 0.012) 0%, transparent 70%);
-    animation: nebulaFloat2 22s ease-in-out infinite;
-}
-
-@keyframes nebulaFloat {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    33% { transform: translate(40px, -25px) scale(1.08); }
-    66% { transform: translate(-25px, 15px) scale(0.97); }
-}
-@keyframes nebulaFloat2 {
-    0%, 100% { transform: translate(0, 0) scale(1); }
-    50% { transform: translate(-40px, 20px) scale(1.1); }
-}
-
-/* ----- 流星（减淡） ----- */
-.shooting-star {
-    position: fixed;
-    pointer-events: none;
-    z-index: 1;
-    width: 1px;
-    height: 60px;
-    background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(200,180,255,0.6));
-    animation: shoot 4s ease-in infinite;
-    opacity: 0;
-}
-.shooting-star:nth-child(1) { top: 10%; left: 30%; animation-delay: 0s; }
-.shooting-star:nth-child(2) { top: 25%; left: 65%; animation-delay: 5s; }
-.shooting-star:nth-child(3) { top: 5%; left: 80%; animation-delay: 10s; }
-
-@keyframes shoot {
-    0% { opacity: 0; transform: translate(0, 0) rotate(-30deg); }
-    5% { opacity: 0.8; }
-    12% { opacity: 0; transform: translate(-150px, 150px) rotate(-30deg); }
-    100% { opacity: 0; transform: translate(-150px, 150px) rotate(-30deg); }
+        repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.005) 2px, rgba(255,255,255,0.005) 4px),
+        repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(255,255,255,0.003) 2px, rgba(255,255,255,0.003) 4px);
+    opacity: 0.5;
 }
 
 /* ----- 滚动条 ----- */
 ::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-track { background: #04081a; }
-::-webkit-scrollbar-thumb { background: linear-gradient(180deg, rgba(130,110,220,0.4), rgba(100,160,230,0.4)); border-radius: 3px; }
+::-webkit-scrollbar-track { background: #1a1c1e; }
+::-webkit-scrollbar-thumb { background: #3d4045; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #555; }
 
-/* ----- 导航栏激活 ----- */
-.nav-link.active { color: #b4a0e0 !important; background: rgba(130, 110, 220, 0.08); }
+/* ----- 导航栏 ----- */
+.nav-link.active { color: #f59e0b !important; background: rgba(245, 158, 11, 0.08); }
 
 /* ----- 动画 ----- */
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes scaleIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
-@keyframes twinkle {
-    0%, 100% { opacity: 0.2; }
-    50% { opacity: 0.6; }
-}
-@keyframes floatOrb {
-    0%, 100% { transform: translateY(0) rotate(0deg); }
-    33% { transform: translateY(-10px) rotate(120deg); }
-    66% { transform: translateY(8px) rotate(240deg); }
-}
 
 .animate-fadeIn { animation: fadeIn 0.8s ease-out forwards; }
 .animate-slideUp { animation: slideUp 0.8s ease-out forwards; opacity: 0; }
-.animate-scaleIn { animation: scaleIn 0.6s ease-out forwards; opacity: 0; }
 
-/* 滚动触发动画 */
 .reveal { opacity: 0; transform: translateY(25px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
 .reveal.visible { opacity: 1; transform: translateY(0); }
-.reveal-left { opacity: 0; transform: translateX(-25px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
-.reveal-left.visible { opacity: 1; transform: translateX(0); }
-.reveal-right { opacity: 0; transform: translateX(25px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
-.reveal-right.visible { opacity: 1; transform: translateX(0); }
 
-/* ============ 卡片通用（淡雅宇宙风） ============ */
+/* ============ 工业风卡片通用 ============ */
 .metric-card {
-    background: linear-gradient(135deg, rgba(20, 16, 50, 0.3), rgba(15, 12, 45, 0.25));
-    border: 1px solid rgba(140, 120, 220, 0.06);
-    border-radius: 16px;
+    background: linear-gradient(180deg, #25282c, #1f2226);
+    border: 1px solid #33363b;
+    border-radius: 4px;
     padding: 1.5rem;
-    backdrop-filter: blur(16px);
     transition: all 0.3s ease;
 }
 .metric-card:hover {
-    border-color: rgba(140, 120, 220, 0.25);
-    transform: translateY(-3px);
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    border-color: #f59e0b;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.3), inset 0 0 0 1px rgba(245,158,11,0.1);
+    transform: translateY(-2px);
 }
 
 .info-card, .arch-card, .workflow-card, .spec-card,
 .comm-feature, .code-feature-card, .chart-container,
 .perf-summary-card, .safety-card, .info-section-card,
-.team-card {
-    background: linear-gradient(135deg, rgba(20, 16, 50, 0.28), rgba(15, 12, 45, 0.22));
-    border: 1px solid rgba(140, 120, 220, 0.05);
-    backdrop-filter: blur(10px);
+.team-card, .pioneer-card {
+    background: linear-gradient(180deg, #25282c, #1f2226);
+    border: 1px solid #33363b;
+    border-radius: 4px;
     transition: all 0.3s ease;
 }
 
 .info-card:hover, .arch-card:hover, .workflow-card:hover,
 .spec-card:hover, .comm-feature:hover, .code-feature-card:hover,
 .chart-container:hover, .perf-summary-card:hover, .safety-card:hover,
-.info-section-card:hover, .team-card:hover {
-    border-color: rgba(140, 120, 220, 0.2);
-    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
-    transform: translateY(-3px);
+.info-section-card:hover, .team-card:hover, .pioneer-card:hover {
+    border-color: #555;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    transform: translateY(-2px);
 }
 
-.info-card { border-radius: 16px; padding: 2rem; }
-.arch-card { border-radius: 16px; padding: 1.5rem; border-left: 2px solid; }
-.workflow-card { border-radius: 20px; padding: 1.5rem; width: 220px; text-align: center; }
+.info-card { padding: 2rem; }
+.arch-card { padding: 1.5rem; border-left: 3px solid #f59e0b; }
+.workflow-card { padding: 1.5rem; width: 220px; text-align: center; }
 .workflow-icon {
     width: 56px; height: 56px; border-radius: 50%;
     display: flex; align-items: center; justify-content: center; margin: 0 auto;
+    background: #2a2d32;
 }
-.spec-card { border-radius: 16px; padding: 1.5rem; }
+.spec-card { padding: 1.5rem; }
 .spec-card-header {
     display: flex; align-items: center; gap: 1rem;
     margin-bottom: 1rem; padding-bottom: 0.75rem;
-    border-bottom: 1px solid rgba(140, 120, 220, 0.08);
+    border-bottom: 1px solid #33363b;
 }
 .spec-card-body { display: flex; flex-direction: column; gap: 0.4rem; }
 .spec-item { display: flex; justify-content: space-between; align-items: center; padding: 0.2rem 0; font-size: 0.8rem; }
-.spec-item span:first-child { color: #8888aa; }
-.spec-item span:last-child { color: #b8b8d8; text-align: right; }
-.comm-feature { border-radius: 14px; padding: 1.25rem; }
+.spec-item span:first-child { color: #8a8d91; }
+.spec-item span:last-child { color: #c8ccd0; text-align: right; }
+.comm-feature { padding: 1.25rem; border-radius: 4px; }
 .comm-feature:hover { transform: translateX(3px); }
-.code-feature-card { border-radius: 14px; padding: 1.5rem; text-align: center; }
-.chart-container { border-radius: 16px; padding: 1.5rem; }
+.code-feature-card { padding: 1.5rem; text-align: center; border-radius: 4px; }
+.chart-container { padding: 1.5rem; border-radius: 4px; }
 .chart-container canvas { max-height: 280px; }
-.perf-summary-card { border-radius: 14px; padding: 1.25rem; text-align: center; }
-.safety-card { border-radius: 14px; padding: 1.25rem; text-align: center; }
-.info-section-card { border-radius: 16px; padding: 1.5rem; }
+.perf-summary-card { padding: 1.25rem; text-align: center; border-radius: 4px; }
+.safety-card { padding: 1.25rem; text-align: center; border-radius: 4px; }
+.info-section-card { padding: 1.5rem; border-radius: 4px; }
+.team-card { padding: 1.5rem; text-align: center; border-radius: 4px; }
+.pioneer-card { padding: 1.5rem; text-align: center; border-radius: 4px; }
 
-/* ============ 先行者卡片 ============ */
-.pioneer-card {
-    background: linear-gradient(135deg, rgba(20, 16, 50, 0.28), rgba(15, 12, 45, 0.22));
-    border: 1px solid rgba(140, 120, 220, 0.05);
-    border-radius: 16px;
-    padding: 1.5rem;
-    text-align: center;
-    backdrop-filter: blur(10px);
-    transition: all 0.3s ease;
+/* ============ 图片占位 ============ */
+.img-placeholder {
+    background: #2a2d32;
+    border: 1px dashed #44474b;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #555;
+    font-size: 0.8rem;
+    overflow: hidden;
+    position: relative;
+    transition: all 0.3s;
+}
+.img-placeholder:hover {
+    border-color: #f59e0b;
+    color: #f59e0b;
+    background: #2d3035;
+}
+.img-placeholder i {
+    transition: all 0.3s;
+}
+.img-placeholder:hover i {
+    transform: scale(1.1);
+}
+
+/* 照片头像占位 */
+.photo-space {
     position: relative;
     overflow: hidden;
+    cursor: default;
+    background: #2a2d32;
+    border: 1.5px dashed #44474b;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1rem;
+    transition: all 0.3s;
 }
-.pioneer-card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(140,120,220,0.2), rgba(180,160,230,0.2), transparent);
+.photo-space:hover {
+    border-color: #f59e0b;
 }
-.pioneer-card:hover {
-    border-color: rgba(140, 120, 220, 0.2);
-    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
-    transform: translateY(-3px);
-}
+
+/* 先行者头像 */
 .pioneer-avatar {
     width: 72px; height: 72px;
     border-radius: 50%;
     margin: 0 auto 1rem;
     display: flex; align-items: center; justify-content: center;
-    background: linear-gradient(135deg, rgba(140, 120, 220, 0.1), rgba(100, 160, 230, 0.08));
-    border: 2px solid rgba(140, 120, 220, 0.1);
-    color: rgba(180, 160, 230, 0.4);
+    background: #2a2d32;
+    border: 2px solid #44474b;
+    color: #666;
     transition: all 0.3s ease;
 }
 .pioneer-card:hover .pioneer-avatar {
-    border-color: rgba(140, 120, 220, 0.25);
-    box-shadow: 0 0 25px rgba(140, 120, 220, 0.08);
+    border-color: #f59e0b;
 }
 
-/* ============ 团队卡片 ============ */
-.team-card {
-    border-radius: 16px; padding: 1.5rem;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-}
-.team-card::after {
-    content: '';
-    position: absolute;
-    bottom: 0; left: 0; right: 0;
-    height: 2px;
-    background: linear-gradient(90deg, transparent, rgba(140, 120, 220, 0.3), transparent);
-}
 .team-avatar {
     width: 72px; height: 72px;
     border-radius: 50%;
     margin: 0 auto 1rem;
     display: flex; align-items: center; justify-content: center;
-    font-size: 1.75rem; font-weight: bold;
-    background: linear-gradient(135deg, rgba(140, 120, 220, 0.15), rgba(100, 160, 230, 0.12));
-    border: 2px solid rgba(140, 120, 220, 0.15);
-    color: #b4a0e0;
+    background: #2a2d32;
+    border: 2px solid #44474b;
+    color: #666;
     transition: all 0.3s ease;
 }
 .team-card:hover .team-avatar {
-    border-color: rgba(140, 120, 220, 0.3);
-    box-shadow: 0 0 20px rgba(140, 120, 220, 0.1);
+    border-color: #f59e0b;
 }
 
 /* ----- 回顶按钮 ----- */
 #back-to-top.visible { opacity: 1 !important; visibility: visible !important; }
 
-/* ----- 旋转动画 ----- */
-@keyframes flywheelSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-
 /* ----- 分区标题 ----- */
-.section-heading h2 {
-    position: relative; display: inline-block;
-}
+.section-heading h2 { position: relative; display: inline-block; }
 .section-heading h2::after {
     content: '';
     position: absolute; bottom: -6px; left: 50%;
     transform: translateX(-50%);
     width: 50px; height: 2px;
-    background: linear-gradient(90deg, rgba(140,120,220,0.6), rgba(100,160,230,0.4));
+    background: #f59e0b;
     border-radius: 1px;
 }
 
 /* ----- 表格 ----- */
-tbody tr:hover td { background: rgba(140, 120, 220, 0.04); }
-
-/* ----- 轨道环 ----- */
-.orbit-ring {
-    position: absolute;
-    border: 1px solid rgba(140, 120, 220, 0.04);
-    border-radius: 50%;
-    pointer-events: none;
-    animation: floatOrb var(--dur) linear infinite;
-}
+table { border-collapse: collapse; }
+tbody tr:hover td { background: rgba(245,158,11,0.03); }
+thead th { color: #f59e0b !important; }
 
 /* ----- 移动端 ----- */
 @media (max-width: 768px) {
@@ -328,41 +202,13 @@ tbody tr:hover td { background: rgba(140, 120, 220, 0.04); }
     .chart-container { padding: 1rem; }
     .chart-container canvas { max-height: 220px; }
 
-    /* 表格横向滚动 */
-    table {
-        display: block;
-        overflow-x: auto;
-        white-space: nowrap;
-        -webkit-overflow-scrolling: touch;
-    }
+    table { display: block; overflow-x: auto; white-space: nowrap; -webkit-overflow-scrolling: touch; }
 
-    /* 导航移动菜单增强 */
-    #mobile-menu a {
-        padding: 0.75rem 1rem;
-        font-size: 0.9375rem;
-    }
+    #hero h1 { font-size: 2rem !important; line-height: 1.3 !important; }
 
-    /* Hero 轨道环缩小 */
-    .orbit-ring {
-        display: none;
-    }
-
-    /* 架构流程图纵向排列 */
-    .flex-wrap.items-center.justify-center {
-        flex-direction: column;
-    }
-
-    /* 英雄区文字缩小 */
-    #hero h1 {
-        font-size: 2rem !important;
-        line-height: 1.3 !important;
-    }
+    .img-placeholder { min-height: 120px; }
 }
 @media (max-width: 480px) {
-    #hero h1 {
-        font-size: 1.6rem !important;
-    }
-    .metric-card {
-        padding: 0.75rem;
-    }
+    #hero h1 { font-size: 1.6rem !important; }
+    .metric-card { padding: 0.75rem; }
 }
