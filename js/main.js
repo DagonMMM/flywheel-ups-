@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     x: Math.random() * canvas.width,
                     y: Math.random() * canvas.height,
                     r: Math.random() * 1.8 + 0.3,          // 0.3-2.1px
-                    baseAlpha: Math.random() * 0.35 + 0.08,  // 0.08-0.43 淡雅
+                    baseAlpha: Math.random() * 0.45 + 0.12,  // 0.12-0.57 提亮
                     alpha: 0,
                     twinkleSpeed: Math.random() * 0.015 + 0.003, // 闪烁速度
                     twinkleOffset: Math.random() * Math.PI * 2,

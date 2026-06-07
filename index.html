@@ -64,6 +64,7 @@
                     <a href="#specs" class="nav-link px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-white/5 transition-all">技术规格</a>
                     <a href="#control" class="nav-link px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-white/5 transition-all">通信与控制</a>
                     <a href="#performance" class="nav-link px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-white/5 transition-all">性能测试</a>
+                    <a href="#aerospace" class="nav-link px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-white/5 transition-all">航天技术</a>
                     <a href="#team" class="nav-link px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-white/5 transition-all">团队介绍</a>
                     <a href="#pioneers" class="nav-link px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-white/5 transition-all">先行者</a>
                     <a href="#info" class="nav-link px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-white/5 transition-all">项目信息</a>
@@ -81,6 +82,7 @@
                 <a href="#specs" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-white/5">技术规格</a>
                 <a href="#control" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-white/5">通信与控制</a>
                 <a href="#performance" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-white/5">性能测试</a>
+                <a href="#aerospace" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-white/5">航天技术</a>
                 <a href="#team" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-white/5">团队介绍</a>
                 <a href="#pioneers" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-white/5">先行者</a>
                 <a href="#info" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-white/5">项目信息</a>
@@ -717,7 +719,9 @@
             <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 <!-- 梁宇恒 -->
                 <div class="pioneer-card">
-                    <div class="pioneer-avatar" style="font-size:1.75rem;font-weight:bold;color:rgba(180,160,230,0.5);">梁</div>
+                    <div class="pioneer-avatar photo-space">
+                        <i class="fa-solid fa-camera text-lg opacity-25"></i>
+                    </div>
                     <h3 class="text-white font-semibold text-lg">梁宇恒</h3>
                     <p class="text-purple-300/60 text-xs mb-3">项目创始人</p>
                     <p class="text-gray-400 text-xs leading-relaxed">
@@ -726,16 +730,20 @@
                 </div>
                 <!-- 薛启辰 -->
                 <div class="pioneer-card">
-                    <div class="pioneer-avatar" style="font-size:1.75rem;font-weight:bold;color:rgba(180,160,230,0.5);">薛</div>
+                    <div class="pioneer-avatar photo-space">
+                        <i class="fa-solid fa-camera text-lg opacity-25"></i>
+                    </div>
                     <h3 class="text-white font-semibold text-lg">薛启辰</h3>
                     <p class="text-purple-300/60 text-xs mb-3">硬件研发</p>
                     <p class="text-gray-400 text-xs leading-relaxed">
-                        软硬件联调 · 节水灌溉小车设计 · 竞赛协作
+                        软硬件综合联调 · 竞赛协作 · 系统测试
                     </p>
                 </div>
                 <!-- 于博宇 -->
                 <div class="pioneer-card">
-                    <div class="pioneer-avatar" style="font-size:1.75rem;font-weight:bold;color:rgba(180,160,230,0.5);">于</div>
+                    <div class="pioneer-avatar photo-space">
+                        <i class="fa-solid fa-camera text-lg opacity-25"></i>
+                    </div>
                     <h3 class="text-white font-semibold text-lg">于博宇</h3>
                     <p class="text-purple-300/60 text-xs mb-3">软件开发</p>
                     <p class="text-gray-400 text-xs leading-relaxed">
@@ -744,7 +752,9 @@
                 </div>
                 <!-- 刘宇航 -->
                 <div class="pioneer-card">
-                    <div class="pioneer-avatar" style="font-size:1.75rem;font-weight:bold;color:rgba(180,160,230,0.5);">刘</div>
+                    <div class="pioneer-avatar photo-space">
+                        <i class="fa-solid fa-camera text-lg opacity-25"></i>
+                    </div>
                     <h3 class="text-white font-semibold text-lg">刘宇航</h3>
                     <p class="text-purple-300/60 text-xs mb-3">实验测试</p>
                     <p class="text-gray-400 text-xs leading-relaxed">
@@ -886,7 +896,103 @@
         </div>
     </section>
 
-    <!-- ==================== 7. 团队介绍 ==================== -->
+    <!-- ==================== 7. 航天飞轮技术 ==================== -->
+    <section id="aerospace" class="py-20 lg:py-28">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 section-heading">
+                <h2 class="text-3xl sm:text-4xl font-bold text-white mb-4">航天飞轮技术</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">从地面UPS到航天器姿轨控储能一体化 —— 飞轮技术的星辰大海</p>
+            </div>
+
+            <!-- IPACS 概念 -->
+            <div class="grid lg:grid-cols-2 gap-8 mb-12">
+                <div class="info-card">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-lg bg-purple-500/10 flex items-center justify-center">
+                            <i class="fa-solid fa-satellite text-purple-300 text-lg"></i>
+                        </div>
+                        <h3 class="text-white font-semibold text-lg">姿轨控储能一体化 (IPACS)</h3>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                        IPACS（Integrated Power and Attitude Control System）利用高速旋转的飞轮同时作为储能单元和姿控执行器。飞轮加速时储存电能，减速时释放电能；与此同时，转速变化产生的反作用力矩可直接用于航天器姿态调节，实现"一机两用"。
+                    </p>
+                    <div class="space-y-2">
+                        <div class="flex items-center gap-2 text-xs text-gray-500">
+                            <span class="w-1.5 h-1.5 rounded-full bg-purple-400/50"></span> 替代传统化学电池 + 反作用飞轮的双重功能
+                        </div>
+                        <div class="flex items-center gap-2 text-xs text-gray-500">
+                            <span class="w-1.5 h-1.5 rounded-full bg-purple-400/50"></span> 减轻航天器质量，延长在轨寿命
+                        </div>
+                        <div class="flex items-center gap-2 text-xs text-gray-500">
+                            <span class="w-1.5 h-1.5 rounded-full bg-purple-400/50"></span> 解决化学电池5-8年电化学衰减的固有问题
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-card">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-lg bg-sky-500/10 flex items-center justify-center">
+                            <i class="fa-solid fa-brain text-sky-300 text-lg"></i>
+                        </div>
+                        <h3 class="text-white font-semibold text-lg">Flywheel-Net 神经网络控制</h3>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                        针对传统PID在高速域（>8500rpm）无法应对非线性扰动的问题，提出基于编码器-解码器架构的Flywheel-Net模型。输入飞轮单元的角速度、温度、瞬时功率等状态参数，输出预测控制量，实现参数漂移自适应补偿。
+                    </p>
+                    <div class="space-y-2">
+                        <div class="flex items-center gap-2 text-xs text-gray-500">
+                            <span class="w-1.5 h-1.5 rounded-full bg-sky-400/50"></span> 对称编解码器结构 + 跳跃连接恢复空间分辨率
+                        </div>
+                        <div class="flex items-center gap-2 text-xs text-gray-500">
+                            <span class="w-1.5 h-1.5 rounded-full bg-sky-400/50"></span> 损失函数同时优化母线电压偏差 + 姿态指向偏差
+                        </div>
+                        <div class="flex items-center gap-2 text-xs text-gray-500">
+                            <span class="w-1.5 h-1.5 rounded-full bg-sky-400/50"></span> 云端训练 + 边缘推理的协同架构
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 控制架构对比 -->
+            <div class="grid lg:grid-cols-3 gap-6">
+                <div class="spec-card">
+                    <div class="text-center mb-4">
+                        <span class="px-3 py-1 rounded-full bg-gray-500/10 text-gray-400 text-xs">传统方案</span>
+                        <h4 class="text-white font-semibold mt-3">固定PID控制</h4>
+                    </div>
+                    <div class="space-y-2 text-xs text-gray-500">
+                        <p class="flex items-center gap-2"><i class="fa-solid fa-minus text-red-400 text-xs"></i> 高速域非线性扰动失控</p>
+                        <p class="flex items-center gap-2"><i class="fa-solid fa-minus text-red-400 text-xs"></i> 无法应对长期参数漂移</p>
+                        <p class="flex items-center gap-2"><i class="fa-solid fa-minus text-red-400 text-xs"></i> 储能与姿控解耦控制复杂</p>
+                    </div>
+                </div>
+                <div class="spec-card" style="border-color:rgba(139,92,246,0.2);">
+                    <div class="text-center mb-4">
+                        <span class="px-3 py-1 rounded-full bg-purple-500/10 text-purple-300 text-xs">本专利方案</span>
+                        <h4 class="text-white font-semibold mt-3">Flywheel-Net + 自适应PID</h4>
+                    </div>
+                    <div class="space-y-2 text-xs text-gray-500">
+                        <p class="flex items-center gap-2"><i class="fa-solid fa-check text-green-400 text-xs"></i> 神经网络实时预测补偿量</p>
+                        <p class="flex items-center gap-2"><i class="fa-solid fa-check text-green-400 text-xs"></i> 自适应应对轴承磨损、真空衰减</p>
+                        <p class="flex items-center gap-2"><i class="fa-solid fa-check text-green-400 text-xs"></i> 统一模型同时处理储能+姿控</p>
+                    </div>
+                </div>
+                <div class="spec-card">
+                    <div class="text-center mb-4">
+                        <span class="px-3 py-1 rounded-full bg-sky-500/10 text-sky-300 text-xs">进阶方向</span>
+                        <h4 class="text-white font-semibold mt-3">端侧AI芯片部署</h4>
+                    </div>
+                    <div class="space-y-2 text-xs text-gray-500">
+                        <p class="flex items-center gap-2"><i class="fa-solid fa-arrow-right text-sky-400 text-xs"></i> Flywheel-Net模型轻量化压缩</p>
+                        <p class="flex items-center gap-2"><i class="fa-solid fa-arrow-right text-sky-400 text-xs"></i> 星载FPGA/GPU实时推理</p>
+                        <p class="flex items-center gap-2"><i class="fa-solid fa-arrow-right text-sky-400 text-xs"></i> 多飞轮单元分布式协同控制</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 8. 团队介绍 ==================== -->
     <section id="team" class="py-20 lg:py-28">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16 section-heading">
@@ -897,32 +1003,32 @@
             <!-- 核心成员 -->
             <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 <div class="team-card">
-                    <div class="team-avatar">
-                        <i class="fa-solid fa-user text-xl opacity-40"></i>
+                    <div class="team-avatar photo-space">
+                        <i class="fa-solid fa-camera text-lg opacity-25"></i>
                     </div>
                     <div class="h-4 w-24 bg-white/5 rounded mx-auto mb-2"></div>
                     <div class="h-3 w-16 bg-white/3 rounded mx-auto mb-3"></div>
                     <div class="h-3 w-32 bg-white/3 rounded mx-auto"></div>
                 </div>
                 <div class="team-card">
-                    <div class="team-avatar">
-                        <i class="fa-solid fa-user text-xl opacity-40"></i>
+                    <div class="team-avatar photo-space">
+                        <i class="fa-solid fa-camera text-lg opacity-25"></i>
                     </div>
                     <div class="h-4 w-24 bg-white/5 rounded mx-auto mb-2"></div>
                     <div class="h-3 w-16 bg-white/3 rounded mx-auto mb-3"></div>
                     <div class="h-3 w-32 bg-white/3 rounded mx-auto"></div>
                 </div>
                 <div class="team-card">
-                    <div class="team-avatar">
-                        <i class="fa-solid fa-user text-xl opacity-40"></i>
+                    <div class="team-avatar photo-space">
+                        <i class="fa-solid fa-camera text-lg opacity-25"></i>
                     </div>
                     <div class="h-4 w-24 bg-white/5 rounded mx-auto mb-2"></div>
                     <div class="h-3 w-16 bg-white/3 rounded mx-auto mb-3"></div>
                     <div class="h-3 w-32 bg-white/3 rounded mx-auto"></div>
                 </div>
                 <div class="team-card">
-                    <div class="team-avatar">
-                        <i class="fa-solid fa-user text-xl opacity-40"></i>
+                    <div class="team-avatar photo-space">
+                        <i class="fa-solid fa-camera text-lg opacity-25"></i>
                     </div>
                     <div class="h-4 w-24 bg-white/5 rounded mx-auto mb-2"></div>
                     <div class="h-3 w-16 bg-white/3 rounded mx-auto mb-3"></div>
@@ -933,36 +1039,36 @@
             <!-- 协作成员 -->
             <div class="grid sm:grid-cols-2 lg:grid-cols-5 gap-4 mt-6">
                 <div class="team-card">
-                    <div class="team-avatar" style="width:56px;height:56px;font-size:1.25rem;">
-                        <i class="fa-solid fa-user text-sm opacity-40"></i>
+                    <div class="team-avatar photo-space" style="width:56px;height:56px;">
+                        <i class="fa-solid fa-camera text-xs opacity-25"></i>
                     </div>
                     <div class="h-3 w-16 bg-white/4 rounded mx-auto mb-1"></div>
                     <div class="h-2 w-20 bg-white/2 rounded mx-auto"></div>
                 </div>
                 <div class="team-card">
-                    <div class="team-avatar" style="width:56px;height:56px;font-size:1.25rem;">
-                        <i class="fa-solid fa-user text-sm opacity-40"></i>
+                    <div class="team-avatar photo-space" style="width:56px;height:56px;">
+                        <i class="fa-solid fa-camera text-xs opacity-25"></i>
                     </div>
                     <div class="h-3 w-16 bg-white/4 rounded mx-auto mb-1"></div>
                     <div class="h-2 w-20 bg-white/2 rounded mx-auto"></div>
                 </div>
                 <div class="team-card">
-                    <div class="team-avatar" style="width:56px;height:56px;font-size:1.25rem;">
-                        <i class="fa-solid fa-user text-sm opacity-40"></i>
+                    <div class="team-avatar photo-space" style="width:56px;height:56px;">
+                        <i class="fa-solid fa-camera text-xs opacity-25"></i>
                     </div>
                     <div class="h-3 w-16 bg-white/4 rounded mx-auto mb-1"></div>
                     <div class="h-2 w-20 bg-white/2 rounded mx-auto"></div>
                 </div>
                 <div class="team-card">
-                    <div class="team-avatar" style="width:56px;height:56px;font-size:1.25rem;">
-                        <i class="fa-solid fa-user text-sm opacity-40"></i>
+                    <div class="team-avatar photo-space" style="width:56px;height:56px;">
+                        <i class="fa-solid fa-camera text-xs opacity-25"></i>
                     </div>
                     <div class="h-3 w-16 bg-white/4 rounded mx-auto mb-1"></div>
                     <div class="h-2 w-20 bg-white/2 rounded mx-auto"></div>
                 </div>
                 <div class="team-card">
-                    <div class="team-avatar" style="width:56px;height:56px;font-size:1.25rem;">
-                        <i class="fa-solid fa-user text-sm opacity-40"></i>
+                    <div class="team-avatar photo-space" style="width:56px;height:56px;">
+                        <i class="fa-solid fa-camera text-xs opacity-25"></i>
                     </div>
                     <div class="h-3 w-16 bg-white/4 rounded mx-auto mb-1"></div>
                     <div class="h-2 w-20 bg-white/2 rounded mx-auto"></div>
