@@ -13,12 +13,14 @@
             theme: {
                 extend: {
                     colors: {
-                        'bg-dark': '#0a0e1a',
-                        'card-dark': '#111827',
-                        'card-darker': '#1a1f2e',
-                        'accent': '#00d4ff',
-                        'energy': '#00ff88',
-                        'warning': '#ff6b35',
+                        'bg-dark': '#020010',
+                        'card-dark': '#0f0528',
+                        'card-darker': '#0a053c',
+                        'accent': '#a78bfa',
+                        'accent2': '#38bdf8',
+                        'energy': '#22d3ee',
+                        'warning': '#f59e0b',
+                        'nebula': '#8b5cf6',
                     },
                     fontFamily: {
                         'sans': ['"PingFang SC"', '"Microsoft YaHei"', '"Helvetica Neue"', 'Arial', 'sans-serif'],
@@ -39,8 +41,14 @@
 </head>
 <body class="bg-bg-dark text-gray-200 font-sans">
 
+    <!-- 流星 + 星云背景层 -->
+    <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
+    <div class="shooting-star"></div>
+    <div class="stars-wrapper"></div>
+
     <!-- ==================== 导航栏 ==================== -->
-    <nav id="navbar" class="fixed top-0 w-full z-50 transition-all duration-300 bg-bg-dark/80 backdrop-blur-lg border-b border-white/5">
+    <nav id="navbar" class="fixed top-0 w-full z-50 transition-all duration-300 bg-[#020010]/80 backdrop-blur-xl border-b border-purple-500/10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <div class="flex items-center gap-3">
@@ -78,30 +86,35 @@
 
     <!-- ==================== 1. Hero 封面区 ==================== -->
     <section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden">
-        <!-- 背景动效 -->
-        <div class="absolute inset-0 bg-gradient-to-br from-bg-dark via-[#0d1328] to-bg-dark"></div>
-        <div class="absolute inset-0 opacity-20">
-            <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-accent/20 rounded-full blur-[128px] animate-pulse"></div>
-            <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-energy/20 rounded-full blur-[128px] animate-pulse" style="animation-delay: 2s;"></div>
+        <!-- 深空背景 -->
+        <div class="absolute inset-0 bg-gradient-to-br from-[#020010] via-[#0a0030] via-[#050020] to-[#020010]"></div>
+        <!-- 星云雾气 -->
+        <div class="absolute inset-0">
+            <div class="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-purple-600/10 rounded-full blur-[150px] animate-pulse"></div>
+            <div class="absolute bottom-1/3 right-1/4 w-[400px] h-[400px] bg-sky-500/8 rounded-full blur-[130px] animate-pulse" style="animation-delay: 3s;"></div>
+            <div class="absolute top-1/2 left-1/2 w-[300px] h-[300px] bg-violet-500/6 rounded-full blur-[100px] animate-pulse" style="animation-delay: 5s;"></div>
         </div>
+        <!-- 轨道环（装饰） -->
+        <div class="orbit-ring" style="top:50%;left:50%;width:600px;height:600px;margin-left:-300px;margin-top:-300px;--dur:30s;"></div>
+        <div class="orbit-ring" style="top:50%;left:50%;width:400px;height:400px;margin-left:-200px;margin-top:-200px;--dur:20s;border-color:rgba(139,92,246,0.05);"></div>
         <!-- 网格背景 -->
-        <div class="absolute inset-0 opacity-[0.03]" style="background-image: radial-gradient(circle, #fff 1px, transparent 1px); background-size: 40px 40px;"></div>
+        <div class="absolute inset-0 opacity-[0.04]" style="background-image: radial-gradient(circle, rgba(139,92,246,0.3) 1px, transparent 1px); background-size: 50px 50px;"></div>
 
         <div class="relative z-10 text-center px-4 max-w-5xl mx-auto">
             <!-- 标签 -->
             <div class="inline-flex flex-wrap items-center justify-center gap-x-3 gap-y-1 mb-8 animate-fadeIn">
-                <span class="px-4 py-1.5 rounded-full border border-accent/30 bg-accent/5 text-accent text-sm inline-flex items-center gap-2">
-                    <span class="w-2 h-2 rounded-full bg-energy animate-pulse"></span>
+                <span class="px-4 py-1.5 rounded-full border border-purple-400/30 bg-purple-500/5 text-purple-300 text-sm inline-flex items-center gap-2">
+                    <span class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></span>
                     飞轮储能 · 不间断电源 · 智能控制
                 </span>
-                <span class="px-4 py-1.5 rounded-full border border-energy/30 bg-energy/5 text-energy text-sm font-medium">
+                <span class="px-4 py-1.5 rounded-full border border-cyan-400/30 bg-cyan-500/5 text-cyan-300 text-sm font-medium">
                     天印制造
                 </span>
             </div>
 
             <!-- 主标题 -->
             <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight animate-slideUp">
-                基于 <span class="bg-gradient-to-r from-accent to-energy bg-clip-text text-transparent">PLC 控制</span>的<br class="sm:hidden">
+                基于 <span class="bg-gradient-to-r from-purple-400 via-sky-300 to-purple-400 bg-clip-text text-transparent">PLC 控制</span>的<br class="sm:hidden">
                 飞轮储能 UPS 系统
             </h1>
 
@@ -296,7 +309,7 @@
     </section>
 
     <!-- ==================== 3. 技术规格 ==================== -->
-    <section id="specs" class="py-20 lg:py-28 bg-black/20">
+    <section id="specs" class="py-20 lg:py-28 bg-purple-950/10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16 section-heading">
                 <h2 class="text-3xl sm:text-4xl font-bold text-white mb-4">核心技术规格</h2>
@@ -580,7 +593,7 @@
     </section>
 
     <!-- ==================== 5. 性能测试 ==================== -->
-    <section id="performance" class="py-20 lg:py-28 bg-black/20">
+    <section id="performance" class="py-20 lg:py-28 bg-purple-950/10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16 section-heading">
                 <h2 class="text-3xl sm:text-4xl font-bold text-white mb-4">性能测试与分析</h2>
@@ -796,7 +809,7 @@
             </div>
 
             <!-- 关键指标总览 -->
-            <div class="mt-12 p-8 rounded-2xl bg-gradient-to-r from-card-dark to-card-darker border border-white/5">
+            <div class="mt-12 p-8 rounded-2xl bg-gradient-to-r from-purple-950/40 to-blue-950/40 border border-purple-500/10">
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
                     <div>
                         <div class="text-3xl font-bold text-accent">8400<span class="text-sm">rpm</span></div>
@@ -820,7 +833,7 @@
     </section>
 
     <!-- ==================== 页脚 ==================== -->
-    <footer class="py-12 border-t border-white/5 bg-black/30">
+    <footer class="py-12 border-t border-purple-500/10 bg-[#020010]/80 backdrop-blur-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex flex-col md:flex-row items-center justify-between gap-6">
                 <div class="flex items-center gap-3">
@@ -845,7 +858,7 @@
     </footer>
 
     <!-- 回到顶部按钮 -->
-    <button id="back-to-top" class="fixed bottom-8 right-8 w-12 h-12 rounded-full bg-accent/10 border border-accent/30 text-accent hover:bg-accent/20 transition-all z-40 opacity-0 invisible" title="回到顶部">
+    <button id="back-to-top" class="fixed bottom-8 right-8 w-12 h-12 rounded-full bg-purple-500/10 border border-purple-400/30 text-purple-300 hover:bg-purple-500/20 transition-all z-40 opacity-0 invisible shadow-lg shadow-purple-500/10" title="回到顶部">
         <i class="fa-solid fa-arrow-up"></i>
     </button>
 
