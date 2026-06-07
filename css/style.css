@@ -199,6 +199,45 @@ body::after {
 .safety-card { border-radius: 14px; padding: 1.25rem; text-align: center; }
 .info-section-card { border-radius: 16px; padding: 1.5rem; }
 
+/* ============ 先行者卡片 ============ */
+.pioneer-card {
+    background: linear-gradient(135deg, rgba(20, 16, 50, 0.28), rgba(15, 12, 45, 0.22));
+    border: 1px solid rgba(140, 120, 220, 0.05);
+    border-radius: 16px;
+    padding: 1.5rem;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+}
+.pioneer-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(140,120,220,0.2), rgba(180,160,230,0.2), transparent);
+}
+.pioneer-card:hover {
+    border-color: rgba(140, 120, 220, 0.2);
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
+    transform: translateY(-3px);
+}
+.pioneer-avatar {
+    width: 72px; height: 72px;
+    border-radius: 50%;
+    margin: 0 auto 1rem;
+    display: flex; align-items: center; justify-content: center;
+    background: linear-gradient(135deg, rgba(140, 120, 220, 0.1), rgba(100, 160, 230, 0.08));
+    border: 2px solid rgba(140, 120, 220, 0.1);
+    color: rgba(180, 160, 230, 0.4);
+    transition: all 0.3s ease;
+}
+.pioneer-card:hover .pioneer-avatar {
+    border-color: rgba(140, 120, 220, 0.25);
+    box-shadow: 0 0 25px rgba(140, 120, 220, 0.08);
+}
+
 /* ============ 团队卡片 ============ */
 .team-card {
     border-radius: 16px; padding: 1.5rem;

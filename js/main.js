@@ -1,9 +1,103 @@
 /**
  * 飞轮储能UPS系统 - 主交互脚本
- * 滚动监听、导航高亮、渐入动画、移动菜单、回到顶部等
+ * 天印制造
+ * 动态星空 · 导航高亮 · 渐入动画 · 移动菜单
  */
 
 document.addEventListener('DOMContentLoaded', function () {
+
+    // ============ 全局动态星空背景 ============
+    function createStarfield() {
+        const canvas = document.createElement('canvas');
+        canvas.id = 'starfield-canvas';
+        canvas.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;';
+        document.body.prepend(canvas);
+
+        const ctx = canvas.getContext('2d');
+        let stars = [];
+        const STAR_COUNT = 200;
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resize();
+        window.addEventListener('resize', resize);
+
+        // 创建星星
+        function createStars() {
+            stars = [];
+            for (let i = 0; i < STAR_COUNT; i++) {
+                stars.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    r: Math.random() * 1.8 + 0.3,          // 0.3-2.1px
+                    baseAlpha: Math.random() * 0.35 + 0.08,  // 0.08-0.43 淡雅
+                    alpha: 0,
+                    twinkleSpeed: Math.random() * 0.015 + 0.003, // 闪烁速度
+                    twinkleOffset: Math.random() * Math.PI * 2,
+                    colorChance: Math.random(),
+                    driftX: (Math.random() - 0.5) * 0.15,  // 微漂移
+                    driftY: (Math.random() - 0.5) * 0.08,
+                });
+            }
+        }
+        createStars();
+        window.addEventListener('resize', createStars);
+
+        // 动画循环
+        let frame = 0;
+        function animate() {
+            frame++;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            stars.forEach(star => {
+                // 正弦闪烁 + 随机微调
+                const twinkle = Math.sin(frame * star.twinkleSpeed + star.twinkleOffset);
+                const normalizedTwinkle = (twinkle + 1) / 2; // 0-1
+                const flicker = 1 + (Math.sin(frame * 0.023 + star.twinkleOffset * 3)) * 0.2;
+                star.alpha = star.baseAlpha * (0.3 + normalizedTwinkle * 0.7) * flicker;
+
+                // 微漂移
+                star.x += star.driftX * 0.1;
+                star.y += star.driftY * 0.1;
+                if (star.x < 0) star.x = canvas.width;
+                if (star.x > canvas.width) star.x = 0;
+                if (star.y < 0) star.y = canvas.height;
+                if (star.y > canvas.height) star.y = 0;
+
+                // 绘制
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
+
+                // 颜色：大部分白色，少量淡紫或淡蓝
+                let color;
+                if (star.colorChance < 0.15) {
+                    color = `rgba(180,160,220,${star.alpha})`; // 淡紫
+                } else if (star.colorChance < 0.25) {
+                    color = `rgba(140,180,230,${star.alpha})`; // 淡蓝
+                } else {
+                    color = `rgba(255,255,255,${star.alpha})`; // 白色
+                }
+                ctx.fillStyle = color;
+
+                // 亮星加光晕
+                if (star.r > 1.2 && star.alpha > star.baseAlpha * 0.7) {
+                    const glow = ctx.createRadialGradient(star.x, star.y, 0, star.x, star.y, star.r * 3);
+                    glow.addColorStop(0, color);
+                    glow.addColorStop(1, 'transparent');
+                    ctx.fillStyle = glow;
+                    ctx.arc(star.x, star.y, star.r * 3, 0, Math.PI * 2);
+                }
+
+                ctx.fill();
+            });
+
+            requestAnimationFrame(animate);
+        }
+        animate();
+    }
+    createStarfield();
 
     // ============ DOM 元素 ============
     const navbar = document.getElementById('navbar');
@@ -14,27 +108,22 @@ document.addEventListener('DOMContentLoaded', function () {
     const mobileNavLinks = mobileMenu.querySelectorAll('a');
     const sections = document.querySelectorAll('section[id]');
 
-    // ============ 滚动监听：导航栏样式 + 回到顶部 ============
-    let lastScrollY = 0;
-
+    // ============ 滚动监听 ============
     function onScroll() {
         const scrollY = window.scrollY;
 
-        // 导航栏阴影
         if (scrollY > 50) {
             navbar.classList.add('shadow-lg', 'shadow-black/20');
         } else {
             navbar.classList.remove('shadow-lg', 'shadow-black/20');
         }
 
-        // 回到顶部按钮
         if (scrollY > 600) {
             backToTop.classList.add('visible');
         } else {
             backToTop.classList.remove('visible');
         }
 
-        // 当前 section 高亮
         let currentSection = '';
         sections.forEach(section => {
             const sectionTop = section.offsetTop - 100;
@@ -50,20 +139,12 @@ document.addEventListener('DOMContentLoaded', function () {
                 link.classList.add('active');
             }
         });
-
-        lastScrollY = scrollY;
     }
 
     window.addEventListener('scroll', onScroll, { passive: true });
 
-    // ============ 滚动渐入动画 (Intersection Observer) ============
+    // ============ 滚动渐入动画 ============
     const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
-
-    const observerOptions = {
-        root: null,
-        rootMargin: '0px 0px -60px 0px',
-        threshold: 0.1
-    };
 
     const revealObserver = new IntersectionObserver(function (entries) {
         entries.forEach(entry => {
@@ -72,17 +153,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 revealObserver.unobserve(entry.target);
             }
         });
-    }, observerOptions);
+    }, { root: null, rootMargin: '0px 0px -50px 0px', threshold: 0.1 });
 
     revealElements.forEach(el => revealObserver.observe(el));
 
-    // 为关键元素自动添加 reveal 类
     function addRevealClasses() {
-        const cards = document.querySelectorAll('.spec-card, .info-card, .arch-card, .workflow-card, .comm-feature, .code-feature-card, .chart-container, .perf-summary-card, .safety-card, .info-section-card, .metric-card');
+        const cards = document.querySelectorAll('.spec-card, .info-card, .arch-card, .workflow-card, .comm-feature, .code-feature-card, .chart-container, .perf-summary-card, .safety-card, .info-section-card, .metric-card, .team-card, .pioneer-card');
         cards.forEach((card, index) => {
             if (!card.classList.contains('reveal') && !card.classList.contains('reveal-left') && !card.classList.contains('reveal-right')) {
                 card.classList.add('reveal');
-                card.style.transitionDelay = (index % 6) * 0.08 + 's';
+                card.style.transitionDelay = (index % 8) * 0.06 + 's';
                 revealObserver.observe(card);
             }
         });
@@ -101,7 +181,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // 移动菜单点击后关闭
     mobileNavLinks.forEach(link => {
         link.addEventListener('click', function () {
             mobileMenu.classList.add('hidden');
@@ -109,7 +188,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // 点击页面其他区域关闭移动菜单
     document.addEventListener('click', function (e) {
         if (!mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
             mobileMenu.classList.add('hidden');
@@ -122,31 +200,36 @@ document.addEventListener('DOMContentLoaded', function () {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
-    // ============ Hero 粒子特效 ============
-    function createParticles() {
+    // ============ Hero 浮动星光 ============
+    function createHeroSparkles() {
         const hero = document.getElementById('hero');
         if (!hero) return;
 
-        const particleContainer = document.createElement('div');
-        particleContainer.className = 'absolute inset-0 pointer-events-none z-0';
-        hero.appendChild(particleContainer);
+        const container = document.createElement('div');
+        container.className = 'absolute inset-0 pointer-events-none z-0';
+        hero.appendChild(container);
 
-        for (let i = 0; i < 30; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.top = Math.random() * 100 + '%';
-            particle.style.animationDelay = Math.random() * 6 + 's';
-            particle.style.animationDuration = (Math.random() * 6 + 4) + 's';
-            if (Math.random() > 0.5) {
-                particle.style.background = '#00ff88';
-            }
-            particleContainer.appendChild(particle);
+        for (let i = 0; i < 25; i++) {
+            const sparkle = document.createElement('div');
+            const size = Math.random() * 3 + 1;
+            sparkle.style.cssText = `
+                position: absolute;
+                left: ${Math.random() * 100}%;
+                top: ${Math.random() * 100}%;
+                width: ${size}px;
+                height: ${size}px;
+                border-radius: 50%;
+                background: ${Math.random() > 0.5 ? 'rgba(200,180,255,0.6)' : 'rgba(180,210,255,0.6)'};
+                animation: sparkleFloat ${Math.random() * 8 + 8}s ease-in-out infinite;
+                animation-delay: ${Math.random() * 8}s;
+                box-shadow: 0 0 ${size * 2}px rgba(180,160,230,0.3);
+            `;
+            container.appendChild(sparkle);
         }
     }
-    createParticles();
+    createHeroSparkles();
 
-    // ============ 指标数字跳动动画 ============
+    // ============ 数字跳动 ============
     function animateCounters() {
         const counters = document.querySelectorAll('.counter');
         counters.forEach(counter => {
@@ -159,7 +242,6 @@ document.addEventListener('DOMContentLoaded', function () {
             function update(currentTime) {
                 const elapsed = currentTime - startTime;
                 const progress = Math.min(elapsed / duration, 1);
-                // easeOutExpo
                 const eased = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
                 const current = Math.floor(eased * target);
 
@@ -174,7 +256,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
 
-            // 当元素进入视口时才开始动画
             const counterObserver = new IntersectionObserver(function (entries) {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -189,15 +270,12 @@ document.addEventListener('DOMContentLoaded', function () {
     }
     animateCounters();
 
-    // ============ 表格行交替颜色 ============
-    const tableRows = document.querySelectorAll('tbody tr');
-    tableRows.forEach((row, index) => {
-        if (index % 2 === 0) {
-            row.style.background = 'rgba(255,255,255,0.01)';
-        }
+    // ============ 表格交替色 ============
+    document.querySelectorAll('tbody tr').forEach((row, i) => {
+        if (i % 2 === 0) row.style.background = 'rgba(255,255,255,0.01)';
     });
 
-    // ============ 导航平滑滚动 (确保 hash 链接平滑) ============
+    // ============ 平滑滚动 ============
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             const href = this.getAttribute('href');
@@ -205,16 +283,24 @@ document.addEventListener('DOMContentLoaded', function () {
             const target = document.querySelector(href);
             if (target) {
                 e.preventDefault();
-                const offset = navbar.offsetHeight + 20;
-                const targetPosition = target.offsetTop - offset;
-                window.scrollTo({ top: targetPosition, behavior: 'smooth' });
+                const offset = navbar.offsetHeight + 16;
+                window.scrollTo({ top: target.offsetTop - offset, behavior: 'smooth' });
             }
         });
     });
 
-    // 初始滚动状态检查
     onScroll();
-
-    console.log('🚀 飞轮储能UPS系统网站已就绪');
-    console.log('   PLC控制 · 100ms无缝切换 · 1045J储能');
+    console.log('🌌 飞轮储能UPS系统 · 天印制造 · 宇宙星海已就绪');
 });
+
+// Hero 星光浮动动画（注入全局样式）
+const sparkleStyle = document.createElement('style');
+sparkleStyle.textContent = `
+    @keyframes sparkleFloat {
+        0%, 100% { transform: translate(0, 0) scale(1); opacity: 0; }
+        25% { transform: translate(30px, -40px) scale(1.5); opacity: 0.6; }
+        50% { transform: translate(-20px, -80px) scale(0.8); opacity: 0.3; }
+        75% { transform: translate(-40px, -30px) scale(1.3); opacity: 0.5; }
+    }
+`;
+document.head.appendChild(sparkleStyle);
