@@ -4,7 +4,7 @@
    ============================================ */
 
 html { scroll-behavior: smooth; }
-body { overflow-x: hidden; background: #04081a; }
+body { overflow-x: hidden; background: #060b1f; }
 
 /* ----- 深空星场（降低亮度） ----- */
 body::before {
@@ -15,34 +15,34 @@ body::before {
     pointer-events: none;
     z-index: 0;
     background-image:
-        radial-gradient(0.8px 0.8px at 10% 15%, rgba(255,255,255,0.35), transparent),
-        radial-gradient(0.8px 0.8px at 25% 35%, rgba(255,255,255,0.25), transparent),
-        radial-gradient(0.8px 0.8px at 40% 10%, rgba(255,255,255,0.3), transparent),
-        radial-gradient(0.8px 0.8px at 55% 45%, rgba(255,255,255,0.2), transparent),
-        radial-gradient(0.8px 0.8px at 70% 20%, rgba(255,255,255,0.35), transparent),
-        radial-gradient(0.8px 0.8px at 85% 40%, rgba(255,255,255,0.25), transparent),
-        radial-gradient(0.8px 0.8px at 15% 60%, rgba(255,255,255,0.3), transparent),
-        radial-gradient(0.8px 0.8px at 30% 75%, rgba(255,255,255,0.2), transparent),
-        radial-gradient(0.8px 0.8px at 50% 70%, rgba(255,255,255,0.35), transparent),
-        radial-gradient(0.8px 0.8px at 65% 55%, rgba(255,255,255,0.25), transparent),
-        radial-gradient(0.8px 0.8px at 80% 80%, rgba(255,255,255,0.3), transparent),
-        radial-gradient(0.8px 0.8px at 95% 65%, rgba(255,255,255,0.2), transparent),
-        radial-gradient(0.8px 0.8px at 5% 90%, rgba(255,255,255,0.25), transparent),
-        radial-gradient(0.8px 0.8px at 45% 85%, rgba(255,255,255,0.3), transparent),
-        radial-gradient(0.8px 0.8px at 75% 10%, rgba(255,255,255,0.2), transparent),
-        radial-gradient(1.2px 1.2px at 20% 25%, rgba(160,140,230,0.4), transparent),
-        radial-gradient(1.2px 1.2px at 60% 30%, rgba(130,180,230,0.35), transparent),
-        radial-gradient(1.2px 1.2px at 90% 15%, rgba(160,140,230,0.3), transparent),
-        radial-gradient(1.2px 1.2px at 35% 50%, rgba(170,150,220,0.35), transparent),
-        radial-gradient(1.2px 1.2px at 75% 60%, rgba(130,180,230,0.4), transparent),
-        radial-gradient(1.2px 1.2px at 10% 80%, rgba(160,140,230,0.3), transparent),
-        radial-gradient(1.2px 1.2px at 55% 90%, rgba(170,150,220,0.35), transparent),
-        radial-gradient(1.2px 1.2px at 85% 5%, rgba(130,180,230,0.25), transparent),
-        radial-gradient(1.5px 1.5px at 15% 20%, rgba(255,255,255,0.5), transparent),
-        radial-gradient(1.5px 1.5px at 70% 35%, rgba(255,255,255,0.4), transparent),
-        radial-gradient(1.5px 1.5px at 40% 65%, rgba(255,255,255,0.45), transparent),
-        radial-gradient(1.5px 1.5px at 90% 75%, rgba(255,255,255,0.4), transparent),
-        radial-gradient(1.5px 1.5px at 25% 55%, rgba(255,255,255,0.5), transparent);
+        radial-gradient(0.8px 0.8px at 10% 15%, rgba(255,255,255,0.2), transparent),
+        radial-gradient(0.8px 0.8px at 25% 35%, rgba(255,255,255,0.15), transparent),
+        radial-gradient(0.8px 0.8px at 40% 10%, rgba(255,255,255,0.18), transparent),
+        radial-gradient(0.8px 0.8px at 55% 45%, rgba(255,255,255,0.12), transparent),
+        radial-gradient(0.8px 0.8px at 70% 20%, rgba(255,255,255,0.2), transparent),
+        radial-gradient(0.8px 0.8px at 85% 40%, rgba(255,255,255,0.15), transparent),
+        radial-gradient(0.8px 0.8px at 15% 60%, rgba(255,255,255,0.18), transparent),
+        radial-gradient(0.8px 0.8px at 30% 75%, rgba(255,255,255,0.12), transparent),
+        radial-gradient(0.8px 0.8px at 50% 70%, rgba(255,255,255,0.2), transparent),
+        radial-gradient(0.8px 0.8px at 65% 55%, rgba(255,255,255,0.15), transparent),
+        radial-gradient(0.8px 0.8px at 80% 80%, rgba(255,255,255,0.18), transparent),
+        radial-gradient(0.8px 0.8px at 95% 65%, rgba(255,255,255,0.12), transparent),
+        radial-gradient(0.8px 0.8px at 5% 90%, rgba(255,255,255,0.15), transparent),
+        radial-gradient(0.8px 0.8px at 45% 85%, rgba(255,255,255,0.18), transparent),
+        radial-gradient(0.8px 0.8px at 75% 10%, rgba(255,255,255,0.12), transparent),
+        radial-gradient(1.2px 1.2px at 20% 25%, rgba(160,140,230,0.25), transparent),
+        radial-gradient(1.2px 1.2px at 60% 30%, rgba(130,180,230,0.2), transparent),
+        radial-gradient(1.2px 1.2px at 90% 15%, rgba(160,140,230,0.18), transparent),
+        radial-gradient(1.2px 1.2px at 35% 50%, rgba(170,150,220,0.2), transparent),
+        radial-gradient(1.2px 1.2px at 75% 60%, rgba(130,180,230,0.25), transparent),
+        radial-gradient(1.2px 1.2px at 10% 80%, rgba(160,140,230,0.18), transparent),
+        radial-gradient(1.2px 1.2px at 55% 90%, rgba(170,150,220,0.2), transparent),
+        radial-gradient(1.2px 1.2px at 85% 5%, rgba(130,180,230,0.15), transparent),
+        radial-gradient(1.5px 1.5px at 15% 20%, rgba(255,255,255,0.3), transparent),
+        radial-gradient(1.5px 1.5px at 70% 35%, rgba(255,255,255,0.25), transparent),
+        radial-gradient(1.5px 1.5px at 40% 65%, rgba(255,255,255,0.28), transparent),
+        radial-gradient(1.5px 1.5px at 90% 75%, rgba(255,255,255,0.25), transparent),
+        radial-gradient(1.5px 1.5px at 25% 55%, rgba(255,255,255,0.3), transparent);
     background-size: 200px 200px, 300px 300px, 400px 400px;
     animation: starDrift 180s linear infinite;
 }
@@ -60,7 +60,7 @@ body::after {
     z-index: 0;
     top: -20%; left: -10%;
     width: 60%; height: 80%;
-    background: radial-gradient(ellipse at center, rgba(130, 110, 220, 0.025) 0%, transparent 70%);
+    background: radial-gradient(ellipse at center, rgba(130, 110, 220, 0.015) 0%, transparent 70%);
     animation: nebulaFloat 20s ease-in-out infinite;
 }
 .stars-wrapper {
@@ -69,7 +69,7 @@ body::after {
     z-index: 0;
     top: 40%; right: -10%;
     width: 50%; height: 60%;
-    background: radial-gradient(ellipse at center, rgba(100, 160, 220, 0.02) 0%, transparent 70%);
+    background: radial-gradient(ellipse at center, rgba(100, 160, 220, 0.012) 0%, transparent 70%);
     animation: nebulaFloat2 22s ease-in-out infinite;
 }
 
@@ -141,8 +141,8 @@ body::after {
 
 /* ============ 卡片通用（淡雅宇宙风） ============ */
 .metric-card {
-    background: linear-gradient(135deg, rgba(20, 16, 50, 0.6), rgba(15, 12, 45, 0.5));
-    border: 1px solid rgba(140, 120, 220, 0.12);
+    background: linear-gradient(135deg, rgba(20, 16, 50, 0.3), rgba(15, 12, 45, 0.25));
+    border: 1px solid rgba(140, 120, 220, 0.06);
     border-radius: 16px;
     padding: 1.5rem;
     backdrop-filter: blur(16px);
@@ -158,8 +158,8 @@ body::after {
 .comm-feature, .code-feature-card, .chart-container,
 .perf-summary-card, .safety-card, .info-section-card,
 .team-card {
-    background: linear-gradient(135deg, rgba(20, 16, 50, 0.55), rgba(15, 12, 45, 0.45));
-    border: 1px solid rgba(140, 120, 220, 0.08);
+    background: linear-gradient(135deg, rgba(20, 16, 50, 0.28), rgba(15, 12, 45, 0.22));
+    border: 1px solid rgba(140, 120, 220, 0.05);
     backdrop-filter: blur(10px);
     transition: all 0.3s ease;
 }
