@@ -1,0 +1,378 @@
+/* ============================================
+   飞轮储能UPS系统 - 自定义样式
+   ============================================ */
+
+/* ----- 基础设置 ----- */
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+/* ----- 滚动条 ----- */
+::-webkit-scrollbar {
+    width: 6px;
+}
+::-webkit-scrollbar-track {
+    background: #0a0e1a;
+}
+::-webkit-scrollbar-thumb {
+    background: #1e293b;
+    border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #334155;
+}
+
+/* ----- 导航栏激活状态 ----- */
+.nav-link.active {
+    color: #00d4ff !important;
+    background: rgba(0, 212, 255, 0.08);
+}
+
+/* ----- 动画定义 ----- */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideInLeft {
+    from { opacity: 0; transform: translateX(-30px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+@keyframes slideInRight {
+    from { opacity: 0; transform: translateX(30px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+@keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+@keyframes spinSlow {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.animate-fadeIn { animation: fadeIn 0.8s ease-out forwards; }
+.animate-slideUp { animation: slideUp 0.8s ease-out forwards; opacity: 0; }
+.animate-slideInLeft { animation: slideInLeft 0.8s ease-out forwards; opacity: 0; }
+.animate-slideInRight { animation: slideInRight 0.8s ease-out forwards; opacity: 0; }
+.animate-scaleIn { animation: scaleIn 0.6s ease-out forwards; opacity: 0; }
+
+/* 滚动触发动画 */
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+.reveal-left {
+    opacity: 0;
+    transform: translateX(-30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.reveal-left.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+.reveal-right {
+    opacity: 0;
+    transform: translateX(30px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+.reveal-right.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* ----- 关键指标卡片 (Hero) ----- */
+.metric-card {
+    background: linear-gradient(135deg, rgba(17, 24, 39, 0.8), rgba(26, 31, 46, 0.8));
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 1.5rem;
+    backdrop-filter: blur(12px);
+    transition: all 0.3s ease;
+}
+.metric-card:hover {
+    border-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* ----- 信息卡片 (概述) ----- */
+.info-card {
+    background: linear-gradient(135deg, #111827, #1a1f2e);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 2rem;
+    transition: all 0.3s ease;
+}
+.info-card:hover {
+    border-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-4px);
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+}
+
+/* ----- 架构卡片 ----- */
+.arch-card {
+    background: linear-gradient(135deg, #111827, #1a1f2e);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-left: 3px solid;
+    border-radius: 16px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+}
+.arch-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 32px rgba(0, 0, 0, 0.2);
+}
+
+/* ----- 工作流卡片 ----- */
+.workflow-card {
+    background: linear-gradient(135deg, #111827, #1a1f2e);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 2rem;
+    width: 240px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+.workflow-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 255, 255, 0.1);
+}
+.workflow-icon {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+/* ----- 规格卡片 ----- */
+.spec-card {
+    background: linear-gradient(135deg, #111827, #1a1f2e);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+}
+.spec-card:hover {
+    border-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-4px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+}
+.spec-card-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+.spec-card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+.spec-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.25rem 0;
+    font-size: 0.8125rem;
+}
+.spec-item span:first-child {
+    color: #6b7280;
+}
+.spec-item span:last-child {
+    color: #d1d5db;
+    text-align: right;
+}
+
+/* ----- 通信特性 ----- */
+.comm-feature {
+    background: linear-gradient(135deg, #111827, #1a1f2e);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 1.25rem;
+    transition: all 0.3s ease;
+}
+.comm-feature:hover {
+    border-color: rgba(255, 255, 255, 0.08);
+    transform: translateX(4px);
+}
+
+/* ----- 代码特性卡片 ----- */
+.code-feature-card {
+    background: linear-gradient(135deg, #111827, #1a1f2e);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 1.5rem;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+.code-feature-card:hover {
+    border-color: rgba(255, 255, 255, 0.1);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+}
+
+/* ----- 图表容器 ----- */
+.chart-container {
+    background: linear-gradient(135deg, #111827, #1a1f2e);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+}
+.chart-container:hover {
+    border-color: rgba(255, 255, 255, 0.08);
+}
+.chart-container canvas {
+    max-height: 280px;
+}
+
+/* ----- 性能总结卡片 ----- */
+.perf-summary-card {
+    background: linear-gradient(135deg, #111827, #1a1f2e);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 1.5rem;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+.perf-summary-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+}
+
+/* ----- 安全卡片 ----- */
+.safety-card {
+    background: linear-gradient(135deg, #111827, #1a1f2e);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 1.25rem;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+.safety-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+/* ----- 信息板块卡片 ----- */
+.info-section-card {
+    background: linear-gradient(135deg, #111827, #1a1f2e);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 20px;
+    padding: 2rem;
+    transition: all 0.3s ease;
+}
+.info-section-card:hover {
+    border-color: rgba(255, 255, 255, 0.08);
+}
+
+/* ----- 回到顶部按钮 ----- */
+#back-to-top.visible {
+    opacity: 1 !important;
+    visibility: visible !important;
+}
+
+/* ----- 飞轮旋转动画 ----- */
+@keyframes flywheelSpin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+.flywheel-icon {
+    animation: flywheelSpin 2s linear infinite;
+}
+.flywheel-icon.slow {
+    animation-duration: 8s;
+}
+.flywheel-icon.stop {
+    animation: none;
+}
+
+/* ----- 分区标题下划线 ----- */
+.section-heading h2 {
+    position: relative;
+    display: inline-block;
+}
+.section-heading h2::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #00d4ff, #00ff88);
+    border-radius: 2px;
+}
+
+/* ----- 表格行悬停 ----- */
+tbody tr:hover td {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+/* ----- 移动端适配 ----- */
+@media (max-width: 768px) {
+    .workflow-card {
+        width: 100%;
+        max-width: 280px;
+    }
+    .metric-card {
+        padding: 1rem;
+    }
+    .spec-card {
+        padding: 1.25rem;
+    }
+}
+
+/* ----- 渐变文字闪烁 ----- */
+.text-gradient-animate {
+    background: linear-gradient(90deg, #00d4ff, #00ff88, #00d4ff);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradientShift 3s linear infinite;
+}
+@keyframes gradientShift {
+    to { background-position: 200% center; }
+}
+
+/* ----- 粒子效果 (Hero) ----- */
+.particle {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: #00d4ff;
+    border-radius: 50%;
+    opacity: 0;
+    animation: particleFloat 6s ease-in-out infinite;
+}
+@keyframes particleFloat {
+    0% { opacity: 0; transform: translateY(0) translateX(0); }
+    20% { opacity: 0.6; }
+    80% { opacity: 0.2; }
+    100% { opacity: 0; transform: translateY(-400px) translateX(100px); }
+}
