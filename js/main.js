@@ -27,33 +27,33 @@ document.addEventListener('DOMContentLoaded', function () {
         function initParticles() {
             particles = [];
             // 微尘粒子（多数，缓慢上浮）
-            for (let i = 0; i < 50; i++) {
+            for (let i = 0; i < 80; i++) {
                 particles.push({
                     type: 'dust',
                     x: Math.random() * canvas.width,
                     y: Math.random() * canvas.height,
-                    size: Math.random() * 1.5 + 0.3,
-                    alpha: Math.random() * 0.15 + 0.03,
-                    speedY: -(Math.random() * 0.3 + 0.05),
-                    speedX: (Math.random() - 0.5) * 0.2,
-                    color: Math.random() < 0.3 ? '180,160,140' : '140,140,140',
+                    size: Math.random() * 2 + 0.5,
+                    alpha: Math.random() * 0.3 + 0.08,
+                    speedY: -(Math.random() * 0.4 + 0.08),
+                    speedX: (Math.random() - 0.5) * 0.3,
+                    color: Math.random() < 0.35 ? '200,170,120' : '160,160,160',
                     flickerPhase: Math.random() * Math.PI * 2,
                 });
             }
-            // 火花粒子（少数，快速上升闪烁）
-            for (let i = 0; i < 12; i++) {
+            // 火花粒子（更多，更亮，快速上升）
+            for (let i = 0; i < 25; i++) {
                 particles.push({
                     type: 'spark',
                     x: Math.random() * canvas.width,
                     y: Math.random() * canvas.height,
-                    size: Math.random() * 1.2 + 0.3,
+                    size: Math.random() * 1.8 + 0.5,
                     alpha: 0,
-                    speedY: -(Math.random() * 1.5 + 0.5),
-                    speedX: (Math.random() - 0.5) * 0.6,
+                    speedY: -(Math.random() * 2 + 0.8),
+                    speedX: (Math.random() - 0.5) * 0.8,
                     color: '245,158,11',
                     flickerPhase: Math.random() * Math.PI * 2,
-                    life: 0,
-                    maxLife: Math.random() * 120 + 60,
+                    life: Math.floor(Math.random() * 80),
+                    maxLife: Math.floor(Math.random() * 100 + 50),
                 });
             }
         }
@@ -85,21 +85,21 @@ document.addEventListener('DOMContentLoaded', function () {
                 // 计算透明度
                 let alpha;
                 if (p.type === 'dust') {
-                    alpha = p.alpha * (0.6 + 0.4 * Math.sin(frame * 0.015 + p.flickerPhase));
+                    alpha = p.alpha * (0.5 + 0.5 * Math.sin(frame * 0.02 + p.flickerPhase));
                 } else {
                     p.life++;
                     const lifeRatio = p.life / p.maxLife;
-                    // 火花生命周期：淡入 → 亮 → 淡出
-                    if (lifeRatio < 0.15) {
-                        alpha = lifeRatio / 0.15 * 0.5;
-                    } else if (lifeRatio < 0.5) {
-                        alpha = 0.5 * (1 - (lifeRatio - 0.15) / 0.35 * 0.3);
+                    // 火花生命周期：淡入 → 高亮 → 淡出
+                    if (lifeRatio < 0.1) {
+                        alpha = lifeRatio / 0.1 * 0.8;
+                    } else if (lifeRatio < 0.4) {
+                        alpha = 0.8 * (1 - (lifeRatio - 0.1) / 0.3 * 0.2);
                     } else {
-                        alpha = 0.35 * (1 - (lifeRatio - 0.5) / 0.5);
+                        alpha = 0.64 * (1 - (lifeRatio - 0.4) / 0.6);
                     }
                     if (p.life >= p.maxLife) {
                         p.life = 0;
-                        p.y = canvas.height * (0.6 + Math.random() * 0.4);
+                        p.y = canvas.height * (0.5 + Math.random() * 0.5);
                         p.x = Math.random() * canvas.width;
                     }
                 }
@@ -108,13 +108,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
                 // 绘制
                 ctx.fillStyle = `rgba(${p.color},${alpha})`;
-                if (p.type === 'spark' && alpha > 0.2) {
-                    // 火花加微光晕
-                    const glow = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 2);
-                    glow.addColorStop(0, `rgba(${p.color},${alpha * 1.5})`);
+                if (p.type === 'spark' && alpha > 0.15) {
+                    // 火花光晕（更大更亮）
+                    const glow = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 4);
+                    glow.addColorStop(0, `rgba(${p.color},${alpha * 2})`);
+                    glow.addColorStop(0.4, `rgba(${p.color},${alpha * 0.8})`);
                     glow.addColorStop(1, 'transparent');
                     ctx.fillStyle = glow;
-                    ctx.fillRect(p.x - p.size * 2, p.y - p.size * 2, p.size * 4, p.size * 4);
+                    ctx.fillRect(p.x - p.size * 4, p.y - p.size * 4, p.size * 8, p.size * 8);
                 } else {
                     ctx.fillRect(p.x - p.size / 2, p.y - p.size / 2, p.size, p.size);
                 }
