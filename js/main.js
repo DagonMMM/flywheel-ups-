@@ -1,21 +1,20 @@
 /**
  * 飞轮储能UPS系统 - 主交互脚本
  * 天印制造
- * 动态星空 · 导航高亮 · 渐入动画 · 移动菜单
+ * 工业粒子背景 · 导航高亮 · 渐入动画 · 移动菜单
  */
 
 document.addEventListener('DOMContentLoaded', function () {
 
-    // ============ 全局动态星空背景 ============
-    function createStarfield() {
+    // ============ 工业粒子背景 ============
+    function createIndustrialParticles() {
         const canvas = document.createElement('canvas');
-        canvas.id = 'starfield-canvas';
+        canvas.id = 'particle-canvas';
         canvas.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;';
         document.body.prepend(canvas);
 
         const ctx = canvas.getContext('2d');
-        let stars = [];
-        const STAR_COUNT = 60;
+        let particles = [];
 
         function resize() {
             canvas.width = window.innerWidth;
@@ -24,80 +23,108 @@ document.addEventListener('DOMContentLoaded', function () {
         resize();
         window.addEventListener('resize', resize);
 
-        // 创建星星
-        function createStars() {
-            stars = [];
-            for (let i = 0; i < STAR_COUNT; i++) {
-                stars.push({
+        // 初始化粒子
+        function initParticles() {
+            particles = [];
+            // 微尘粒子（多数，缓慢上浮）
+            for (let i = 0; i < 50; i++) {
+                particles.push({
+                    type: 'dust',
                     x: Math.random() * canvas.width,
                     y: Math.random() * canvas.height,
-                    r: Math.random() * 1.8 + 0.3,          // 0.3-2.1px
-                    baseAlpha: Math.random() * 0.2 + 0.05,   // 微弱的工业氛围
+                    size: Math.random() * 1.5 + 0.3,
+                    alpha: Math.random() * 0.15 + 0.03,
+                    speedY: -(Math.random() * 0.3 + 0.05),
+                    speedX: (Math.random() - 0.5) * 0.2,
+                    color: Math.random() < 0.3 ? '180,160,140' : '140,140,140',
+                    flickerPhase: Math.random() * Math.PI * 2,
+                });
+            }
+            // 火花粒子（少数，快速上升闪烁）
+            for (let i = 0; i < 12; i++) {
+                particles.push({
+                    type: 'spark',
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 1.2 + 0.3,
                     alpha: 0,
-                    twinkleSpeed: Math.random() * 0.015 + 0.003, // 闪烁速度
-                    twinkleOffset: Math.random() * Math.PI * 2,
-                    colorChance: Math.random(),
-                    driftX: (Math.random() - 0.5) * 0.15,  // 微漂移
-                    driftY: (Math.random() - 0.5) * 0.08,
+                    speedY: -(Math.random() * 1.5 + 0.5),
+                    speedX: (Math.random() - 0.5) * 0.6,
+                    color: '245,158,11',
+                    flickerPhase: Math.random() * Math.PI * 2,
+                    life: 0,
+                    maxLife: Math.random() * 120 + 60,
                 });
             }
         }
-        createStars();
-        window.addEventListener('resize', createStars);
+        initParticles();
+        window.addEventListener('resize', initParticles);
 
-        // 动画循环
         let frame = 0;
         function animate() {
             frame++;
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            stars.forEach(star => {
-                // 正弦闪烁 + 随机微调
-                const twinkle = Math.sin(frame * star.twinkleSpeed + star.twinkleOffset);
-                const normalizedTwinkle = (twinkle + 1) / 2; // 0-1
-                const flicker = 1 + (Math.sin(frame * 0.023 + star.twinkleOffset * 3)) * 0.2;
-                star.alpha = star.baseAlpha * (0.3 + normalizedTwinkle * 0.7) * flicker;
+            particles.forEach(p => {
+                // 更新位置
+                p.y += p.speedY;
+                p.x += p.speedX;
 
-                // 微漂移
-                star.x += star.driftX * 0.1;
-                star.y += star.driftY * 0.1;
-                if (star.x < 0) star.x = canvas.width;
-                if (star.x > canvas.width) star.x = 0;
-                if (star.y < 0) star.y = canvas.height;
-                if (star.y > canvas.height) star.y = 0;
+                // 循环：超出顶部从底部重新进入
+                if (p.y < -10) {
+                    p.y = canvas.height + 10;
+                    p.x = Math.random() * canvas.width;
+                    if (p.type === 'spark') {
+                        p.life = 0;
+                        p.y = canvas.height * (0.6 + Math.random() * 0.4);
+                    }
+                }
+                if (p.x < 0) p.x = canvas.width;
+                if (p.x > canvas.width) p.x = 0;
+
+                // 计算透明度
+                let alpha;
+                if (p.type === 'dust') {
+                    alpha = p.alpha * (0.6 + 0.4 * Math.sin(frame * 0.015 + p.flickerPhase));
+                } else {
+                    p.life++;
+                    const lifeRatio = p.life / p.maxLife;
+                    // 火花生命周期：淡入 → 亮 → 淡出
+                    if (lifeRatio < 0.15) {
+                        alpha = lifeRatio / 0.15 * 0.5;
+                    } else if (lifeRatio < 0.5) {
+                        alpha = 0.5 * (1 - (lifeRatio - 0.15) / 0.35 * 0.3);
+                    } else {
+                        alpha = 0.35 * (1 - (lifeRatio - 0.5) / 0.5);
+                    }
+                    if (p.life >= p.maxLife) {
+                        p.life = 0;
+                        p.y = canvas.height * (0.6 + Math.random() * 0.4);
+                        p.x = Math.random() * canvas.width;
+                    }
+                }
+
+                if (alpha <= 0) return;
 
                 // 绘制
-                ctx.beginPath();
-                ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
-
-                // 颜色：大部分白色，少量淡紫或淡蓝
-                let color;
-                if (star.colorChance < 0.15) {
-                    color = `rgba(180,160,220,${star.alpha})`; // 淡紫
-                } else if (star.colorChance < 0.25) {
-                    color = `rgba(140,180,230,${star.alpha})`; // 淡蓝
-                } else {
-                    color = `rgba(255,255,255,${star.alpha})`; // 白色
-                }
-                ctx.fillStyle = color;
-
-                // 亮星加光晕
-                if (star.r > 1.2 && star.alpha > star.baseAlpha * 0.7) {
-                    const glow = ctx.createRadialGradient(star.x, star.y, 0, star.x, star.y, star.r * 3);
-                    glow.addColorStop(0, color);
+                ctx.fillStyle = `rgba(${p.color},${alpha})`;
+                if (p.type === 'spark' && alpha > 0.2) {
+                    // 火花加微光晕
+                    const glow = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 2);
+                    glow.addColorStop(0, `rgba(${p.color},${alpha * 1.5})`);
                     glow.addColorStop(1, 'transparent');
                     ctx.fillStyle = glow;
-                    ctx.arc(star.x, star.y, star.r * 3, 0, Math.PI * 2);
+                    ctx.fillRect(p.x - p.size * 2, p.y - p.size * 2, p.size * 4, p.size * 4);
+                } else {
+                    ctx.fillRect(p.x - p.size / 2, p.y - p.size / 2, p.size, p.size);
                 }
-
-                ctx.fill();
             });
 
             requestAnimationFrame(animate);
         }
         animate();
     }
-    createStarfield();
+    createIndustrialParticles();
 
     // ============ DOM 元素 ============
     const navbar = document.getElementById('navbar');
@@ -294,7 +321,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     onScroll();
-    console.log('🌌 飞轮储能UPS系统 · 天印制造 · 宇宙星海已就绪');
+    console.log('🏭 飞轮储能UPS系统 · 天印制造 · 工业粒子引擎已就绪');
 });
 
 // 工业火花浮动动画
