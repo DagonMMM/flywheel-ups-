@@ -310,19 +310,25 @@ thead th { color: #f59e0b !important; }
     #mobile-menu a { padding: 0.6rem 1rem; font-size: 0.85rem; }
 
     /* Hero */
-    #hero { min-height: 75vh; padding: 3.5rem 1rem 2rem; }
-    #hero h1 { font-size: 1.5rem !important; line-height: 1.3 !important; margin-bottom: 1rem !important; }
-    #hero .text-xl { font-size: 0.85rem !important; max-width: 90%; margin-left: auto; margin-right: auto; }
-    #hero .mb-8 { margin-bottom: 1.25rem; }
-    #hero .mb-12 { margin-bottom: 1.5rem; }
-    #hero .gap-x-3 { gap: 0.5rem; }
-    #hero .px-4.py-1\\.5 { padding: 0.3rem 0.75rem; font-size: 0.7rem; }
+    #hero { min-height: 100vh; padding: 4rem 0.75rem 1.5rem; display: flex; align-items: center; }
+    #hero h1 { font-size: 1.6rem !important; line-height: 1.25 !important; margin-bottom: 0.75rem !important; }
+    #hero .text-xl { font-size: 0.85rem !important; max-width: 92%; margin-left: auto; margin-right: auto; }
+    #hero #hero-subtitle { font-size: 0.8rem !important; max-width: 92%; margin-bottom: 1rem !important; }
+    #hero .mb-8 { margin-bottom: 0.75rem; }
+    #hero .mb-12 { margin-bottom: 1rem; }
+    #hero .gap-x-3 { gap: 0.35rem; }
+    #hero .px-4.py-1\\.5 { padding: 0.25rem 0.6rem; font-size: 0.65rem; }
 
-    /* 指标卡 */
-    .metric-card { padding: 0.75rem; }
-    .metric-card .text-4xl { font-size: 1.5rem !important; }
-    .metric-card .text-lg { font-size: 0.75rem !important; }
-    .metric-card .text-sm { font-size: 0.65rem !important; }
+    /* 指标卡：移动端保持3列 */
+    #hero .grid.grid-cols-1.sm\\:grid-cols-3 {
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 0.35rem;
+    }
+    .metric-card { padding: 0.5rem 0.35rem; }
+    .metric-card .text-4xl { font-size: 1.15rem !important; }
+    .metric-card .text-lg { font-size: 0.65rem !important; }
+    .metric-card .text-sm { font-size: 0.6rem !important; }
+    .metric-card .text-3xl { font-size: 1.15rem !important; }
 
     /* 标题 */
     .section-heading h2 { font-size: 1.35rem !important; }
@@ -407,13 +413,18 @@ thead th { color: #f59e0b !important; }
 @media (max-width: 480px) {
     html { font-size: 13px; }
 
-    #hero { min-height: 68vh; padding: 3rem 0.75rem 1.5rem; }
-    #hero h1 { font-size: 1.3rem !important; }
+    #hero { min-height: 100vh; padding: 3.5rem 0.5rem 1rem; }
+    #hero h1 { font-size: 1.35rem !important; }
+    #hero #hero-subtitle { font-size: 0.72rem !important; }
 
-    .metric-card { padding: 0.6rem; }
-    .metric-card .text-4xl { font-size: 1.3rem !important; }
+    .metric-card { padding: 0.4rem 0.2rem; }
+    .metric-card .text-4xl { font-size: 1rem !important; }
+    .metric-card .text-3xl { font-size: 1rem !important; }
 
     .grid-cols-2, .sm\\:grid-cols-2 { grid-template-columns: 1fr !important; }
+
+    /* 保持Hero指标卡3列 */
+    #hero .grid.grid-cols-1.sm\\:grid-cols-3 { grid-template-columns: repeat(3, 1fr) !important; gap: 0.25rem; }
 
     .img-placeholder { min-height: 70px; }
     .chart-container canvas { max-height: 150px; }
@@ -541,11 +552,24 @@ thead th { color: #f59e0b !important; }
 
 /* ----- 飞轮模拟器移动端适配 ----- */
 @media (max-width: 768px) {
+    .flywheel-sim { margin-top: 0.75rem !important; gap: 0.4rem; }
     .flywheel-sim canvas {
-        width: 160px !important;
-        height: 160px !important;
+        width: 140px !important;
+        height: 140px !important;
     }
-    .flywheel-sim .sim-label .rpm-val { font-size: 1.2rem; }
-    .flywheel-sim .sim-label .energy-val { font-size: 0.9rem; }
+    .flywheel-sim .sim-label { font-size: 0.75rem; }
+    .flywheel-sim .sim-label .rpm-val { font-size: 1.1rem; }
+    .flywheel-sim .sim-label .energy-val { font-size: 0.85rem; }
+    .flywheel-sim .sim-hint { font-size: 0.65rem; }
     #cursor-glow { display: none; }
+}
+@media (max-width: 480px) {
+    .flywheel-sim { margin-top: 0.5rem !important; }
+    .flywheel-sim canvas {
+        width: 110px !important;
+        height: 110px !important;
+    }
+    .flywheel-sim .sim-label { font-size: 0.7rem; }
+    .flywheel-sim .sim-label .rpm-val { font-size: 1rem; }
+    .flywheel-sim .sim-label .energy-val { font-size: 0.75rem; }
 }
