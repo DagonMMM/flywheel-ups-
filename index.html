@@ -57,6 +57,7 @@
                     <a href="#overview" class="nav-link px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-white/5 transition-all">系统概述</a>
                     <a href="#specs" class="nav-link px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-white/5 transition-all">技术规格</a>
                     <a href="#control" class="nav-link px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-white/5 transition-all">通信与控制</a>
+                    <a href="#slave-station" class="nav-link px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-white/5 transition-all">从站系统</a>
                     <a href="#performance" class="nav-link px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-white/5 transition-all">性能测试</a>
                     <a href="#automotive" class="nav-link px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-white/5 transition-all">汽车应用</a>
                     <a href="#aerospace" class="nav-link px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-white/5 transition-all">航天技术</a>
@@ -76,6 +77,7 @@
                 <a href="#overview" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-white/5">系统概述</a>
                 <a href="#specs" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-white/5">技术规格</a>
                 <a href="#control" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-white/5">通信与控制</a>
+                <a href="#slave-station" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-white/5">从站系统</a>
                 <a href="#performance" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-white/5">性能测试</a>
                 <a href="#automotive" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-white/5">汽车应用</a>
                 <a href="#aerospace" class="block px-3 py-2 rounded-lg text-sm text-gray-400 hover:text-white hover:bg-white/5">航天技术</a>
@@ -90,13 +92,13 @@
     <section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden">
         <!-- 深空背景 -->
         <div class="absolute inset-0 bg-gradient-to-br from-[#1a1c1e] via-[#222528] via-[#1d1f22] to-[#1a1c1e]"></div>
-        <!-- 星云雾气 -->
-        <div class="absolute inset-0">
-            <div class="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-amber-600/5 rounded-full blur-[150px] animate-pulse"></div>
-            <div class="absolute bottom-1/3 right-1/4 w-[400px] h-[400px] bg-gray-500/4 rounded-full blur-[130px] animate-pulse" style="animation-delay: 3s;"></div>
+        <!-- 星云雾气 (视差层) -->
+        <div class="absolute inset-0 parallax-container">
+            <div class="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-amber-600/5 rounded-full blur-[150px] animate-pulse parallax-layer" data-parallax-speed="0.3"></div>
+            <div class="absolute bottom-1/3 right-1/4 w-[400px] h-[400px] bg-gray-500/4 rounded-full blur-[130px] animate-pulse parallax-layer" data-parallax-speed="0.25" style="animation-delay: 3s;"></div>
         </div>
-        <!-- 网格背景 -->
-        <div class="absolute inset-0 opacity-[0.03]" style="background-image: radial-gradient(circle, rgba(255,255,255,0.15) 1px, transparent 1px); background-size: 50px 50px;"></div>
+        <!-- 网格背景 (视差层) -->
+        <div class="absolute inset-0 opacity-[0.03] parallax-layer" data-parallax-speed="0.6" style="background-image: radial-gradient(circle, rgba(255,255,255,0.15) 1px, transparent 1px); background-size: 50px 50px;"></div>
 
         <div class="relative z-10 text-center px-4 max-w-5xl mx-auto">
             <!-- 标签 -->
@@ -117,30 +119,47 @@
             </h1>
 
             <!-- 副标题 -->
-            <p class="text-lg sm:text-xl text-gray-400 max-w-3xl mx-auto mb-12 animate-slideUp" style="animation-delay: 0.2s;">
+            <p id="hero-subtitle" class="text-lg sm:text-xl text-gray-400 max-w-3xl mx-auto mb-12 animate-slideUp" style="animation-delay: 0.2s;">
                 面向工业与民用领域，提供低成本、快响应的飞轮储能不间断电源解决方案
             </p>
 
             <!-- 关键指标卡片 -->
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl mx-auto animate-slideUp" style="animation-delay: 0.4s;">
-                <div class="metric-card group">
+                <div class="metric-card tilt-container group">
+                    <div class="tilt-inner">
                     <div class="text-3xl sm:text-4xl font-bold text-accent mb-1">
                         <span class="counter" data-target="100">&lt;100</span><span class="text-lg">ms</span>
                     </div>
                     <p class="text-gray-400 text-sm group-hover:text-gray-300 transition-colors">电源无缝切换</p>
+                    </div>
                 </div>
-                <div class="metric-card group">
+                <div class="metric-card tilt-container group">
+                    <div class="tilt-inner">
                     <div class="text-3xl sm:text-4xl font-bold text-energy mb-1">
                         <span class="counter" data-target="1045">1045</span><span class="text-lg">J</span>
                     </div>
                     <p class="text-gray-400 text-sm group-hover:text-gray-300 transition-colors">储能总量</p>
+                    </div>
                 </div>
-                <div class="metric-card group">
+                <div class="metric-card tilt-container group">
+                    <div class="tilt-inner">
                     <div class="text-3xl sm:text-4xl font-bold text-warning mb-1">
                         <span>&gt;98</span><span class="text-lg">%</span>
                     </div>
                     <p class="text-gray-400 text-sm group-hover:text-gray-300 transition-colors">循环效率</p>
+                    </div>
                 </div>
+            </div>
+
+            <!-- 飞轮转速交互模拟器 -->
+            <div class="mt-10 animate-slideUp flywheel-sim mx-auto" style="animation-delay: 0.6s;">
+                <canvas id="flywheel-canvas" width="200" height="200" class="mx-auto"></canvas>
+                <p class="sim-label">
+                    <span class="rpm-val" id="sim-rpm">0</span> rpm
+                    <span class="mx-2 text-gray-600">→</span>
+                    储能量 <span class="energy-val" id="sim-energy">0</span> J
+                </p>
+                <p class="sim-hint" id="sim-hint">🖱️ 拖动圆环 或 滚轮 调节转速</p>
             </div>
 
             <!-- 向下箭头 -->
@@ -622,7 +641,271 @@
         </div>
     </section>
 
-    <!-- ==================== 5. 性能测试 ==================== -->
+    <!-- ==================== 5. 从站系统与双机互联 ==================== -->
+    <section id="slave-station" class="py-20 lg:py-28 bg-[#1f2226]/50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 section-heading">
+                <h2 class="text-3xl sm:text-4xl font-bold text-white mb-4">从站系统与双机互联</h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">Easy-320 从站 + 汇川 HMI + 云端互联，构建完整工业自动化架构</p>
+            </div>
+
+            <!-- 双PLC架构对比表 -->
+            <div class="mb-12">
+                <h3 class="text-xl font-semibold text-white mb-6 text-center">
+                    <i class="fa-solid fa-code-branch text-amber-400 mr-2"></i>主从站双机架构对比
+                </h3>
+                <div class="overflow-hidden rounded-xl border border-amber-500/10">
+                    <table class="w-full text-sm">
+                        <thead>
+                            <tr class="bg-gray-900/30">
+                                <th class="text-left py-4 px-5 text-amber-400 font-medium">对比维度</th>
+                                <th class="text-left py-4 px-5 text-gray-400 font-medium">主站 · Easy-301</th>
+                                <th class="text-left py-4 px-5 text-blue-300 font-medium">从站 · Easy-320</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-white/5">
+                            <tr class="hover:bg-white/[0.01]">
+                                <td class="py-3 px-5 text-white text-xs font-medium">系统角色</td>
+                                <td class="py-3 px-5 text-gray-400 text-xs">实时控制核心 · 飞轮充能/输出逻辑</td>
+                                <td class="py-3 px-5 text-gray-400 text-xs">数据汇聚网关 · 对外通信枢纽</td>
+                            </tr>
+                            <tr class="hover:bg-white/[0.01]">
+                                <td class="py-3 px-5 text-white text-xs font-medium">处理器</td>
+                                <td class="py-3 px-5 text-gray-400 text-xs">ARM Cortex-A7 四核 · 200MHz</td>
+                                <td class="py-3 px-5 text-gray-400 text-xs">ARM Cortex-M4 · 168MHz</td>
+                            </tr>
+                            <tr class="hover:bg-white/[0.01]">
+                                <td class="py-3 px-5 text-white text-xs font-medium">I/O 点数</td>
+                                <td class="py-3 px-5 text-gray-400 text-xs">24DI / 16DO / 4AI / 2AO</td>
+                                <td class="py-3 px-5 text-gray-400 text-xs">16DI / 12DO / 4AI / 2AO</td>
+                            </tr>
+                            <tr class="hover:bg-white/[0.01]">
+                                <td class="py-3 px-5 text-white text-xs font-medium">核心任务</td>
+                                <td class="py-3 px-5 text-gray-400 text-xs">飞轮调速 · 充能/输出切换 · 安全互锁 · 传感器采集</td>
+                                <td class="py-3 px-5 text-gray-400 text-xs">HMI驱动 · 云端上报 · 上位机通信 · 主从数据同步</td>
+                            </tr>
+                            <tr class="hover:bg-white/[0.01]">
+                                <td class="py-3 px-5 text-white text-xs font-medium">通信接口</td>
+                                <td class="py-3 px-5 text-gray-400 text-xs">RS485 × 2 · 以太网 × 1 · USB × 1</td>
+                                <td class="py-3 px-5 text-gray-400 text-xs">RS485 × 2 · 以太网 × 2 · USB × 1 · CAN × 1</td>
+                            </tr>
+                            <tr class="hover:bg-white/[0.01]">
+                                <td class="py-3 px-5 text-white text-xs font-medium">人机界面</td>
+                                <td class="py-3 px-5 text-gray-400 text-xs">数码管显示器 · 三色状态灯 · 遥控示教器</td>
+                                <td class="py-3 px-5 text-blue-300/80 text-xs">汇川 IT7000 系列 HMI · 7寸触摸屏</td>
+                            </tr>
+                            <tr class="hover:bg-white/[0.01]">
+                                <td class="py-3 px-5 text-white text-xs font-medium">云端能力</td>
+                                <td class="py-3 px-5 text-gray-400 text-xs">无（专注本地实时控制）</td>
+                                <td class="py-3 px-5 text-blue-300/80 text-xs">MQTT / HTTP · 远程监控 · OTA固件升级 · 报警推送</td>
+                            </tr>
+                            <tr class="hover:bg-white/[0.01]">
+                                <td class="py-3 px-5 text-white text-xs font-medium">主从互联</td>
+                                <td class="py-3 px-5 text-gray-400 text-xs">RS485 Modbus-RTU · 主站模式（轮询从站）</td>
+                                <td class="py-3 px-5 text-gray-400 text-xs">RS485 Modbus-RTU · 从站模式（响应主站）</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Easy-320 + HMI 双栏 -->
+            <div class="grid lg:grid-cols-2 gap-8 mb-12">
+                <!-- Easy-320 从站规格 -->
+                <div class="spec-card">
+                    <div class="spec-card-header">
+                        <div class="w-14 h-14 rounded-2xl bg-blue-500/10 flex items-center justify-center flex-shrink-0">
+                            <i class="fa-solid fa-server text-blue-400 text-2xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-white font-bold">汇川 Easy-320 PLC</h3>
+                            <p class="text-blue-400 text-sm">从站控制器 · 通信网关</p>
+                        </div>
+                    </div>
+                    <div class="spec-card-body">
+                        <div class="spec-item"><span>处理器</span><span>ARM Cortex-M4 · 168MHz</span></div>
+                        <div class="spec-item"><span>程序容量</span><span>128KB · 支持在线编程</span></div>
+                        <div class="spec-item"><span>扫描周期</span><span>1 ms (高速模式)</span></div>
+                        <div class="spec-item"><span>数字量 I/O</span><span>16DI / 12DO</span></div>
+                        <div class="spec-item"><span>模拟量 I/O</span><span>4AI / 2AO</span></div>
+                        <div class="spec-item"><span>通信协议</span><span>Modbus-RTU / TCP · CANopen</span></div>
+                        <div class="spec-item"><span>编程语言</span><span>梯形图 + ST · Autoshop</span></div>
+                        <div class="spec-item"><span>特殊功能</span><span>双以太网口 · 路由穿透</span></div>
+                    </div>
+                </div>
+
+                <!-- 汇川 HMI -->
+                <div class="spec-card">
+                    <div class="spec-card-header">
+                        <div class="w-14 h-14 rounded-2xl bg-purple-500/10 flex items-center justify-center flex-shrink-0">
+                            <i class="fa-solid fa-display text-purple-400 text-2xl"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-white font-bold">汇川 IT7000 HMI</h3>
+                            <p class="text-purple-400 text-sm">人机界面 · 工业触摸屏</p>
+                        </div>
+                    </div>
+                    <div class="spec-card-body">
+                        <div class="spec-item"><span>屏幕尺寸</span><span>7寸 TFT-LCD</span></div>
+                        <div class="spec-item"><span>分辨率</span><span>800 × 480</span></div>
+                        <div class="spec-item"><span>触摸方式</span><span>电阻式触摸</span></div>
+                        <div class="spec-item"><span>通信接口</span><span>RS485 · 以太网 · USB</span></div>
+                        <div class="spec-item"><span>连接PLC</span><span>Easy-320 (Modbus-RTU)</span></div>
+                        <div class="spec-item"><span>监控画面</span><span>转速 · 温度 · 电压 · 状态</span></div>
+                        <div class="spec-item"><span>报警管理</span><span>5类故障实时弹窗</span></div>
+                        <div class="spec-item"><span>数据记录</span><span>历史曲线 · CSV导出</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- HMI 监控画面功能 -->
+            <div class="mb-12">
+                <h3 class="text-xl font-semibold text-white mb-6 text-center">
+                    <i class="fa-solid fa-desktop text-purple-400 mr-2"></i>HMI 监控画面功能
+                </h3>
+                <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="code-feature-card">
+                        <i class="fa-solid fa-gauge-high text-accent text-2xl mb-3"></i>
+                        <h4 class="text-white font-semibold mb-2">主监控画面</h4>
+                        <p class="text-gray-400 text-xs">实时转速表盘 + 温度柱状图 + 电压/电流数字显示 + 系统状态指示</p>
+                    </div>
+                    <div class="code-feature-card">
+                        <i class="fa-solid fa-chart-line text-energy text-2xl mb-3"></i>
+                        <h4 class="text-white font-semibold mb-2">趋势曲线</h4>
+                        <p class="text-gray-400 text-xs">转速/温度/电压历史趋势曲线 · 支持缩放与时间范围选择</p>
+                    </div>
+                    <div class="code-feature-card">
+                        <i class="fa-solid fa-bell text-red-400 text-2xl mb-3"></i>
+                        <h4 class="text-white font-semibold mb-2">报警管理</h4>
+                        <p class="text-gray-400 text-xs">5类故障弹窗报警 · 报警历史记录 · 报警触发条件可配置</p>
+                    </div>
+                    <div class="code-feature-card">
+                        <i class="fa-solid fa-sliders text-amber-400 text-2xl mb-3"></i>
+                        <h4 class="text-white font-semibold mb-2">参数设置</h4>
+                        <p class="text-gray-400 text-xs">目标转速 · 报警阈值 · PID参数 · 通信参数 触摸屏在线调整</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 云端与上位机通信架构 -->
+            <div class="grid lg:grid-cols-2 gap-8 mb-12">
+                <div class="info-card">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-lg bg-blue-500/10 flex items-center justify-center">
+                            <i class="fa-solid fa-cloud text-blue-400 text-lg"></i>
+                        </div>
+                        <h3 class="text-white font-semibold text-lg">云端物联网平台</h3>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                        Easy-320 通过以太网连接云平台，采用 MQTT 协议上报飞轮运行数据，支持 HTTP/HTTPS 接口供第三方系统集成。云平台提供远程监控仪表盘、历史数据回溯、报警推送与 OTA 固件升级功能。
+                    </p>
+                    <div class="space-y-2">
+                        <div class="flex items-center gap-2 text-xs text-gray-500">
+                            <span class="w-1.5 h-1.5 rounded-full bg-blue-400/50"></span> MQTT 主题发布/订阅 · QoS 1 保证送达
+                        </div>
+                        <div class="flex items-center gap-2 text-xs text-gray-500">
+                            <span class="w-1.5 h-1.5 rounded-full bg-blue-400/50"></span> 上报周期：转速 500ms / 温度 2s / 事件即时
+                        </div>
+                        <div class="flex items-center gap-2 text-xs text-gray-500">
+                            <span class="w-1.5 h-1.5 rounded-full bg-blue-400/50"></span> 数据格式：JSON · 支持断网本地缓存补传
+                        </div>
+                    </div>
+                </div>
+                <div class="info-card">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-lg bg-green-500/10 flex items-center justify-center">
+                            <i class="fa-solid fa-computer text-green-400 text-lg"></i>
+                        </div>
+                        <h3 class="text-white font-semibold text-lg">上位机 SCADA 集成</h3>
+                    </div>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                        Easy-320 通过以太网与上位机 SCADA 系统通信，使用 Modbus-TCP 协议提供实时数据点表。支持主流组态软件（组态王、WinCC、InTouch）直接连接，实现工厂级集中监控。
+                    </p>
+                    <div class="space-y-2">
+                        <div class="flex items-center gap-2 text-xs text-gray-500">
+                            <span class="w-1.5 h-1.5 rounded-full bg-green-400/50"></span> Modbus-TCP Server 模式 · 标准 502 端口
+                        </div>
+                        <div class="flex items-center gap-2 text-xs text-gray-500">
+                            <span class="w-1.5 h-1.5 rounded-full bg-green-400/50"></span> 数据点表：转速 · 温度 · 电压 · 电流 · 状态字 · 报警码
+                        </div>
+                        <div class="flex items-center gap-2 text-xs text-gray-500">
+                            <span class="w-1.5 h-1.5 rounded-full bg-green-400/50"></span> 支持 OPC UA 网关扩展（通过上位机软网关）
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 数据流向架构图 -->
+            <div class="p-6 rounded-2xl bg-gradient-to-br from-gray-900/20 to-gray-900/20 border border-blue-500/10">
+                <h3 class="text-lg font-semibold text-white mb-8 text-center">
+                    <i class="fa-solid fa-diagram-project text-blue-400 mr-2"></i>系统数据流向
+                </h3>
+                <div class="flex flex-wrap items-center justify-center gap-3 lg:gap-4 text-xs">
+                    <!-- 传感器层 -->
+                    <div class="text-center">
+                        <div class="w-28 p-3 rounded-xl bg-white/5 border border-white/10">
+                            <i class="fa-solid fa-sensor text-gray-400 text-lg mb-1 block"></i>
+                            <p class="text-white font-medium">传感器组</p>
+                            <p class="text-gray-500 mt-1">转速 · 温度<br>电压 · 电流</p>
+                        </div>
+                        <p class="text-gray-500 mt-1">采集层</p>
+                    </div>
+                    <div class="text-gray-500 text-xl"><i class="fa-solid fa-arrow-right"></i></div>
+                    <!-- 主站 -->
+                    <div class="text-center">
+                        <div class="w-28 p-3 rounded-xl bg-amber-500/10 border border-amber-500/20">
+                            <i class="fa-solid fa-microchip text-amber-400 text-lg mb-1 block"></i>
+                            <p class="text-white font-medium">主站 Easy-301</p>
+                            <p class="text-gray-500 mt-1">实时控制<br>安全互锁</p>
+                        </div>
+                        <p class="text-gray-500 mt-1">控制层</p>
+                    </div>
+                    <div class="text-amber-400 text-xl"><i class="fa-solid fa-arrow-right"></i></div>
+                    <!-- 从站 -->
+                    <div class="text-center">
+                        <div class="w-28 p-3 rounded-xl bg-blue-500/10 border border-blue-500/20 ring-2 ring-blue-500/30">
+                            <i class="fa-solid fa-server text-blue-400 text-lg mb-1 block"></i>
+                            <p class="text-white font-medium">从站 Easy-320</p>
+                            <p class="text-gray-500 mt-1">数据汇聚<br>通信枢纽</p>
+                        </div>
+                        <p class="text-gray-500 mt-1">网关层</p>
+                    </div>
+                    <!-- 分支 -->
+                    <div class="flex flex-col gap-2 items-center">
+                        <div class="flex items-center gap-2">
+                            <div class="text-blue-400 text-lg"><i class="fa-solid fa-arrow-right"></i></div>
+                            <div class="p-2 rounded-lg bg-purple-500/10 border border-purple-500/20">
+                                <i class="fa-solid fa-display text-purple-400 text-sm"></i>
+                                <span class="text-white text-xs ml-1">HMI</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="text-blue-400 text-lg"><i class="fa-solid fa-arrow-right"></i></div>
+                            <div class="p-2 rounded-lg bg-green-500/10 border border-green-500/20">
+                                <i class="fa-solid fa-computer text-green-400 text-sm"></i>
+                                <span class="text-white text-xs ml-1">上位机</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <div class="text-blue-400 text-lg"><i class="fa-solid fa-arrow-right"></i></div>
+                            <div class="p-2 rounded-lg bg-sky-500/10 border border-sky-500/20">
+                                <i class="fa-solid fa-cloud text-sky-400 text-sm"></i>
+                                <span class="text-white text-xs ml-1">云平台</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- 图例 -->
+                <div class="mt-6 flex flex-wrap justify-center gap-4 text-xs text-gray-500">
+                    <span class="flex items-center gap-1"><span class="w-3 h-0.5 bg-amber-400 inline-block"></span> RS485 Modbus-RTU</span>
+                    <span class="flex items-center gap-1"><span class="w-3 h-0.5 bg-blue-400 inline-block"></span> 以太网 TCP/IP</span>
+                    <span class="flex items-center gap-1"><span class="w-3 h-0.5 bg-green-400 inline-block" style="border-style: dashed;"></span> MQTT / HTTP</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 6. 性能测试 ==================== -->
     <section id="performance" class="py-20 lg:py-28 bg-[#1f2226]/50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16 section-heading">
@@ -743,7 +1026,7 @@
         </div>
     </section>
 
-    <!-- ==================== 6. 汽车飞轮应用 ==================== -->
+    <!-- ==================== 7. 汽车飞轮应用 ==================== -->
     <section id="automotive" class="py-20 lg:py-28 bg-[#1f2226]/50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16 section-heading">
@@ -881,7 +1164,7 @@
         </div>
     </section>
 
-    <!-- ==================== 7. 航天飞轮技术 ==================== -->
+    <!-- ==================== 8. 航天飞轮技术 ==================== -->
     <section id="aerospace" class="py-20 lg:py-28">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16 section-heading">
@@ -1155,7 +1438,7 @@
         </div>
     </section>
 
-    <!-- ==================== 8. 先行者 ==================== -->
+    <!-- ==================== 9. 先行者 ==================== -->
     <section id="pioneers" class="py-20 lg:py-28 bg-[#1f2226]/50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16 section-heading">
@@ -1213,7 +1496,7 @@
         </div>
     </section>
 
-    <!-- ==================== 9. 团队介绍 ==================== -->
+    <!-- ==================== 10. 团队介绍 ==================== -->
     <section id="team" class="py-20 lg:py-28">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16 section-heading">
@@ -1316,7 +1599,7 @@
     <script src="js/charts.js"></script>
 </body>
 </html>
-<!-- ==================== 10. 项目信息 ==================== -->
+<!-- ==================== 11. 项目信息 ==================== -->
     <section id="info" class="py-20 lg:py-28">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16 section-heading">

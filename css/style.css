@@ -421,3 +421,131 @@ thead th { color: #f59e0b !important; }
     section { padding: 2rem 0 !important; }
     .max-w-7xl { padding-left: 0.5rem; padding-right: 0.5rem; }
 }
+
+/* ============================================
+   交互效果样式
+   ============================================ */
+
+/* ----- 1. 鼠标跟随能量光晕 ----- */
+#cursor-glow {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    background: radial-gradient(circle,
+        rgba(245, 158, 11, 0.12) 0%,
+        rgba(245, 158, 11, 0.06) 25%,
+        rgba(245, 158, 11, 0.02) 50%,
+        transparent 70%
+    );
+    transform: translate(-50%, -50%);
+    transition: opacity 0.4s;
+    will-change: left, top;
+}
+
+/* ----- 2. 3D 透视卡片倾斜 ----- */
+.tilt-container {
+    perspective: 800px;
+    transform-style: preserve-3d;
+}
+.tilt-inner {
+    transition: transform 0.1s ease-out;
+    will-change: transform;
+}
+.tilt-inner.restoring {
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.tilt-glow {
+    position: absolute;
+    inset: 0;
+    border-radius: 4px;
+    pointer-events: none;
+    transition: opacity 0.3s;
+    opacity: 0;
+    background: radial-gradient(ellipse at var(--mx) var(--my),
+        rgba(245, 158, 11, 0.15) 0%,
+        transparent 60%
+    );
+    z-index: 1;
+}
+
+/* ----- 3. 飞轮转速模拟器 ----- */
+.flywheel-sim {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+}
+.flywheel-sim canvas {
+    cursor: grab;
+    border-radius: 50%;
+    transition: filter 0.3s;
+}
+.flywheel-sim canvas:active {
+    cursor: grabbing;
+}
+.flywheel-sim .sim-label {
+    font-size: 0.85rem;
+    color: #9ca3af;
+    text-align: center;
+}
+.flywheel-sim .sim-label .rpm-val {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #f59e0b;
+    font-variant-numeric: tabular-nums;
+}
+.flywheel-sim .sim-label .energy-val {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #22c55e;
+    font-variant-numeric: tabular-nums;
+}
+.flywheel-sim .sim-hint {
+    font-size: 0.7rem;
+    color: #555;
+    transition: opacity 0.6s;
+}
+
+/* ----- 4. 磁吸按钮效果 ----- */
+.magnetic-target {
+    transition: transform 0.15s ease-out;
+    will-change: transform;
+}
+.magnetic-target .magnetic-inner {
+    transition: transform 0.15s ease-out;
+}
+
+/* ----- 5. 滚动视差 (Hero背景) ----- */
+.parallax-layer {
+    will-change: transform;
+}
+
+/* ----- 6. 打字机效果 ----- */
+.typewriter-cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1.1em;
+    background: #f59e0b;
+    margin-left: 2px;
+    vertical-align: text-bottom;
+    animation: cursorBlink 0.8s step-end infinite;
+}
+@keyframes cursorBlink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* ----- 飞轮模拟器移动端适配 ----- */
+@media (max-width: 768px) {
+    .flywheel-sim canvas {
+        width: 160px !important;
+        height: 160px !important;
+    }
+    .flywheel-sim .sim-label .rpm-val { font-size: 1.2rem; }
+    .flywheel-sim .sim-label .energy-val { font-size: 0.9rem; }
+    #cursor-glow { display: none; }
+}
