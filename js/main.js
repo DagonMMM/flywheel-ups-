@@ -121,9 +121,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             });
 
-            // 更新光标光晕
-            if (typeof updateCursorGlow === 'function') updateCursorGlow();
-
             requestAnimationFrame(animate);
         }
         animate();
@@ -236,33 +233,6 @@ document.addEventListener('DOMContentLoaded', function () {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     });
 
-    // ============ Hero 工业火花粒子 ============
-    function createIndustrialSparks() {
-        const hero = document.getElementById('hero');
-        if (!hero) return;
-
-        const container = document.createElement('div');
-        container.className = 'absolute inset-0 pointer-events-none z-0';
-        hero.appendChild(container);
-
-        for (let i = 0; i < 15; i++) {
-            const spark = document.createElement('div');
-            const size = Math.random() * 2 + 0.5;
-            spark.style.cssText = `
-                position: absolute;
-                left: ${Math.random() * 100}%;
-                top: ${Math.random() * 100}%;
-                width: ${size}px;
-                height: ${size}px;
-                border-radius: 0;
-                background: ${Math.random() > 0.5 ? 'rgba(212,135,74,0.5)' : 'rgba(200,200,200,0.3)'};
-                animation: sparkFloat ${Math.random() * 6 + 6}s ease-in-out infinite;
-                animation-delay: ${Math.random() * 6}s;
-            `;
-            container.appendChild(spark);
-        }
-    }
-    createIndustrialSparks();
 
     // ============ 数字跳动 ============
     function animateCounters() {
@@ -324,39 +294,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 
-    // ============ 1. 鼠标跟随能量光晕 ============
     const isFinePointer = window.matchMedia('(pointer: fine)').matches;
-    let cursorGlow = null;
-    let mouseX = -1000, mouseY = -1000;
-    let currentX = -1000, currentY = -1000;
-
-    if (isFinePointer) {
-        cursorGlow = document.createElement('div');
-        cursorGlow.id = 'cursor-glow';
-        document.body.appendChild(cursorGlow);
-
-        document.addEventListener('mousemove', function(e) {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-        });
-
-        document.addEventListener('mouseleave', function() {
-            cursorGlow.style.opacity = '0';
-        });
-        document.addEventListener('mouseenter', function() {
-            cursorGlow.style.opacity = '1';
-        });
-
-        function updateCursorGlow() {
-            if (!cursorGlow) return;
-            const dx = mouseX - currentX;
-            const dy = mouseY - currentY;
-            currentX += dx * 0.12;
-            currentY += dy * 0.12;
-            cursorGlow.style.left = currentX + 'px';
-            cursorGlow.style.top = currentY + 'px';
-        }
-    }
 
     // ============ 2. 3D 透视卡片倾斜 ============
     function initTiltEffect() {
@@ -666,73 +604,7 @@ document.addEventListener('DOMContentLoaded', function () {
         requestAnimationFrame(updateSim);
     }
 
-    // ============ 4. 磁吸按钮效果 ============
-    function initMagneticEffect() {
-        if (!isFinePointer) return;
-
-        var targets = document.querySelectorAll('.nav-link, #back-to-top, .workflow-card, .code-feature-card');
-        targets.forEach(function(el) {
-            el.classList.add('magnetic-target');
-
-            // 包裹文字内容
-            if (!el.querySelector('.magnetic-inner') && el.children.length <= 1) {
-                var children = Array.from(el.childNodes);
-                var wrapper = document.createElement('span');
-                wrapper.className = 'magnetic-inner';
-                wrapper.style.display = 'inline-block';
-                children.forEach(function(c) { wrapper.appendChild(c); });
-                el.appendChild(wrapper);
-            }
-
-            var inner = el.querySelector('.magnetic-inner');
-            el.addEventListener('mousemove', function(e) {
-                var rect = el.getBoundingClientRect();
-                var x = e.clientX - rect.left - rect.width / 2;
-                var y = e.clientY - rect.top - rect.height / 2;
-                var dist = Math.sqrt(x * x + y * y);
-                var threshold = 80;
-                if (dist < threshold) {
-                    var power = (1 - dist / threshold) * 8;
-                    var moveX = (x / dist) * power;
-                    var moveY = (y / dist) * power;
-                    el.style.transform = 'translate(' + moveX + 'px, ' + moveY + 'px)';
-                    if (inner) {
-                        inner.style.transform = 'translate(' + (-moveX * 0.3) + 'px, ' + (-moveY * 0.3) + 'px)';
-                    }
-                }
-            });
-
-            el.addEventListener('mouseleave', function() {
-                el.style.transform = 'translate(0, 0)';
-                if (inner) inner.style.transform = 'translate(0, 0)';
-            });
-        });
-    }
-
-    // ============ 5. 滚动视差 ============
-    function initParallax() {
-        var layers = document.querySelectorAll('.parallax-layer');
-        if (!layers.length) return;
-
-        function updateParallax() {
-            var scrollY = window.scrollY;
-            var hero = document.getElementById('hero');
-            if (!hero) return;
-            var heroHeight = hero.offsetHeight;
-            if (scrollY > heroHeight) return; // 超出Hero则不计算
-
-            layers.forEach(function(layer) {
-                var speed = parseFloat(layer.getAttribute('data-parallax-speed')) || 0.5;
-                var offset = scrollY * speed;
-                layer.style.transform = 'translateY(' + offset + 'px)';
-            });
-        }
-
-        window.addEventListener('scroll', updateParallax, { passive: true });
-        updateParallax();
-    }
-
-    // ============ 6. 打字机副标题 ============
+    // ============ 打字机副标题 ============
     function initTypewriter() {
         var subtitle = document.getElementById('hero-subtitle');
         if (!subtitle) return;
@@ -774,26 +646,8 @@ document.addEventListener('DOMContentLoaded', function () {
     initTiltEffect();
     initSimpleTilt();
     initFlywheelSimulator();
-    initMagneticEffect();
-    initParallax();
     initTypewriter();
 
     onScroll();
-    console.log('🏭 飞轮储能UPS系统 · 天印制造 · 工业粒子引擎已就绪');
+    console.log('🏭 飞轮储能UPS系统 · 天印制造 · Machined Precision');
 });
-
-// 工业火花浮动动画
-const sparkStyle = document.createElement('style');
-sparkStyle.textContent = `
-    @keyframes sparkFloat {
-        0%, 100% { transform: translate(0, 0); opacity: 0; }
-        20% { opacity: 0.7; }
-        50% { transform: translate(20px, -60px); opacity: 0.4; }
-        80% { opacity: 0.1; }
-    }
-    @keyframes industrialSpin {
-        from { transform: rotate(0deg); }
-        to { transform: rotate(360deg); }
-    }
-`;
-document.head.appendChild(sparkStyle);

@@ -142,81 +142,59 @@
 
     <!-- ==================== 1. Hero 封面区 ==================== -->
     <section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden">
-        <!-- 深空背景 -->
+        <!-- 背景 -->
         <div class="absolute inset-0 bg-gradient-to-br from-[#232427] via-[#2A2C30] via-[#25272B] to-[#232427]"></div>
-        <!-- 星云雾气 (视差层) -->
-        <div class="absolute inset-0 parallax-container">
-            <div class="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-copper/5 rounded-full blur-[150px] animate-pulse parallax-layer" data-parallax-speed="0.3"></div>
-            <div class="absolute bottom-1/3 right-1/4 w-[400px] h-[400px] bg-gray-500/4 rounded-full blur-[130px] animate-pulse parallax-layer" data-parallax-speed="0.25" style="animation-delay: 3s;"></div>
-        </div>
-        <!-- 网格背景 (视差层) -->
-        <div class="absolute inset-0 opacity-[0.03] parallax-layer" data-parallax-speed="0.6" style="background-image: radial-gradient(circle, rgba(255,255,255,0.15) 1px, transparent 1px); background-size: 50px 50px;"></div>
+        <!-- 微网格 -->
+        <div class="absolute inset-0 opacity-[0.025]" style="background-image: radial-gradient(circle, rgba(255,255,255,0.12) 1px, transparent 1px); background-size: 48px 48px;"></div>
 
-        <div class="relative z-10 text-center px-4 max-w-5xl mx-auto">
+        <div class="relative z-10 text-center px-4 max-w-4xl mx-auto w-full">
             <!-- 标签 -->
-            <div class="inline-flex flex-wrap items-center justify-center gap-x-3 gap-y-1 mb-8 animate-fadeIn">
-                <span class="px-4 py-1.5 rounded-full border border-copper/30 bg-copper/5 text-copper text-sm inline-flex items-center gap-2">
-                    <span class="w-2 h-2 rounded-full bg-copper animate-pulse"></span>
-                    飞轮储能 · 不间断电源 · 智能控制
-                </span>
-                <span class="px-4 py-1.5 rounded-full border border-gray-400/30 bg-gray-500/5 text-aluminum text-sm font-medium">
-                    天印制造
-                </span>
-            </div>
+            <p class="text-patina/70 text-xs tracking-widest uppercase mb-6 animate-fadeIn font-mono">天印制造 · 飞轮储能</p>
 
             <!-- 主标题 -->
-            <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-6 leading-tight animate-slideUp">
-                基于 <span class="text-copper">PLC 控制</span>的<br class="sm:hidden">
+            <h1 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-aluminum mb-4 leading-tight animate-slideUp">
                 飞轮储能 UPS 系统
             </h1>
-
-            <!-- 副标题 -->
-            <p id="hero-subtitle" class="text-lg sm:text-xl text-patina max-w-3xl mx-auto mb-12 animate-slideUp" style="animation-delay: 0.2s;">
-                面向工业与民用领域，提供低成本、快响应的飞轮储能不间断电源解决方案
+            <p id="hero-subtitle" class="text-sm sm:text-base text-patina/80 max-w-xl mx-auto mb-10 animate-slideUp" style="animation-delay: 0.15s;">
+                动能永不间断 — 100毫秒内完成电网到飞轮的切换
             </p>
 
-            <!-- 关键指标卡片 -->
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-3xl mx-auto animate-slideUp" style="animation-delay: 0.4s;">
-                <div class="metric-card tilt-container group">
-                    <div class="tilt-inner">
-                    <div class="text-3xl sm:text-4xl font-bold text-copper mb-1">
-                        <span class="counter" data-target="100">&lt;100</span><span class="text-lg">ms</span>
-                    </div>
-                    <p class="text-patina text-sm group-hover:text-aluminum transition-colors">电源无缝切换</p>
-                    </div>
-                </div>
-                <div class="metric-card tilt-container group">
-                    <div class="tilt-inner">
-                    <div class="text-3xl sm:text-4xl font-bold text-patina mb-1">
-                        <span class="counter" data-target="1045">1045</span><span class="text-lg">J</span>
-                    </div>
-                    <p class="text-patina text-sm group-hover:text-aluminum transition-colors">储能总量</p>
-                    </div>
-                </div>
-                <div class="metric-card tilt-container group">
-                    <div class="tilt-inner">
-                    <div class="text-3xl sm:text-4xl font-bold text-copper mb-1">
-                        <span>&gt;98</span><span class="text-lg">%</span>
-                    </div>
-                    <p class="text-patina text-sm group-hover:text-aluminum transition-colors">循环效率</p>
-                    </div>
-                </div>
+            <!-- 飞轮 — 签名元素，视觉核心 -->
+            <div class="animate-slideUp flywheel-sim mx-auto mb-10" style="animation-delay: 0.3s;">
+                <canvas id="flywheel-canvas" width="380" height="380" class="mx-auto"></canvas>
+                <p class="sim-label">
+                    <span class="rpm-val" id="sim-rpm">0</span><span class="text-patina/60 text-sm"> rpm</span>
+                    <span class="mx-3 text-patina/30">·</span>
+                    <span class="energy-val" id="sim-energy">0</span><span class="text-patina/60 text-sm"> J</span>
+                </p>
+                <p class="sim-hint" id="sim-hint">拖动飞轮 或 滚动滚轮 调节转速</p>
             </div>
 
-            <!-- 飞轮转速交互模拟器 -->
-            <div class="mt-10 animate-slideUp flywheel-sim mx-auto" style="animation-delay: 0.6s;">
-                <canvas id="flywheel-canvas" width="200" height="200" class="mx-auto"></canvas>
-                <p class="sim-label">
-                    <span class="rpm-val" id="sim-rpm">0</span> rpm
-                    <span class="mx-2 text-gray-600">→</span>
-                    储能量 <span class="energy-val" id="sim-energy">0</span> J
-                </p>
-                <p class="sim-hint" id="sim-hint">🖱️ 拖动圆环 或 滚轮 调节转速</p>
+            <!-- 指标读条 -->
+            <div class="grid grid-cols-3 gap-3 sm:gap-6 max-w-lg mx-auto animate-slideUp" style="animation-delay: 0.45s;">
+                <div class="text-center">
+                    <div class="text-xl sm:text-2xl font-bold text-aluminum font-mono">
+                        <span class="counter" data-target="100">&lt;100</span><span class="text-sm text-patina">ms</span>
+                    </div>
+                    <p class="text-patina/60 text-[10px] sm:text-xs mt-1 tracking-wider">无缝切换</p>
+                </div>
+                <div class="text-center">
+                    <div class="text-xl sm:text-2xl font-bold text-aluminum font-mono">
+                        <span class="counter" data-target="1045">1045</span><span class="text-sm text-patina">J</span>
+                    </div>
+                    <p class="text-patina/60 text-[10px] sm:text-xs mt-1 tracking-wider">储能总量</p>
+                </div>
+                <div class="text-center">
+                    <div class="text-xl sm:text-2xl font-bold text-aluminum font-mono">
+                        <span>&gt;98</span><span class="text-sm text-patina">%</span>
+                    </div>
+                    <p class="text-patina/60 text-[10px] sm:text-xs mt-1 tracking-wider">循环效率</p>
+                </div>
             </div>
 
             <!-- 向下箭头 -->
-            <div class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce">
-                <a href="#overview" class="text-patina hover:text-copper transition-colors text-2xl">
+            <div class="absolute bottom-8 left-1/2 -translate-x-1/2">
+                <a href="#overview" class="text-patina/40 hover:text-patina transition-colors text-xl">
                     <i class="fa-solid fa-chevron-down"></i>
                 </a>
             </div>
@@ -242,8 +220,8 @@
                     <p class="text-patina text-sm leading-relaxed">数据中心、医疗行业、精密制造等关键领域，毫秒级电力中断都将引发重大经济损失，甚至安全事故。</p>
                 </div>
                 <div class="info-card">
-                    <div class="w-12 h-12 rounded-xl bg-copper/10 flex items-center justify-center mb-4">
-                        <i class="fa-solid fa-battery-quarter text-copper text-xl"></i>
+                    <div class="w-12 h-12 rounded-xl bg-patina/10 flex items-center justify-center mb-4">
+                        <i class="fa-solid fa-battery-quarter text-patina text-xl"></i>
                     </div>
                     <h3 class="text-white font-semibold mb-3">传统UPS局限</h3>
                     <p class="text-patina text-sm leading-relaxed">化学电池储能虽技术成熟，但循环寿命短、衰减快、环境污染大，高频短时断电场景下短板明显。</p>
@@ -272,17 +250,17 @@
                     <!-- 电源结构 -->
                     <div class="arch-card border-l-copper">
                         <div class="flex items-center gap-3 mb-4">
-                            <div class="w-10 h-10 rounded-lg bg-copper/10 flex items-center justify-center">
-                                <i class="fa-solid fa-bolt text-copper"></i>
+                            <div class="w-10 h-10 rounded-lg bg-patina/10 flex items-center justify-center">
+                                <i class="fa-solid fa-bolt text-patina"></i>
                             </div>
                             <h4 class="text-white font-semibold">电源结构</h4>
                         </div>
                         <ul class="space-y-2 text-sm text-patina">
-                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-copper/60"></span>主电源 (24V DC)</li>
-                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-copper/60"></span>副电源 (备用)</li>
-                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-copper/60"></span>电源自动切换开关</li>
-                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-copper/60"></span>输入电能表</li>
-                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-copper/60"></span>输出稳压电源</li>
+                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-patina/60"></span>主电源 (24V DC)</li>
+                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-patina/60"></span>副电源 (备用)</li>
+                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-patina/60"></span>电源自动切换开关</li>
+                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-patina/60"></span>输入电能表</li>
+                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-patina/60"></span>输出稳压电源</li>
                         </ul>
                     </div>
                     <!-- 控制结构 -->
@@ -304,16 +282,16 @@
                     <!-- 储能结构 -->
                     <div class="arch-card border-l-copper">
                         <div class="flex items-center gap-3 mb-4">
-                            <div class="w-10 h-10 rounded-lg bg-copper/10 flex items-center justify-center">
-                                <i class="fa-solid fa-gear text-copper"></i>
+                            <div class="w-10 h-10 rounded-lg bg-patina/10 flex items-center justify-center">
+                                <i class="fa-solid fa-gear text-patina"></i>
                             </div>
                             <h4 class="text-white font-semibold">储能结构</h4>
                         </div>
                         <ul class="space-y-2 text-sm text-patina">
-                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-copper/60"></span>飞轮电机 (60D94)</li>
-                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-copper/60"></span>电机驱动器 (HY-20A-2)</li>
-                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-copper/60"></span>储能飞轮 × 2</li>
-                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-copper/60"></span>飞轮主轴 + 胀紧套</li>
+                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-patina/60"></span>飞轮电机 (60D94)</li>
+                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-patina/60"></span>电机驱动器 (HY-20A-2)</li>
+                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-patina/60"></span>储能飞轮 × 2</li>
+                            <li class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-patina/60"></span>飞轮主轴 + 胀紧套</li>
                         </ul>
                     </div>
                     <!-- 传感器结构 -->
@@ -351,8 +329,8 @@
                         <p class="text-patina text-xs">主电源供电 · 飞轮加速至设定转速 · 电能→动能</p>
                     </div>
                     <!-- 箭头 -->
-                    <div class="text-copper text-2xl hidden lg:block"><i class="fa-solid fa-arrow-right"></i></div>
-                    <div class="text-copper text-2xl lg:hidden"><i class="fa-solid fa-arrow-down"></i></div>
+                    <div class="text-patina text-2xl hidden lg:block"><i class="fa-solid fa-arrow-right"></i></div>
+                    <div class="text-patina text-2xl lg:hidden"><i class="fa-solid fa-arrow-down"></i></div>
                     <!-- 储能 -->
                     <div class="workflow-card">
                         <div class="workflow-icon bg-green-500/10">
@@ -366,12 +344,12 @@
                         <p class="text-patina text-xs">待机保持 · 转速监测 · 数据轮显 · 转速过低自动充能</p>
                     </div>
                     <!-- 箭头 -->
-                    <div class="text-copper text-2xl hidden lg:block"><i class="fa-solid fa-arrow-right"></i></div>
-                    <div class="text-copper text-2xl lg:hidden"><i class="fa-solid fa-arrow-down"></i></div>
+                    <div class="text-patina text-2xl hidden lg:block"><i class="fa-solid fa-arrow-right"></i></div>
+                    <div class="text-patina text-2xl lg:hidden"><i class="fa-solid fa-arrow-down"></i></div>
                     <!-- 输出 -->
                     <div class="workflow-card">
-                        <div class="workflow-icon bg-copper/10">
-                            <i class="fa-solid fa-arrow-down text-copper text-2xl"></i>
+                        <div class="workflow-icon bg-patina/10">
+                            <i class="fa-solid fa-arrow-down text-patina text-2xl"></i>
                         </div>
                         <h4 class="text-white font-semibold mt-4 mb-2">输出模式</h4>
                         <div class="flex items-center gap-2 text-sm text-patina mb-3">
@@ -398,12 +376,12 @@
                 <!-- PLC -->
                 <div class="spec-card group">
                     <div class="spec-card-header">
-                        <div class="w-14 h-14 rounded-2xl bg-copper/10 flex items-center justify-center group-hover:bg-copper/20 transition-all">
-                            <i class="fa-solid fa-microchip text-copper text-2xl"></i>
+                        <div class="w-14 h-14 rounded-2xl bg-patina/10 flex items-center justify-center group-hover:bg-copper/20 transition-all">
+                            <i class="fa-solid fa-microchip text-patina text-2xl"></i>
                         </div>
                         <div>
                             <h3 class="text-white font-bold">汇川 Easy-301 PLC</h3>
-                            <p class="text-copper text-sm">主控制器</p>
+                            <p class="text-patina text-sm">主控制器</p>
                         </div>
                     </div>
                     <div class="spec-card-body">
@@ -419,12 +397,12 @@
                 <!-- 飞轮电机 -->
                 <div class="spec-card group">
                     <div class="spec-card-header">
-                        <div class="w-14 h-14 rounded-2xl bg-copper/10 flex items-center justify-center group-hover:bg-copper/20 transition-all">
-                            <i class="fa-solid fa-industry text-copper text-2xl"></i>
+                        <div class="w-14 h-14 rounded-2xl bg-patina/10 flex items-center justify-center group-hover:bg-copper/20 transition-all">
+                            <i class="fa-solid fa-industry text-patina text-2xl"></i>
                         </div>
                         <div>
                             <h3 class="text-white font-bold">松源 60D94 电机</h3>
-                            <p class="text-copper text-sm">永磁直流电机</p>
+                            <p class="text-patina text-sm">永磁直流电机</p>
                         </div>
                     </div>
                     <div class="spec-card-body">
@@ -482,12 +460,12 @@
                 <!-- 传感器组 -->
                 <div class="spec-card group">
                     <div class="spec-card-header">
-                        <div class="w-14 h-14 rounded-2xl bg-copper/10 flex items-center justify-center group-hover:bg-copper/20 transition-all">
-                            <i class="fa-solid fa-satellite-dish text-copper text-2xl"></i>
+                        <div class="w-14 h-14 rounded-2xl bg-patina/10 flex items-center justify-center group-hover:bg-copper/20 transition-all">
+                            <i class="fa-solid fa-satellite-dish text-patina text-2xl"></i>
                         </div>
                         <div>
                             <h3 class="text-white font-bold">传感器组</h3>
-                            <p class="text-copper text-sm">监测系统</p>
+                            <p class="text-patina text-sm">监测系统</p>
                         </div>
                     </div>
                     <div class="spec-card-body">
@@ -552,14 +530,14 @@
                 <!-- 通信架构说明 -->
                 <div>
                     <h3 class="text-xl font-semibold text-white mb-6 flex items-center gap-3">
-                        <i class="fa-solid fa-network-wired text-copper"></i> RS485 总线网络
+                        <i class="fa-solid fa-network-wired text-patina"></i> RS485 总线网络
                     </h3>
 
                     <div class="space-y-4">
                         <div class="comm-feature">
                             <div class="flex items-start gap-4">
-                                <div class="w-10 h-10 rounded-lg bg-copper/10 flex-shrink-0 flex items-center justify-center mt-0.5">
-                                    <i class="fa-solid fa-plug text-copper"></i>
+                                <div class="w-10 h-10 rounded-lg bg-patina/10 flex-shrink-0 flex items-center justify-center mt-0.5">
+                                    <i class="fa-solid fa-plug text-patina"></i>
                                 </div>
                                 <div>
                                     <h4 class="text-white font-medium mb-1">物理层</h4>
@@ -580,8 +558,8 @@
                         </div>
                         <div class="comm-feature">
                             <div class="flex items-start gap-4">
-                                <div class="w-10 h-10 rounded-lg bg-copper/10 flex-shrink-0 flex items-center justify-center mt-0.5">
-                                    <i class="fa-solid fa-gauge-high text-copper"></i>
+                                <div class="w-10 h-10 rounded-lg bg-patina/10 flex-shrink-0 flex items-center justify-center mt-0.5">
+                                    <i class="fa-solid fa-gauge-high text-patina"></i>
                                 </div>
                                 <div>
                                     <h4 class="text-white font-medium mb-1">通信参数</h4>
@@ -609,7 +587,7 @@
                             </thead>
                             <tbody class="divide-y divide-white/5">
                                 <tr class="hover:bg-white/5 transition-colors">
-                                    <td class="py-3 px-4"><span class="px-2 py-1 rounded-md bg-copper/10 text-copper text-xs font-mono">01H</span></td>
+                                    <td class="py-3 px-4"><span class="px-2 py-1 rounded-md bg-patina/10 text-patina text-xs font-mono">01H</span></td>
                                     <td class="py-3 px-4 text-white">智能电能表</td>
                                     <td class="py-3 px-4 text-patina">DDSU666</td>
                                     <td class="py-3 px-4 text-patina font-mono text-xs">03H / 06H</td>
@@ -621,19 +599,19 @@
                                     <td class="py-3 px-4 text-patina font-mono text-xs">06H / 10H</td>
                                 </tr>
                                 <tr class="hover:bg-white/5 transition-colors">
-                                    <td class="py-3 px-4"><span class="px-2 py-1 rounded-md bg-copper/10 text-copper text-xs font-mono">03H</span></td>
+                                    <td class="py-3 px-4"><span class="px-2 py-1 rounded-md bg-patina/10 text-patina text-xs font-mono">03H</span></td>
                                     <td class="py-3 px-4 text-white">飞轮电机驱动器</td>
                                     <td class="py-3 px-4 text-patina">HY-20A-2</td>
                                     <td class="py-3 px-4 text-patina font-mono text-xs">06H</td>
                                 </tr>
                                 <tr class="hover:bg-white/5 transition-colors">
-                                    <td class="py-3 px-4"><span class="px-2 py-1 rounded-md bg-copper/10 text-copper text-xs font-mono">04H</span></td>
+                                    <td class="py-3 px-4"><span class="px-2 py-1 rounded-md bg-patina/10 text-patina text-xs font-mono">04H</span></td>
                                     <td class="py-3 px-4 text-white">温度传感器</td>
                                     <td class="py-3 px-4 text-patina">DS18B20</td>
                                     <td class="py-3 px-4 text-patina font-mono text-xs">03H</td>
                                 </tr>
                                 <tr class="hover:bg-white/5 transition-colors">
-                                    <td class="py-3 px-4"><span class="px-2 py-1 rounded-md bg-copper/10 text-copper text-xs font-mono">05H</span></td>
+                                    <td class="py-3 px-4"><span class="px-2 py-1 rounded-md bg-patina/10 text-patina text-xs font-mono">05H</span></td>
                                     <td class="py-3 px-4 text-white">转速传感器</td>
                                     <td class="py-3 px-4 text-patina">霍尔式</td>
                                     <td class="py-3 px-4 text-patina font-mono text-xs">03H</td>
@@ -669,7 +647,7 @@
                 <h3 class="text-xl font-semibold text-white mb-8 text-center">PLC 控制程序设计亮点</h3>
                 <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
                     <div class="code-feature-card">
-                        <i class="fa-solid fa-code-merge text-copper text-2xl mb-3"></i>
+                        <i class="fa-solid fa-code-merge text-patina text-2xl mb-3"></i>
                         <h4 class="text-white font-semibold mb-2">混合编程</h4>
                         <p class="text-patina text-xs">梯形图 + ST语言混编，主程序调用子程序实现多模式控制</p>
                     </div>
@@ -679,7 +657,7 @@
                         <p class="text-patina text-xs">充能/输出互锁，减速/能耗制动互锁，三色灯颜色互锁</p>
                     </div>
                     <div class="code-feature-card">
-                        <i class="fa-solid fa-rotate text-copper text-2xl mb-3"></i>
+                        <i class="fa-solid fa-rotate text-patina text-2xl mb-3"></i>
                         <h4 class="text-white font-semibold mb-2">S曲线加减速</h4>
                         <p class="text-patina text-xs">硬件集成 S曲线加减速算法，实现飞轮电机精确速度控制</p>
                     </div>
@@ -704,13 +682,13 @@
             <!-- 双PLC架构对比表 -->
             <div class="mb-12">
                 <h3 class="text-xl font-semibold text-white mb-6 text-center">
-                    <i class="fa-solid fa-code-branch text-copper mr-2"></i>主从站双机架构对比
+                    <i class="fa-solid fa-code-branch text-patina mr-2"></i>主从站双机架构对比
                 </h3>
                 <div class="overflow-hidden rounded-xl border border-copper/10">
                     <table class="w-full text-sm">
                         <thead>
                             <tr class="bg-gray-900/30">
-                                <th class="text-left py-4 px-5 text-copper font-medium">对比维度</th>
+                                <th class="text-left py-4 px-5 text-patina font-medium">对比维度</th>
                                 <th class="text-left py-4 px-5 text-patina font-medium">主站 · Easy-301</th>
                                 <th class="text-left py-4 px-5 text-blue-300 font-medium">从站 · Easy-320</th>
                             </tr>
@@ -817,7 +795,7 @@
                 </h3>
                 <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
                     <div class="code-feature-card">
-                        <i class="fa-solid fa-gauge-high text-copper text-2xl mb-3"></i>
+                        <i class="fa-solid fa-gauge-high text-patina text-2xl mb-3"></i>
                         <h4 class="text-white font-semibold mb-2">主监控画面</h4>
                         <p class="text-patina text-xs">实时转速表盘 + 温度柱状图 + 电压/电流数字显示 + 系统状态指示</p>
                     </div>
@@ -832,7 +810,7 @@
                         <p class="text-patina text-xs">5类故障弹窗报警 · 报警历史记录 · 报警触发条件可配置</p>
                     </div>
                     <div class="code-feature-card">
-                        <i class="fa-solid fa-sliders text-copper text-2xl mb-3"></i>
+                        <i class="fa-solid fa-sliders text-patina text-2xl mb-3"></i>
                         <h4 class="text-white font-semibold mb-2">参数设置</h4>
                         <p class="text-patina text-xs">目标转速 · 报警阈值 · PID参数 · 通信参数 触摸屏在线调整</p>
                     </div>
@@ -905,14 +883,14 @@
                     <div class="text-patina text-xl"><i class="fa-solid fa-arrow-right"></i></div>
                     <!-- 主站 -->
                     <div class="text-center">
-                        <div class="w-28 p-3 rounded-xl bg-copper/10 border border-copper/20">
-                            <i class="fa-solid fa-microchip text-copper text-lg mb-1 block"></i>
+                        <div class="w-28 p-3 rounded-xl bg-patina/10 border border-copper/20">
+                            <i class="fa-solid fa-microchip text-patina text-lg mb-1 block"></i>
                             <p class="text-white font-medium">主站 Easy-301</p>
                             <p class="text-patina mt-1">实时控制<br>安全互锁</p>
                         </div>
                         <p class="text-patina mt-1">控制层</p>
                     </div>
-                    <div class="text-copper text-xl"><i class="fa-solid fa-arrow-right"></i></div>
+                    <div class="text-patina text-xl"><i class="fa-solid fa-arrow-right"></i></div>
                     <!-- 从站 -->
                     <div class="text-center">
                         <div class="w-28 p-3 rounded-xl bg-blue-500/10 border border-blue-500/20 ring-2 ring-blue-500/30">
@@ -970,7 +948,7 @@
                 <!-- 转速曲线 -->
                 <div class="chart-container">
                     <h3 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                        <i class="fa-solid fa-chart-line text-copper"></i> 充能模式飞轮转速曲线
+                        <i class="fa-solid fa-chart-line text-patina"></i> 充能模式飞轮转速曲线
                     </h3>
                     <div class="relative">
                         <canvas id="speedChart"></canvas>
@@ -981,7 +959,7 @@
                 <!-- 温度曲线 -->
                 <div class="chart-container">
                     <h3 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
-                        <i class="fa-solid fa-temperature-high text-copper"></i> 飞轮电机温度变化曲线
+                        <i class="fa-solid fa-temperature-high text-patina"></i> 飞轮电机温度变化曲线
                     </h3>
                     <div class="relative">
                         <canvas id="tempChart"></canvas>
@@ -1027,7 +1005,7 @@
             <!-- 性能总结卡片 -->
             <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <div class="perf-summary-card">
-                    <div class="text-3xl font-bold text-copper">15.28<span class="text-sm">s</span></div>
+                    <div class="text-3xl font-bold text-patina">15.28<span class="text-sm">s</span></div>
                     <p class="text-patina text-sm mt-1">加速至 8233rpm</p>
                 </div>
                 <div class="perf-summary-card">
@@ -1035,11 +1013,11 @@
                     <p class="text-patina text-sm mt-1">带载持续供电</p>
                 </div>
                 <div class="perf-summary-card">
-                    <div class="text-3xl font-bold text-copper">2.96<span class="text-sm">°C/min</span></div>
+                    <div class="text-3xl font-bold text-patina">2.96<span class="text-sm">°C/min</span></div>
                     <p class="text-patina text-sm mt-1">稳态温升速率</p>
                 </div>
                 <div class="perf-summary-card">
-                    <div class="text-3xl font-bold text-copper">&lt;100<span class="text-sm">ms</span></div>
+                    <div class="text-3xl font-bold text-patina">&lt;100<span class="text-sm">ms</span></div>
                     <p class="text-patina text-sm mt-1">电源无缝切换</p>
                 </div>
             </div>
@@ -1054,12 +1032,12 @@
                         <p class="text-patina text-xs">框架顶部 + 遥控示教器</p>
                     </div>
                     <div class="safety-card">
-                        <i class="fa-solid fa-temperature-arrow-up text-copper text-2xl mb-2"></i>
+                        <i class="fa-solid fa-temperature-arrow-up text-patina text-2xl mb-2"></i>
                         <h4 class="text-white text-sm font-medium">电机过热保护</h4>
                         <p class="text-patina text-xs">> 60°C 自动报警急停</p>
                     </div>
                     <div class="safety-card">
-                        <i class="fa-solid fa-gauge-high text-copper text-2xl mb-2"></i>
+                        <i class="fa-solid fa-gauge-high text-patina text-2xl mb-2"></i>
                         <h4 class="text-white text-sm font-medium">超速保护</h4>
                         <p class="text-patina text-xs">> 额定转速 5% 即触发</p>
                     </div>
@@ -1069,7 +1047,7 @@
                         <p class="text-patina text-xs">5mm 聚碳酸酯防护板</p>
                     </div>
                     <div class="safety-card">
-                        <i class="fa-solid fa-bell text-copper text-2xl mb-2"></i>
+                        <i class="fa-solid fa-bell text-patina text-2xl mb-2"></i>
                         <h4 class="text-white text-sm font-medium">5类故障报警</h4>
                         <p class="text-patina text-xs">过热 · 过压 · 低压 · 超速 · 通信异常</p>
                     </div>
@@ -1090,8 +1068,8 @@
             <div class="grid lg:grid-cols-2 gap-8 mb-10">
                 <div class="info-card">
                     <div class="flex items-center gap-3 mb-4">
-                        <div class="w-10 h-10 rounded-lg bg-copper/10 flex items-center justify-center">
-                            <i class="fa-solid fa-bolt text-copper text-lg"></i>
+                        <div class="w-10 h-10 rounded-lg bg-patina/10 flex items-center justify-center">
+                            <i class="fa-solid fa-bolt text-patina text-lg"></i>
                         </div>
                         <h3 class="text-white font-semibold text-lg">KERS 动能回收系统</h3>
                     </div>
@@ -1117,7 +1095,7 @@
                 <h3 class="text-xl font-semibold text-white mb-6 text-center">F1 及耐力赛应用</h3>
                 <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
                     <div class="perf-summary-card">
-                        <div class="text-3xl font-bold text-copper">64,500<span class="text-sm">rpm</span></div>
+                        <div class="text-3xl font-bold text-patina">64,500<span class="text-sm">rpm</span></div>
                         <p class="text-patina text-xs mt-2">Flybrid飞轮最高转速</p>
                     </div>
                     <div class="perf-summary-card">
@@ -1125,7 +1103,7 @@
                         <p class="text-patina text-xs mt-2">FIA规定最大功率输出</p>
                     </div>
                     <div class="perf-summary-card">
-                        <div class="text-3xl font-bold text-copper">400<span class="text-sm">kJ</span></div>
+                        <div class="text-3xl font-bold text-patina">400<span class="text-sm">kJ</span></div>
                         <p class="text-patina text-xs mt-2">单圈可释放能量</p>
                     </div>
                     <div class="perf-summary-card">
@@ -1141,21 +1119,21 @@
                     <h4 class="text-white font-semibold mb-4 text-center">🏎️ 赛车飞轮KERS里程碑</h4>
                     <div class="space-y-3">
                         <div class="flex items-start gap-3 p-3 rounded-xl bg-white/[0.02]">
-                            <span class="text-xs text-copper font-mono mt-0.5">2009</span>
+                            <span class="text-xs text-patina font-mono mt-0.5">2009</span>
                             <div>
                                 <p class="text-white text-sm">F1 首年引入KERS</p>
                                 <p class="text-patina text-xs">Renault R29 搭载 Flybrid 机械飞轮 · McLaren MP4-24 采用电动KERS</p>
                             </div>
                         </div>
                         <div class="flex items-start gap-3 p-3 rounded-xl bg-white/[0.02]">
-                            <span class="text-xs text-copper font-mono mt-0.5">2012-13</span>
+                            <span class="text-xs text-patina font-mono mt-0.5">2012-13</span>
                             <div>
                                 <p class="text-white text-sm">WEC 耐力赛应用</p>
                                 <p class="text-patina text-xs">Audi R18 e-tron Quattro 搭载 Williams 飞轮KERS · 勒芒冠军</p>
                             </div>
                         </div>
                         <div class="flex items-start gap-3 p-3 rounded-xl bg-white/[0.02]">
-                            <span class="text-xs text-copper font-mono mt-0.5">2014</span>
+                            <span class="text-xs text-patina font-mono mt-0.5">2014</span>
                             <div>
                                 <p class="text-white text-sm">KERS → ERS 升级</p>
                                 <p class="text-patina text-xs">F1 引入 MGU-K + MGU-H 双电机能量回收，成为现代F1混合动力核心</p>
@@ -1200,11 +1178,11 @@
                         <p class="text-patina text-xs mt-1">往返效率 (电池~75%)</p>
                     </div>
                     <div>
-                        <div class="text-2xl font-bold text-copper">20年+</div>
+                        <div class="text-2xl font-bold text-patina">20年+</div>
                         <p class="text-patina text-xs mt-1">使用寿命 (电池~5-8年)</p>
                     </div>
                     <div>
-                        <div class="text-2xl font-bold text-copper">毫秒级</div>
+                        <div class="text-2xl font-bold text-patina">毫秒级</div>
                         <p class="text-patina text-xs mt-1">充放电响应</p>
                     </div>
                     <div>
@@ -1227,13 +1205,13 @@
             <!-- 核心创新对比表 -->
             <div class="mb-12">
                 <h3 class="text-lg font-semibold text-white mb-6 text-center">
-                    <i class="fa-solid fa-table text-copper mr-2"></i>航天飞轮 vs 地面飞轮 技术对比
+                    <i class="fa-solid fa-table text-patina mr-2"></i>航天飞轮 vs 地面飞轮 技术对比
                 </h3>
                 <div class="overflow-hidden rounded-xl border border-copper/10">
                     <table class="w-full text-sm">
                         <thead>
                             <tr class="bg-gray-900/30">
-                                <th class="text-left py-4 px-5 text-copper font-medium">对比维度</th>
+                                <th class="text-left py-4 px-5 text-patina font-medium">对比维度</th>
                                 <th class="text-left py-4 px-5 text-patina font-medium">地面 UPS 飞轮</th>
                                 <th class="text-left py-4 px-5 text-blue-300 font-medium">航天 IPACS 飞轮</th>
                             </tr>
@@ -1283,8 +1261,8 @@
             <div class="grid lg:grid-cols-2 gap-8 mb-12">
                 <div class="info-card">
                     <div class="flex items-center gap-3 mb-4">
-                        <div class="w-10 h-10 rounded-lg bg-copper/10 flex items-center justify-center">
-                            <i class="fa-solid fa-satellite text-copper text-lg"></i>
+                        <div class="w-10 h-10 rounded-lg bg-patina/10 flex items-center justify-center">
+                            <i class="fa-solid fa-satellite text-patina text-lg"></i>
                         </div>
                         <h3 class="text-white font-semibold text-lg">姿轨控储能一体化 (IPACS)</h3>
                     </div>
@@ -1331,19 +1309,19 @@
             <!-- Flywheel-Net 架构流程图 -->
             <div class="mb-12 p-6 rounded-2xl bg-gradient-to-br from-gray-900/20 to-gray-900/20 border border-copper/10">
                 <h3 class="text-lg font-semibold text-white mb-8 text-center">
-                    <i class="fa-solid fa-diagram-project text-copper mr-2"></i>Flywheel-Net 控制架构
+                    <i class="fa-solid fa-diagram-project text-patina mr-2"></i>Flywheel-Net 控制架构
                 </h3>
                 <div class="flex flex-wrap items-center justify-center gap-3 lg:gap-4 text-xs">
                     <!-- 步骤1 -->
                     <div class="text-center">
-                        <div class="w-36 p-3 rounded-xl bg-copper/10 border border-copper/20">
-                            <i class="fa-solid fa-sensor text-copper text-lg mb-1 block"></i>
+                        <div class="w-36 p-3 rounded-xl bg-patina/10 border border-copper/20">
+                            <i class="fa-solid fa-sensor text-patina text-lg mb-1 block"></i>
                             <p class="text-white font-medium">传感器采集</p>
                             <p class="text-patina mt-1">角速度 · 温度<br>瞬时功率 · 时间</p>
                         </div>
                         <p class="text-patina mt-1">4维输入向量</p>
                     </div>
-                    <div class="text-copper text-xl"><i class="fa-solid fa-arrow-right"></i></div>
+                    <div class="text-patina text-xl"><i class="fa-solid fa-arrow-right"></i></div>
                     <!-- 步骤2 -->
                     <div class="text-center">
                         <div class="w-36 p-3 rounded-xl bg-blue-500/10 border border-blue-500/20">
@@ -1366,14 +1344,14 @@
                     <div class="text-green-400 text-xl"><i class="fa-solid fa-arrow-right"></i></div>
                     <!-- 步骤4 -->
                     <div class="text-center">
-                        <div class="w-36 p-3 rounded-xl bg-copper/10 border border-yellow-500/20">
-                            <i class="fa-solid fa-rotate-right text-copper text-lg mb-1 block"></i>
+                        <div class="w-36 p-3 rounded-xl bg-patina/10 border border-yellow-500/20">
+                            <i class="fa-solid fa-rotate-right text-patina text-lg mb-1 block"></i>
                             <p class="text-white font-medium">解码器</p>
                             <p class="text-patina mt-1">上采样 · 拼接<br>卷积还原</p>
                         </div>
                         <p class="text-patina mt-1">参数重建</p>
                     </div>
-                    <div class="text-copper text-xl"><i class="fa-solid fa-arrow-right"></i></div>
+                    <div class="text-patina text-xl"><i class="fa-solid fa-arrow-right"></i></div>
                     <!-- 步骤5 -->
                     <div class="text-center">
                         <div class="w-36 p-3 rounded-xl bg-red-500/10 border border-red-500/20">
@@ -1397,7 +1375,7 @@
                 <!-- 反馈回路 -->
                 <div class="mt-6 text-center">
                     <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/3 border border-white/5">
-                        <i class="fa-solid fa-rotate-left text-copper text-xs"></i>
+                        <i class="fa-solid fa-rotate-left text-patina text-xs"></i>
                         <span class="text-patina text-xs">闭环反馈：输出转速/电压/姿态偏差 → 回传传感器 → 模型自适应迭代</span>
                     </div>
                 </div>
@@ -1408,7 +1386,7 @@
                 <div class="chart-container">
                     <h4 class="text-white font-semibold mb-4 text-center">损失函数设计</h4>
                     <div class="p-4 rounded-xl bg-black/20 font-mono text-sm text-center">
-                        <p class="text-copper mb-2">L = α · L<sub>bus</sub> + β · L<sub>att</sub></p>
+                        <p class="text-patina mb-2">L = α · L<sub>bus</sub> + β · L<sub>att</sub></p>
                         <div class="h-px bg-white/10 my-3"></div>
                         <div class="space-y-2 text-left text-xs">
                             <div class="flex justify-between">
@@ -1430,12 +1408,12 @@
                 <div class="chart-container">
                     <h4 class="text-white font-semibold mb-4 text-center">增量式PID控制律</h4>
                     <div class="p-4 rounded-xl bg-black/20 font-mono text-sm text-center">
-                        <p class="text-copper mb-2">u(k) = u<sub>NN</sub> + Δu<sub>PID</sub></p>
+                        <p class="text-patina mb-2">u(k) = u<sub>NN</sub> + Δu<sub>PID</sub></p>
                         <div class="h-px bg-white/10 my-3"></div>
                         <div class="space-y-2 text-left text-xs">
                             <div class="flex justify-between">
                                 <span class="text-patina">u<sub>NN</sub></span>
-                                <span class="text-copper">Flywheel-Net 预测补偿</span>
+                                <span class="text-patina">Flywheel-Net 预测补偿</span>
                             </div>
                             <div class="flex justify-between">
                                 <span class="text-patina">Δu<sub>PID</sub></span>
@@ -1466,7 +1444,7 @@
                 </div>
                 <div class="spec-card" style="border-color:rgba(139,92,246,0.2);">
                     <div class="text-center mb-4">
-                        <span class="px-3 py-1 rounded-full bg-copper/10 text-copper text-xs">本专利方案</span>
+                        <span class="px-3 py-1 rounded-full bg-patina/10 text-patina text-xs">本专利方案</span>
                         <h4 class="text-white font-semibold mt-3">Flywheel-Net + 自适应PID</h4>
                     </div>
                     <div class="space-y-2 text-xs text-patina">
@@ -1483,7 +1461,7 @@
                     <div class="space-y-2 text-xs text-patina">
                         <p class="flex items-center gap-2"><i class="fa-solid fa-cloud text-blue-400 text-xs"></i> 云端：Flywheel-Net训练 + 模型压缩</p>
                         <p class="flex items-center gap-2"><i class="fa-solid fa-server text-green-400 text-xs"></i> 边缘：模型推理 + 参数更新</p>
-                        <p class="flex items-center gap-2"><i class="fa-solid fa-microchip text-copper text-xs"></i> 端侧：星载FPGA实时执行控制指令</p>
+                        <p class="flex items-center gap-2"><i class="fa-solid fa-microchip text-patina text-xs"></i> 端侧：星载FPGA实时执行控制指令</p>
                     </div>
                 </div>
             </div>
@@ -1506,7 +1484,7 @@
                         <i class="fa-solid fa-camera text-lg opacity-25"></i>
                     </div>
                     <h3 class="text-white font-semibold text-lg">梁宇恒</h3>
-                    <p class="text-copper/60 text-xs mb-3">项目创始人</p>
+                    <p class="text-patina/60 text-xs mb-3">项目创始人</p>
                     <p class="text-patina text-xs leading-relaxed">
                         系统架构设计 · PLC控制程序 · 机械建模 · 论文专利
                     </p>
@@ -1517,7 +1495,7 @@
                         <i class="fa-solid fa-camera text-lg opacity-25"></i>
                     </div>
                     <h3 class="text-white font-semibold text-lg">薛启辰</h3>
-                    <p class="text-copper/60 text-xs mb-3">硬件研发</p>
+                    <p class="text-patina/60 text-xs mb-3">硬件研发</p>
                     <p class="text-patina text-xs leading-relaxed">
                         软硬件综合联调 · 竞赛协作 · 系统测试
                     </p>
@@ -1528,7 +1506,7 @@
                         <i class="fa-solid fa-camera text-lg opacity-25"></i>
                     </div>
                     <h3 class="text-white font-semibold text-lg">于博宇</h3>
-                    <p class="text-copper/60 text-xs mb-3">软件开发</p>
+                    <p class="text-patina/60 text-xs mb-3">软件开发</p>
                     <p class="text-patina text-xs leading-relaxed">
                         可视化示教器软件 · 联合专利 · 系统测试
                     </p>
@@ -1539,7 +1517,7 @@
                         <i class="fa-solid fa-camera text-lg opacity-25"></i>
                     </div>
                     <h3 class="text-white font-semibold text-lg">刘宇航</h3>
-                    <p class="text-copper/60 text-xs mb-3">实验测试</p>
+                    <p class="text-patina/60 text-xs mb-3">实验测试</p>
                     <p class="text-patina text-xs leading-relaxed">
                         联合专利 · 样机测试 · 实验数据采集分析
                     </p>
@@ -1559,7 +1537,7 @@
             <!-- 指导老师 -->
             <div class="mb-10">
                 <h3 class="text-lg font-semibold text-white mb-6 text-center">
-                    <i class="fa-solid fa-graduation-cap text-copper mr-2"></i>指导老师
+                    <i class="fa-solid fa-graduation-cap text-patina mr-2"></i>指导老师
                 </h3>
                 <div class="flex flex-wrap justify-center gap-6">
                     <div class="team-card w-64">
@@ -1567,7 +1545,7 @@
                             <i class="fa-solid fa-camera text-lg opacity-25"></i>
                         </div>
                         <h4 class="text-white font-semibold">张天宇</h4>
-                        <p class="text-copper/60 text-xs">指导老师 / 讲师</p>
+                        <p class="text-patina/60 text-xs">指导老师 / 讲师</p>
                         <p class="text-patina text-xs mt-2">飞轮储能技术路线规划 · 项目方向指导</p>
                     </div>
                     <div class="team-card w-64">
@@ -1575,7 +1553,7 @@
                             <i class="fa-solid fa-camera text-lg opacity-25"></i>
                         </div>
                         <h4 class="text-white font-semibold">路红</h4>
-                        <p class="text-copper/60 text-xs">指导老师</p>
+                        <p class="text-patina/60 text-xs">指导老师</p>
                         <p class="text-patina text-xs mt-2">项目研发指导 · 技术支持</p>
                     </div>
                 </div>
@@ -1584,7 +1562,7 @@
             <!-- 主力成员 -->
             <div>
                 <h3 class="text-lg font-semibold text-white mb-6 text-center">
-                    <i class="fa-solid fa-users text-copper mr-2"></i>主力成员
+                    <i class="fa-solid fa-users text-patina mr-2"></i>主力成员
                 </h3>
                 <div class="flex flex-wrap justify-center gap-6">
                     <div class="team-card w-56">
@@ -1592,7 +1570,7 @@
                             <i class="fa-solid fa-camera opacity-25"></i>
                         </div>
                         <h4 class="text-white font-semibold">叶思冯</h4>
-                        <p class="text-copper/60 text-xs">核心技术</p>
+                        <p class="text-patina/60 text-xs">核心技术</p>
                         <p class="text-patina text-xs mt-2">系统研发 · 控制算法</p>
                     </div>
                     <div class="team-card w-56">
@@ -1600,7 +1578,7 @@
                             <i class="fa-solid fa-camera opacity-25"></i>
                         </div>
                         <h4 class="text-white font-semibold">赵鸣宇</h4>
-                        <p class="text-copper/60 text-xs">核心技术</p>
+                        <p class="text-patina/60 text-xs">核心技术</p>
                         <p class="text-patina text-xs mt-2">硬件设计 · 系统集成</p>
                     </div>
                     <div class="team-card w-56">
@@ -1608,7 +1586,7 @@
                             <i class="fa-solid fa-camera opacity-25"></i>
                         </div>
                         <h4 class="text-white font-semibold">董庆喜</h4>
-                        <p class="text-copper/60 text-xs">核心技术</p>
+                        <p class="text-patina/60 text-xs">核心技术</p>
                         <p class="text-patina text-xs mt-2">软件工程 · 测试验证</p>
                     </div>
                 </div>
@@ -1628,7 +1606,7 @@
                 <!-- 成本分析 -->
                 <div class="info-section-card">
                     <h3 class="text-lg font-semibold text-white mb-6 flex items-center gap-2">
-                        <i class="fa-solid fa-coins text-copper"></i> 成本分析
+                        <i class="fa-solid fa-coins text-patina"></i> 成本分析
                     </h3>
                     <div class="space-y-3">
                         <div class="flex justify-between text-sm">
@@ -1650,8 +1628,8 @@
                         <div class="flex justify-between text-sm">
                             <span class="text-patina">传感器结构</span><span class="text-white">¥300</span>
                         </div>
-                        <div class="border-t border-copper/30 pt-3 flex justify-between text-sm font-bold">
-                            <span class="text-copper">总计</span><span class="text-copper text-lg">¥3,000</span>
+                        <div class="border-t border-patina/30 pt-3 flex justify-between text-sm font-bold">
+                            <span class="text-patina">总计</span><span class="text-patina text-lg">¥3,000</span>
                         </div>
                     </div>
                 </div>
@@ -1672,8 +1650,8 @@
                             </div>
                         </div>
                         <div class="flex items-start gap-3">
-                            <div class="w-8 h-8 rounded-full bg-copper/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                                <span class="text-copper font-bold text-sm">2</span>
+                            <div class="w-8 h-8 rounded-full bg-patina/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <span class="text-patina font-bold text-sm">2</span>
                             </div>
                             <div>
                                 <h4 class="text-white text-sm font-medium">无缝切换控制</h4>
@@ -1681,8 +1659,8 @@
                             </div>
                         </div>
                         <div class="flex items-start gap-3">
-                            <div class="w-8 h-8 rounded-full bg-copper/10 flex items-center justify-center flex-shrink-0 mt-0.5">
-                                <span class="text-copper font-bold text-sm">3</span>
+                            <div class="w-8 h-8 rounded-full bg-patina/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                                <span class="text-patina font-bold text-sm">3</span>
                             </div>
                             <div>
                                 <h4 class="text-white text-sm font-medium">智能化监控分析</h4>
@@ -1695,11 +1673,11 @@
                 <!-- 项目成果 -->
                 <div class="info-section-card">
                     <h3 class="text-lg font-semibold text-white mb-6 flex items-center gap-2">
-                        <i class="fa-solid fa-trophy text-copper"></i> 项目成果
+                        <i class="fa-solid fa-trophy text-patina"></i> 项目成果
                     </h3>
                     <div class="space-y-4">
                         <div class="flex items-center gap-3 p-3 rounded-xl bg-white/[0.02] border border-white/5">
-                            <i class="fa-solid fa-file-lines text-copper"></i>
+                            <i class="fa-solid fa-file-lines text-patina"></i>
                             <div>
                                 <p class="text-white text-sm font-medium">期刊论文</p>
                                 <p class="text-patina text-xs">《今日制造与升级》2024</p>
@@ -1713,7 +1691,7 @@
                             </div>
                         </div>
                         <div class="flex items-center gap-3 p-3 rounded-xl bg-white/[0.02] border border-white/5">
-                            <i class="fa-solid fa-laptop-code text-copper"></i>
+                            <i class="fa-solid fa-laptop-code text-patina"></i>
                             <div>
                                 <p class="text-white text-sm font-medium">软件著作权</p>
                                 <p class="text-patina text-xs">2025R11S0980747</p>
@@ -1727,7 +1705,7 @@
             <div class="mt-12 p-8 rounded-2xl bg-gradient-to-r from-steel-surface to-steel-dark border border-rule-color">
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
                     <div>
-                        <div class="text-3xl font-bold text-copper">8400<span class="text-sm">rpm</span></div>
+                        <div class="text-3xl font-bold text-patina">8400<span class="text-sm">rpm</span></div>
                         <p class="text-patina text-xs mt-1">额定转速上限</p>
                     </div>
                     <div>
@@ -1735,11 +1713,11 @@
                         <p class="text-patina text-xs mt-1">理论储能量</p>
                     </div>
                     <div>
-                        <div class="text-3xl font-bold text-copper">&lt;100<span class="text-sm">ms</span></div>
+                        <div class="text-3xl font-bold text-patina">&lt;100<span class="text-sm">ms</span></div>
                         <p class="text-patina text-xs mt-1">电源切换时间</p>
                     </div>
                     <div>
-                        <div class="text-3xl font-bold text-copper">&gt;10000<span class="text-sm">次</span></div>
+                        <div class="text-3xl font-bold text-patina">&gt;10000<span class="text-sm">次</span></div>
                         <p class="text-patina text-xs mt-1">循环寿命</p>
                     </div>
                 </div>
@@ -1777,9 +1755,9 @@
                        target="_blank"
                        rel="noopener noreferrer"
                        class="github-link inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-steel-surface border border-rule-color text-patina hover:text-aluminum hover:border-rule-color hover:bg-steel-elevated transition-all duration-300 group">
-                        <i class="fa-brands fa-github text-lg group-hover:text-copper transition-colors"></i>
+                        <i class="fa-brands fa-github text-lg group-hover:text-patina transition-colors"></i>
                         <span class="text-sm">DagonMMM / flywheel-ups-</span>
-                        <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-gray-600 group-hover:text-copper transition-colors"></i>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-[10px] text-gray-600 group-hover:text-patina transition-colors"></i>
                     </a>
                 </div>
             </div>
@@ -1787,7 +1765,7 @@
     </footer>
 
     <!-- 回到顶部按钮 -->
-    <button id="back-to-top" class="fixed bottom-8 right-8 w-12 h-12 rounded-full bg-copper/10 border border-copper/30 text-copper hover:bg-copper/20 transition-all z-40 opacity-0 invisible shadow-lg shadow-amber-500/10" title="回到顶部">
+    <button id="back-to-top" class="fixed bottom-8 right-8 w-12 h-12 rounded-full bg-patina/10 border border-patina/30 text-patina hover:bg-copper/20 transition-all z-40 opacity-0 invisible shadow-lg shadow-black/20" title="回到顶部">
         <i class="fa-solid fa-arrow-up"></i>
     </button>
 

@@ -3,23 +3,23 @@
    天印制造
    ============================================ */
 
-/* ----- Google Fonts: Space Grotesk (display, Latin only, ~15KB) ----- */
+/* ----- Google Fonts: Space Grotesk (display, Latin only, ~20KB) ----- */
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
 /* ============================================
    Design Tokens
    ============================================ */
 :root {
-    --steel-dark:    #232427;   /* 框架阴影 */
-    --steel-surface: #2E3035;   /* 切削面 */
-    --steel-elevated: #34363C;  /* 悬浮层 */
-    --aluminum:      #E0D9CC;   /* 主文字 */
-    --patina:        #9B8E7E;   /* 辅文字 */
-    --copper:        #D4874A;   /* 唯一强调色 — 铜绕组 */
-    --copper-deep:   #B8703A;   /* 铜深色 */
-    --rule:          #3A3D42;   /* 分割线 */
-    --rule-subtle:   #2C2E32;   /* 微分割 */
-    --bg-deep:       #1B1D20;   /* 最深底 */
+    --steel-dark:    #232427;
+    --steel-surface: #2E3035;
+    --steel-elevated: #34363C;
+    --aluminum:      #E0D9CC;
+    --patina:        #9B8E7E;
+    --copper:        #D4874A;
+    --copper-deep:   #B8703A;
+    --rule:          #3A3D42;
+    --rule-subtle:   #2C2E32;
+    --bg-deep:       #1B1D20;
 }
 
 /* ============================================
@@ -32,41 +32,54 @@ body {
     color: var(--aluminum);
 }
 
-/* ----- Subtle dot-grid texture (like precision graph paper) ----- */
+/* Dot-grid texture */
 body::before {
     content: '';
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-    background-image: radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px);
+    position: fixed; inset: 0;
+    pointer-events: none; z-index: 0;
+    background-image: radial-gradient(circle, rgba(255,255,255,0.025) 1px, transparent 1px);
     background-size: 24px 24px;
 }
 
-/* ----- Scrollbar ----- */
+/* Scrollbar */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: var(--steel-dark); }
 ::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 2px; }
 ::-webkit-scrollbar-thumb:hover { background: var(--patina); }
 
 /* ============================================
-   Typography
+   Accessibility
    ============================================ */
 
-/* Display face for Latin numerals & headings */
-.display-font, h1, h2, h3, .counter, .metric-card .text-4xl,
-.metric-card .text-3xl, .perf-summary-card .text-3xl,
-.spec-item span:last-child, .rpm-val, .energy-val {
-    font-family: 'Space Grotesk', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-    font-feature-settings: 'tnum', 'ss02';
+/* Visible focus ring for keyboard navigation */
+:focus-visible {
+    outline: 2px solid var(--copper);
+    outline-offset: 2px;
+    border-radius: 2px;
 }
 
-/* Monospace data */
+/* Respect user motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    html { scroll-behavior: auto; }
+    .flywheel-sim canvas { animation: none !important; }
+    .reveal { opacity: 1; transform: none; transition: none; }
+}
+
+/* ============================================
+   Typography
+   ============================================ */
+h1, h2, h3, .counter, .rpm-val, .energy-val,
+.perf-summary-card .text-3xl, .spec-item span:last-child {
+    font-family: 'Space Grotesk', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+}
 .font-mono, code, .spec-item span:last-child {
     font-family: 'Space Grotesk', 'JetBrains Mono', 'Consolas', monospace;
 }
-
-/* Section headings */
 .section-heading h2 {
     font-family: 'Space Grotesk', 'PingFang SC', 'Microsoft YaHei', sans-serif;
     font-weight: 600;
@@ -84,60 +97,49 @@ body::before {
 }
 .nav-link {
     font-family: 'Space Grotesk', 'PingFang SC', 'Microsoft YaHei', sans-serif;
-    font-size: 0.8rem;
+    font-size: 0.78rem;
     letter-spacing: 0.02em;
-    transition: all 0.25s ease;
+    transition: color 0.2s ease, background 0.2s ease;
 }
 .nav-link.active {
     color: var(--copper) !important;
     background: rgba(212, 135, 74, 0.08);
 }
+#navbar .w-8.h-8.rounded-full {
+    background: linear-gradient(135deg, var(--copper), var(--copper-deep)) !important;
+}
 
 /* ============================================
-   Animations (stripped down — restraint)
+   Animations (restrained)
    ============================================ */
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 @keyframes slideUp {
-    from { opacity: 0; transform: translateY(24px); }
+    from { opacity: 0; transform: translateY(20px); }
     to   { opacity: 1; transform: translateY(0); }
 }
-.animate-fadeIn  { animation: fadeIn 0.8s ease-out forwards; }
-.animate-slideUp { animation: slideUp 0.8s ease-out forwards; opacity: 0; }
+.animate-fadeIn  { animation: fadeIn 0.7s ease-out forwards; }
+.animate-slideUp { animation: slideUp 0.7s ease-out forwards; opacity: 0; }
 
-/* Scroll reveal — the ONE entrance effect */
 .reveal {
     opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+    transform: translateY(16px);
+    transition: opacity 0.45s ease-out, transform 0.45s ease-out;
 }
 .reveal.visible { opacity: 1; transform: translateY(0); }
 
 /* ============================================
-   Cards — Unified Industrial Style
+   Cards — Unified
    ============================================ */
-.metric-card {
-    background: linear-gradient(180deg, var(--steel-surface), var(--steel-dark));
-    border: 1px solid var(--rule);
-    border-radius: 6px;
-    padding: 1.5rem;
-    transition: all 0.3s ease;
-}
-.metric-card:hover {
-    border-color: var(--rule);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
-    transform: translateY(-2px);
-}
-
-.info-card, .arch-card, .workflow-card, .spec-card,
+.metric-card, .info-card, .arch-card, .workflow-card, .spec-card,
 .comm-feature, .code-feature-card, .chart-container,
 .perf-summary-card, .safety-card, .info-section-card,
 .team-card, .pioneer-card {
     background: linear-gradient(180deg, var(--steel-surface), var(--steel-dark));
     border: 1px solid var(--rule);
     border-radius: 6px;
-    transition: all 0.3s ease;
+    transition: all 0.25s ease;
 }
-.info-card:hover, .arch-card:hover, .workflow-card:hover,
+.metric-card:hover, .info-card:hover, .arch-card:hover, .workflow-card:hover,
 .spec-card:hover, .comm-feature:hover, .code-feature-card:hover,
 .chart-container:hover, .perf-summary-card:hover, .safety-card:hover,
 .info-section-card:hover, .team-card:hover, .pioneer-card:hover {
@@ -167,82 +169,13 @@ body::before {
 .team-card        { padding: 1.5rem; text-align: center; border-radius: 6px; }
 .pioneer-card     { padding: 1.5rem; text-align: center; border-radius: 6px; }
 
-/* Copper accent — only on the signature flywheel element */
-.flywheel-sim .rpm-val {
-    color: var(--copper) !important;
-}
-
-/* Copper accent on section heading underlines */
-.section-heading h2 { position: relative; display: inline-block; }
-.section-heading h2::after {
-    content: '';
-    position: absolute;
-    bottom: -6px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 40px;
-    height: 2px;
-    background: var(--copper);
-    border-radius: 1px;
-}
-
-/* Copper for the nav logo dot */
-#navbar .w-8.h-8.rounded-full {
-    background: linear-gradient(135deg, var(--copper), var(--copper-deep)) !important;
-}
+/* Architecture left-border colors */
+.arch-card.border-l-copper  { border-left-color: var(--copper) !important; }
+.arch-card.border-l-patina  { border-left-color: var(--patina) !important; }
 
 /* ============================================
-   Image Placeholders
-   ============================================ */
-.img-placeholder {
-    background: var(--steel-dark);
-    border: 1px dashed var(--rule);
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--patina);
-    font-size: 0.8rem;
-    overflow: hidden;
-    transition: all 0.3s;
-}
-.img-placeholder:hover {
-    border-color: var(--copper);
-    color: var(--copper);
-    background: var(--steel-surface);
-}
-.img-placeholder i { transition: all 0.3s; }
-.img-placeholder:hover i { transform: scale(1.1); }
-
-.photo-space {
-    position: relative; overflow: hidden; cursor: default;
-    background: var(--steel-dark);
-    border: 1.5px dashed var(--rule);
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    margin: 0 auto 1rem;
-    transition: all 0.3s;
-    color: var(--patina);
-}
-.photo-space:hover { border-color: var(--copper); }
-
-.pioneer-avatar, .team-avatar {
-    width: 72px; height: 72px;
-    border-radius: 50%;
-    margin: 0 auto 1rem;
-    display: flex; align-items: center; justify-content: center;
-    background: var(--steel-dark);
-    border: 2px solid var(--rule);
-    color: var(--patina);
-    transition: all 0.3s ease;
-}
-.pioneer-card:hover .pioneer-avatar,
-.team-card:hover .team-avatar {
-    border-color: var(--copper);
-}
-
-/* ============================================
-   Flywheel Simulator — THE signature element
+   THE signature element — Flywheel Simulator
+   Copper is used HERE and only here (visually)
    ============================================ */
 .flywheel-sim {
     position: relative;
@@ -255,23 +188,27 @@ body::before {
     cursor: grab;
     border-radius: 50%;
     transition: filter 0.3s;
+    /* display size adapts via CSS, resolution via HTML attrs */
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 1;
 }
 .flywheel-sim canvas:active { cursor: grabbing; }
 .flywheel-sim .sim-label {
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     color: var(--patina);
     text-align: center;
-    font-family: 'Space Grotesk', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    font-family: 'Space Grotesk', 'PingFang SC', sans-serif;
 }
 .flywheel-sim .sim-label .rpm-val {
-    font-size: 1.8rem;
+    font-size: 2rem;
     font-weight: 700;
-    color: var(--copper) !important;
+    color: var(--copper);
     font-variant-numeric: tabular-nums;
     font-family: 'Space Grotesk', sans-serif;
 }
 .flywheel-sim .sim-label .energy-val {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     font-weight: 600;
     color: var(--aluminum);
     font-variant-numeric: tabular-nums;
@@ -280,48 +217,73 @@ body::before {
 .flywheel-sim .sim-hint {
     font-size: 0.7rem;
     color: var(--patina);
-    opacity: 0.7;
-    transition: opacity 0.6s;
+    opacity: 0.65;
+    transition: opacity 0.5s;
 }
 
 /* ============================================
-   Charts
+   Section headings — subtle copper underline only
    ============================================ */
-.chart-container canvas {
-    filter: brightness(0.95);
+.section-heading h2 { position: relative; display: inline-block; }
+.section-heading h2::after {
+    content: '';
+    position: absolute; bottom: -6px; left: 50%;
+    transform: translateX(-50%);
+    width: 36px; height: 2px;
+    background: var(--copper);
+    border-radius: 1px;
+}
+
+/* ============================================
+   Image Placeholders
+   ============================================ */
+.img-placeholder {
+    background: var(--steel-dark);
+    border: 1px dashed var(--rule);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--patina); font-size: 0.8rem;
+    overflow: hidden; transition: all 0.3s;
+}
+.img-placeholder:hover {
+    border-color: var(--patina);
+    color: var(--patina);
+    background: var(--steel-surface);
+}
+.photo-space {
+    background: var(--steel-dark);
+    border: 1.5px dashed var(--rule);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 1rem; transition: all 0.3s;
+    color: var(--patina);
+}
+.photo-space:hover { border-color: var(--patina); }
+.pioneer-avatar, .team-avatar {
+    width: 72px; height: 72px; border-radius: 50%;
+    margin: 0 auto 1rem;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--steel-dark); border: 2px solid var(--rule);
+    color: var(--patina); transition: all 0.3s ease;
+}
+.pioneer-card:hover .pioneer-avatar,
+.team-card:hover .pioneer-avatar,
+.team-card:hover .team-avatar {
+    border-color: var(--patina);
 }
 
 /* ============================================
    Tables
    ============================================ */
 table { border-collapse: collapse; }
-thead th { color: var(--copper) !important; font-weight: 500; }
-tbody tr:hover td { background: rgba(212, 135, 74, 0.03); }
+thead th { color: var(--aluminum) !important; font-weight: 500; }
+tbody tr:hover td { background: rgba(212, 135, 74, 0.02); }
 
 /* ============================================
-   Interactive Effects (kept: cursor glow, tilt, magnetic, parallax, typewriter)
+   Interactive Effects (kept: tilt + typewriter)
    ============================================ */
 
-/* Cursor energy glow */
-#cursor-glow {
-    position: fixed;
-    pointer-events: none;
-    z-index: 9999;
-    width: 500px;
-    height: 500px;
-    border-radius: 50%;
-    background: radial-gradient(circle,
-        rgba(212, 135, 74, 0.08) 0%,
-        rgba(212, 135, 74, 0.04) 30%,
-        rgba(212, 135, 74, 0.01) 55%,
-        transparent 70%
-    );
-    transform: translate(-50%, -50%);
-    transition: opacity 0.4s;
-    will-change: left, top;
-}
-
-/* 3D tilt */
+/* 3D tilt — subtle, desktop only */
 .tilt-container { perspective: 800px; transform-style: preserve-3d; }
 .tilt-inner {
     transition: transform 0.1s ease-out;
@@ -331,36 +293,19 @@ tbody tr:hover td { background: rgba(212, 135, 74, 0.03); }
     transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 .tilt-glow {
-    position: absolute; inset: 0;
-    border-radius: 6px;
-    pointer-events: none;
-    transition: opacity 0.3s;
-    opacity: 0;
+    position: absolute; inset: 0; border-radius: 6px;
+    pointer-events: none; transition: opacity 0.3s; opacity: 0;
     background: radial-gradient(ellipse at var(--mx) var(--my),
-        rgba(212, 135, 74, 0.1) 0%,
-        transparent 60%
-    );
+        rgba(212, 135, 74, 0.06) 0%, transparent 60%);
     z-index: 1;
 }
 
-/* Magnetic */
-.magnetic-target {
-    transition: transform 0.15s ease-out;
-    will-change: transform;
-}
-.magnetic-target .magnetic-inner { transition: transform 0.15s ease-out; }
-
-/* Parallax */
-.parallax-layer { will-change: transform; }
-
-/* Typewriter */
+/* Typewriter cursor */
 .typewriter-cursor {
     display: inline-block;
-    width: 2px;
-    height: 1.1em;
-    background: var(--copper);
-    margin-left: 2px;
-    vertical-align: text-bottom;
+    width: 2px; height: 1.1em;
+    background: var(--aluminum);
+    margin-left: 2px; vertical-align: text-bottom;
     animation: cursorBlink 0.8s step-end infinite;
 }
 @keyframes cursorBlink {
@@ -369,71 +314,58 @@ tbody tr:hover td { background: rgba(212, 135, 74, 0.03); }
 }
 
 /* ============================================
-   Hero-specific
+   Hero chevron
    ============================================ */
-/* Hero chevron */
-@keyframes industrialBounce {
+@keyframes gentleBounce {
     0%, 100% { transform: translateY(0); }
-    50%      { transform: translateY(8px); }
+    50%      { transform: translateY(6px); }
 }
 #hero .fa-chevron-down {
-    animation: industrialBounce 2s ease-in-out infinite;
-    color: var(--copper);
+    animation: gentleBounce 2.5s ease-in-out infinite;
 }
 
 /* ============================================
    Back to top
    ============================================ */
 #back-to-top {
-    background: rgba(212, 135, 74, 0.08);
-    border: 1px solid rgba(212, 135, 74, 0.2);
-    color: var(--copper);
+    background: rgba(255,255,255,0.04);
+    border: 1px solid var(--rule);
+    color: var(--patina);
     box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+    transition: all 0.25s ease;
 }
 #back-to-top:hover {
-    background: rgba(212, 135, 74, 0.15);
+    background: rgba(255,255,255,0.08);
+    color: var(--aluminum);
 }
 #back-to-top.visible { opacity: 1 !important; visibility: visible !important; }
 
 /* ============================================
-   GitHub link in footer
+   GitHub link
    ============================================ */
 .github-link {
     font-family: 'Space Grotesk', sans-serif;
     font-size: 0.85rem;
-    transition: all 0.3s ease;
+    transition: all 0.25s ease;
 }
 .github-link:hover {
-    border-color: var(--copper) !important;
-    box-shadow: 0 0 20px rgba(212, 135, 74, 0.12), 0 4px 12px rgba(0, 0, 0, 0.3);
+    border-color: var(--rule) !important;
+    box-shadow: 0 0 16px rgba(0,0,0,0.3);
+    color: var(--aluminum);
 }
-.github-link:hover i.fa-github               { color: var(--copper); }
-.github-link:hover i.fa-arrow-up-right-from-square { color: var(--copper); }
 
 /* ============================================
-   Architecture cards — copper left border
-   ============================================ */
-.arch-card.border-l-accent   { border-left-color: var(--copper) !important; }
-.arch-card.border-l-energy   { border-left-color: var(--patina) !important; }
-.arch-card.border-l-warning  { border-left-color: var(--steel-elevated) !important; }
-
-/* ============================================
-   Workflow mode indicator dots
+   Workflow dots (functional colors — muted)
    ============================================ */
 .workflow-card .bg-green-500 { background-color: #5C8D6F !important; }
-.workflow-card .bg-yellow-500 { background-color: var(--copper) !important; }
+.workflow-card .bg-copper { background-color: var(--copper) !important; }
 
 /* ============================================
-   Hero tags
+   Hero metric readout font
    ============================================ */
-#hero .border-amber-500\\/30 {
-    border-color: rgba(212, 135, 74, 0.3) !important;
+#hero .font-mono {
+    font-family: 'Space Grotesk', 'JetBrains Mono', 'Consolas', monospace;
 }
-#hero .bg-amber-500\\/5 {
-    background: rgba(212, 135, 74, 0.06) !important;
-}
-#hero .text-amber-400 { color: var(--copper) !important; }
-#hero .bg-amber-400 { background-color: var(--copper) !important; }
 
 /* ============================================
    Mobile
@@ -447,32 +379,30 @@ tbody tr:hover td { background: rgba(212, 135, 74, 0.03); }
     #navbar .text-lg { font-size: 0.9rem; }
     #mobile-menu a { padding: 0.6rem 1rem; font-size: 0.85rem; }
 
-    #hero { min-height: 100vh; padding: 4rem 0.75rem 1.5rem; display: flex; align-items: center; }
-    #hero h1 { font-size: 1.6rem !important; line-height: 1.25 !important; margin-bottom: 0.75rem !important; }
-    #hero .text-xl { font-size: 0.85rem !important; max-width: 92%; margin-left: auto; margin-right: auto; }
-    #hero #hero-subtitle { font-size: 0.8rem !important; max-width: 92%; margin-bottom: 1rem !important; }
-    #hero .mb-8  { margin-bottom: 0.75rem; }
-    #hero .mb-12 { margin-bottom: 1rem; }
-    #hero .gap-x-3 { gap: 0.35rem; }
+    /* Hero */
+    #hero { min-height: 100vh; padding: 4rem 0.5rem 1.5rem; display: flex; align-items: center; }
+    #hero h1 { font-size: 1.5rem !important; line-height: 1.2 !important; margin-bottom: 0.5rem !important; }
+    #hero #hero-subtitle { font-size: 0.75rem !important; max-width: 90%; margin-bottom: 1.25rem !important; }
 
-    #hero .grid.grid-cols-1.sm\\:grid-cols-3 {
-        grid-template-columns: repeat(3, 1fr) !important;
-        gap: 0.35rem;
-    }
-    .metric-card { padding: 0.5rem 0.35rem; }
-    .metric-card .text-4xl { font-size: 1.15rem !important; }
-    .metric-card .text-lg  { font-size: 0.65rem !important; }
-    .metric-card .text-sm  { font-size: 0.6rem !important; }
-    .metric-card .text-3xl { font-size: 1.15rem !important; }
+    /* Flywheel — scale down */
+    .flywheel-sim canvas { max-width: 240px !important; }
+    .flywheel-sim .sim-label { font-size: 0.75rem; }
+    .flywheel-sim .sim-label .rpm-val { font-size: 1.3rem; }
+    .flywheel-sim .sim-label .energy-val { font-size: 0.9rem; }
+    .flywheel-sim .sim-hint { font-size: 0.65rem; }
 
+    /* Metric readout */
+    #hero .text-2xl { font-size: 1rem !important; }
+
+    /* Section headings */
     .section-heading h2 { font-size: 1.35rem !important; }
     .section-heading p  { font-size: 0.8rem; max-width: 90%; margin-left: auto; margin-right: auto; }
 
+    /* Cards */
     .info-card, .arch-card, .spec-card, .comm-feature,
     .code-feature-card, .safety-card, .perf-summary-card,
     .info-section-card, .team-card, .pioneer-card {
-        padding: 0.85rem;
-        border-radius: 4px;
+        padding: 0.85rem; border-radius: 4px;
     }
     .info-card h3, .arch-card h4, .comm-feature h4,
     .spec-card-header h3 { font-size: 0.9rem !important; }
@@ -484,20 +414,23 @@ tbody tr:hover td { background: rgba(212, 135, 74, 0.03); }
     .spec-card-header .w-14 { width: 2.5rem; height: 2.5rem; }
     .spec-card-header i { font-size: 1.1rem !important; }
 
+    /* Charts */
     .chart-container { padding: 0.75rem; }
     .chart-container canvas { max-height: 180px; }
     .chart-container h3 { font-size: 0.85rem !important; }
 
+    /* Tables */
     table { font-size: 0.7rem; }
     th, td { padding: 0.4rem 0.5rem !important; }
 
     .img-placeholder { min-height: 80px; font-size: 0.7rem; }
 
+    /* Grid collapse */
     .lg\\:grid-cols-2, .lg\\:grid-cols-3, .lg\\:grid-cols-4, .lg\\:grid-cols-5 {
-        grid-template-columns: 1fr;
-        gap: 0.6rem;
+        grid-template-columns: 1fr; gap: 0.6rem;
     }
 
+    /* Footer */
     footer { padding: 1.5rem 1rem; text-align: center; }
     footer .text-sm { font-size: 0.75rem; }
     footer .github-link { padding: 0.5rem 0.75rem; font-size: 0.75rem; }
@@ -506,20 +439,15 @@ tbody tr:hover td { background: rgba(212, 135, 74, 0.03); }
     #back-to-top { bottom: 0.75rem; right: 0.75rem; width: 2.25rem; height: 2.25rem; }
     .flex-wrap.items-center.justify-center { flex-direction: column; gap: 0.5rem; }
 
-    .mb-6  { margin-bottom: 0.75rem; }
-    .mb-8  { margin-bottom: 1rem; }
-    .mb-10 { margin-bottom: 1.25rem; }
-    .mb-12 { margin-bottom: 1.5rem; }
+    /* Spacing */
+    .mb-6  { margin-bottom: 0.75rem; } .mb-8  { margin-bottom: 1rem; }
+    .mb-10 { margin-bottom: 1.25rem; }  .mb-12 { margin-bottom: 1.5rem; }
     .mb-16 { margin-bottom: 1.75rem; }
-    .mt-6  { margin-top: 0.75rem; }
-    .mt-8  { margin-top: 1rem; }
-    .mt-10 { margin-top: 1.25rem; }
-    .mt-12 { margin-top: 1.5rem; }
+    .mt-6  { margin-top: 0.75rem; }     .mt-8  { margin-top: 1rem; }
+    .mt-10 { margin-top: 1.25rem; }     .mt-12 { margin-top: 1.5rem; }
     .mt-16 { margin-top: 1.75rem; }
-    .gap-4  { gap: 0.5rem; }
-    .gap-6  { gap: 0.6rem; }
-    .gap-8  { gap: 0.75rem; }
-    .gap-12 { gap: 1rem; }
+    .gap-4 { gap: 0.5rem; } .gap-6 { gap: 0.6rem; }
+    .gap-8 { gap: 0.75rem; } .gap-12 { gap: 1rem; }
     .space-y-2 > * + * { margin-top: 0.35rem; }
     .space-y-3 > * + * { margin-top: 0.5rem; }
     .space-y-4 > * + * { margin-top: 0.6rem; }
@@ -528,41 +456,27 @@ tbody tr:hover td { background: rgba(212, 135, 74, 0.03); }
 
     .grid-cols-2 { grid-template-columns: repeat(2, 1fr); gap: 0.4rem; }
     .max-w-7xl { padding-left: 0.75rem; padding-right: 0.75rem; }
-
-    .flywheel-sim { margin-top: 0.75rem !important; gap: 0.4rem; }
-    .flywheel-sim canvas { width: 140px !important; height: 140px !important; }
-    .flywheel-sim .sim-label { font-size: 0.75rem; }
-    .flywheel-sim .sim-label .rpm-val { font-size: 1.2rem; }
-    .flywheel-sim .sim-label .energy-val { font-size: 0.9rem; }
-    .flywheel-sim .sim-hint { font-size: 0.65rem; }
-    #cursor-glow { display: none; }
 }
 
 @media (max-width: 480px) {
     html { font-size: 13px; }
 
-    #hero { min-height: 100vh; padding: 3.5rem 0.5rem 1rem; }
-    #hero h1 { font-size: 1.35rem !important; }
-    #hero #hero-subtitle { font-size: 0.72rem !important; }
+    #hero { min-height: 100vh; padding: 3rem 0.4rem 1rem; }
+    #hero h1 { font-size: 1.3rem !important; }
+    #hero #hero-subtitle { font-size: 0.7rem !important; }
 
-    .metric-card { padding: 0.4rem 0.2rem; }
-    .metric-card .text-4xl { font-size: 1rem !important; }
-    .metric-card .text-3xl { font-size: 1rem !important; }
+    .flywheel-sim canvas { max-width: 180px !important; }
+    .flywheel-sim .sim-label { font-size: 0.7rem; }
+    .flywheel-sim .sim-label .rpm-val { font-size: 1.1rem; }
+    .flywheel-sim .sim-label .energy-val { font-size: 0.8rem; }
+
+    #hero .text-2xl { font-size: 0.9rem !important; }
 
     .grid-cols-2, .sm\\:grid-cols-2 { grid-template-columns: 1fr !important; }
-    #hero .grid.grid-cols-1.sm\\:grid-cols-3 {
-        grid-template-columns: repeat(3, 1fr) !important;
-        gap: 0.25rem;
-    }
+    #hero .grid.grid-cols-3 { gap: 0.3rem; }
 
     .img-placeholder { min-height: 70px; }
     .chart-container canvas { max-height: 150px; }
     section { padding: 2rem 0 !important; }
     .max-w-7xl { padding-left: 0.5rem; padding-right: 0.5rem; }
-
-    .flywheel-sim { margin-top: 0.5rem !important; }
-    .flywheel-sim canvas { width: 110px !important; height: 110px !important; }
-    .flywheel-sim .sim-label { font-size: 0.7rem; }
-    .flywheel-sim .sim-label .rpm-val { font-size: 1rem; }
-    .flywheel-sim .sim-label .energy-val { font-size: 0.8rem; }
 }
