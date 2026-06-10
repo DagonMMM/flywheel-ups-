@@ -50,7 +50,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     alpha: 0,
                     speedY: -(Math.random() * 2 + 0.8),
                     speedX: (Math.random() - 0.5) * 0.8,
-                    color: '245,158,11',
+                    color: '212,135,74',
                     flickerPhase: Math.random() * Math.PI * 2,
                     life: Math.floor(Math.random() * 80),
                     maxLife: Math.floor(Math.random() * 100 + 50),
@@ -255,7 +255,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 width: ${size}px;
                 height: ${size}px;
                 border-radius: 0;
-                background: ${Math.random() > 0.5 ? 'rgba(245,158,11,0.5)' : 'rgba(200,200,200,0.3)'};
+                background: ${Math.random() > 0.5 ? 'rgba(212,135,74,0.5)' : 'rgba(200,200,200,0.3)'};
                 animation: sparkFloat ${Math.random() * 6 + 6}s ease-in-out infinite;
                 animation-delay: ${Math.random() * 6}s;
             `;
@@ -484,8 +484,8 @@ document.addEventListener('DOMContentLoaded', function () {
             // 外发光
             if (rpm > 200) {
                 var glowGrad = ctx.createRadialGradient(cx, cy, outerR * 0.7, cx, cy, outerR * 1.6);
-                glowGrad.addColorStop(0, 'rgba(245,158,11,' + glowAlpha + ')');
-                glowGrad.addColorStop(0.5, 'rgba(245,158,11,' + (glowAlpha * 0.4) + ')');
+                glowGrad.addColorStop(0, 'rgba(212,135,74,' + glowAlpha + ')');
+                glowGrad.addColorStop(0.5, 'rgba(212,135,74,' + (glowAlpha * 0.4) + ')');
                 glowGrad.addColorStop(1, 'transparent');
                 ctx.fillStyle = glowGrad;
                 ctx.beginPath();
@@ -519,9 +519,9 @@ document.addEventListener('DOMContentLoaded', function () {
             // 能量光环
             if (rpm > 500) {
                 var energyGlow = ctx.createRadialGradient(0, 0, ringR, 0, 0, outerR);
-                energyGlow.addColorStop(0, 'rgba(245,158,11,0)');
-                energyGlow.addColorStop(0.5, 'rgba(245,158,11,' + ringGlow + ')');
-                energyGlow.addColorStop(1, 'rgba(245,158,11,0)');
+                energyGlow.addColorStop(0, 'rgba(212,135,74,0)');
+                energyGlow.addColorStop(0.5, 'rgba(212,135,74,' + ringGlow + ')');
+                energyGlow.addColorStop(1, 'rgba(212,135,74,0)');
                 ctx.strokeStyle = energyGlow;
                 ctx.lineWidth = 6;
                 ctx.beginPath();
@@ -570,7 +570,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (rpm > 0) {
                 var arcStart = -Math.PI / 2;
                 var arcEnd = arcStart + (rpm / maxRPM) * (2 * Math.PI);
-                ctx.strokeStyle = 'rgba(245,158,11,' + (0.6 + intensity * 0.3) + ')';
+                ctx.strokeStyle = 'rgba(212,135,74,' + (0.6 + intensity * 0.3) + ')';
                 ctx.lineWidth = 2;
                 ctx.beginPath();
                 ctx.arc(cx, cy, outerR + 4, arcStart, arcEnd);
@@ -579,7 +579,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 // 端点小亮点
                 var ex = cx + (outerR + 4) * Math.cos(arcEnd);
                 var ey = cy + (outerR + 4) * Math.sin(arcEnd);
-                ctx.fillStyle = '#f59e0b';
+                ctx.fillStyle = '#D4874A';
                 ctx.beginPath();
                 ctx.arc(ex, ey, 3, 0, Math.PI * 2);
                 ctx.fill();

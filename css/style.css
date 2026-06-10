@@ -1,55 +1,130 @@
 /* ============================================
-   飞轮储能UPS系统 - 工业风主题
+   飞轮储能UPS系统 — Machined Precision 设计系统
    天印制造
    ============================================ */
 
-html { scroll-behavior: smooth; }
-body { overflow-x: hidden; background: #1a1c1e; }
+/* ----- Google Fonts: Space Grotesk (display, Latin only, ~15KB) ----- */
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap');
 
-/* ----- 微妙的暗纹背景 ----- */
+/* ============================================
+   Design Tokens
+   ============================================ */
+:root {
+    --steel-dark:    #232427;   /* 框架阴影 */
+    --steel-surface: #2E3035;   /* 切削面 */
+    --steel-elevated: #34363C;  /* 悬浮层 */
+    --aluminum:      #E0D9CC;   /* 主文字 */
+    --patina:        #9B8E7E;   /* 辅文字 */
+    --copper:        #D4874A;   /* 唯一强调色 — 铜绕组 */
+    --copper-deep:   #B8703A;   /* 铜深色 */
+    --rule:          #3A3D42;   /* 分割线 */
+    --rule-subtle:   #2C2E32;   /* 微分割 */
+    --bg-deep:       #1B1D20;   /* 最深底 */
+}
+
+/* ============================================
+   Base
+   ============================================ */
+html { scroll-behavior: smooth; }
+body {
+    overflow-x: hidden;
+    background: var(--steel-dark);
+    color: var(--aluminum);
+}
+
+/* ----- Subtle dot-grid texture (like precision graph paper) ----- */
 body::before {
     content: '';
     position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
+    inset: 0;
     pointer-events: none;
     z-index: 0;
-    background-image:
-        repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.005) 2px, rgba(255,255,255,0.005) 4px),
-        repeating-linear-gradient(90deg, transparent, transparent 2px, rgba(255,255,255,0.003) 2px, rgba(255,255,255,0.003) 4px);
-    opacity: 0.5;
+    background-image: radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 24px 24px;
 }
 
-/* ----- 滚动条 ----- */
-::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-track { background: #1a1c1e; }
-::-webkit-scrollbar-thumb { background: #3d4045; border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover { background: #555; }
+/* ----- Scrollbar ----- */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--steel-dark); }
+::-webkit-scrollbar-thumb { background: var(--rule); border-radius: 2px; }
+::-webkit-scrollbar-thumb:hover { background: var(--patina); }
 
-/* ----- 导航栏 ----- */
-.nav-link.active { color: #f59e0b !important; background: rgba(245, 158, 11, 0.08); }
+/* ============================================
+   Typography
+   ============================================ */
 
-/* ----- 动画 ----- */
+/* Display face for Latin numerals & headings */
+.display-font, h1, h2, h3, .counter, .metric-card .text-4xl,
+.metric-card .text-3xl, .perf-summary-card .text-3xl,
+.spec-item span:last-child, .rpm-val, .energy-val {
+    font-family: 'Space Grotesk', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    font-feature-settings: 'tnum', 'ss02';
+}
+
+/* Monospace data */
+.font-mono, code, .spec-item span:last-child {
+    font-family: 'Space Grotesk', 'JetBrains Mono', 'Consolas', monospace;
+}
+
+/* Section headings */
+.section-heading h2 {
+    font-family: 'Space Grotesk', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+}
+
+/* ============================================
+   Navigation
+   ============================================ */
+#navbar {
+    background: rgba(35, 36, 39, 0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--rule-subtle);
+}
+.nav-link {
+    font-family: 'Space Grotesk', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.02em;
+    transition: all 0.25s ease;
+}
+.nav-link.active {
+    color: var(--copper) !important;
+    background: rgba(212, 135, 74, 0.08);
+}
+
+/* ============================================
+   Animations (stripped down — restraint)
+   ============================================ */
 @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-@keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-
-.animate-fadeIn { animation: fadeIn 0.8s ease-out forwards; }
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+.animate-fadeIn  { animation: fadeIn 0.8s ease-out forwards; }
 .animate-slideUp { animation: slideUp 0.8s ease-out forwards; opacity: 0; }
 
-.reveal { opacity: 0; transform: translateY(25px); transition: opacity 0.6s ease-out, transform 0.6s ease-out; }
+/* Scroll reveal — the ONE entrance effect */
+.reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
 .reveal.visible { opacity: 1; transform: translateY(0); }
 
-/* ============ 工业风卡片通用 ============ */
+/* ============================================
+   Cards — Unified Industrial Style
+   ============================================ */
 .metric-card {
-    background: linear-gradient(180deg, #25282c, #1f2226);
-    border: 1px solid #33363b;
-    border-radius: 4px;
+    background: linear-gradient(180deg, var(--steel-surface), var(--steel-dark));
+    border: 1px solid var(--rule);
+    border-radius: 6px;
     padding: 1.5rem;
     transition: all 0.3s ease;
 }
 .metric-card:hover {
-    border-color: #f59e0b;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.3), inset 0 0 0 1px rgba(245,158,11,0.1);
+    border-color: var(--rule);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
     transform: translateY(-2px);
 }
 
@@ -57,446 +132,118 @@ body::before {
 .comm-feature, .code-feature-card, .chart-container,
 .perf-summary-card, .safety-card, .info-section-card,
 .team-card, .pioneer-card {
-    background: linear-gradient(180deg, #25282c, #1f2226);
-    border: 1px solid #33363b;
-    border-radius: 4px;
+    background: linear-gradient(180deg, var(--steel-surface), var(--steel-dark));
+    border: 1px solid var(--rule);
+    border-radius: 6px;
     transition: all 0.3s ease;
 }
-
 .info-card:hover, .arch-card:hover, .workflow-card:hover,
 .spec-card:hover, .comm-feature:hover, .code-feature-card:hover,
 .chart-container:hover, .perf-summary-card:hover, .safety-card:hover,
 .info-section-card:hover, .team-card:hover, .pioneer-card:hover {
-    border-color: #555;
-    box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+    border-color: var(--rule);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
     transform: translateY(-2px);
 }
 
-.info-card { padding: 2rem; }
-.arch-card { padding: 1.5rem; border-left: 3px solid #f59e0b; }
-.workflow-card { padding: 1.5rem; width: 220px; text-align: center; }
-.workflow-icon {
-    width: 56px; height: 56px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center; margin: 0 auto;
-    background: #2a2d32;
-}
-.spec-card { padding: 1.5rem; }
-.spec-card-header {
-    display: flex; align-items: center; gap: 1rem;
-    margin-bottom: 1rem; padding-bottom: 0.75rem;
-    border-bottom: 1px solid #33363b;
-}
-.spec-card-body { display: flex; flex-direction: column; gap: 0.4rem; }
-.spec-item { display: flex; justify-content: space-between; align-items: center; padding: 0.2rem 0; font-size: 0.8rem; }
-.spec-item span:first-child { color: #8a8d91; }
-.spec-item span:last-child { color: #c8ccd0; text-align: right; }
-.comm-feature { padding: 1.25rem; border-radius: 4px; }
+.info-card        { padding: 2rem; }
+.arch-card        { padding: 1.5rem; border-left: 3px solid var(--rule); }
+.workflow-card    { padding: 1.5rem; width: 220px; text-align: center; }
+.workflow-icon    { width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto; background: var(--steel-dark); }
+.spec-card        { padding: 1.5rem; }
+.spec-card-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem; padding-bottom: 0.75rem; border-bottom: 1px solid var(--rule-subtle); }
+.spec-card-body   { display: flex; flex-direction: column; gap: 0.4rem; }
+.spec-item        { display: flex; justify-content: space-between; align-items: center; padding: 0.2rem 0; font-size: 0.8rem; }
+.spec-item span:first-child { color: var(--patina); }
+.spec-item span:last-child  { color: var(--aluminum); text-align: right; font-variant-numeric: tabular-nums; }
+.comm-feature     { padding: 1.25rem; border-radius: 6px; }
 .comm-feature:hover { transform: translateX(3px); }
-.code-feature-card { padding: 1.5rem; text-align: center; border-radius: 4px; }
-.chart-container { padding: 1.5rem; border-radius: 4px; }
+.code-feature-card { padding: 1.5rem; text-align: center; border-radius: 6px; }
+.chart-container  { padding: 1.5rem; border-radius: 6px; }
 .chart-container canvas { max-height: 280px; }
-.perf-summary-card { padding: 1.25rem; text-align: center; border-radius: 4px; }
-.safety-card { padding: 1.25rem; text-align: center; border-radius: 4px; }
-.info-section-card { padding: 1.5rem; border-radius: 4px; }
-.team-card { padding: 1.5rem; text-align: center; border-radius: 4px; }
-.pioneer-card { padding: 1.5rem; text-align: center; border-radius: 4px; }
+.perf-summary-card { padding: 1.25rem; text-align: center; border-radius: 6px; }
+.safety-card      { padding: 1.25rem; text-align: center; border-radius: 6px; }
+.info-section-card { padding: 1.5rem; border-radius: 6px; }
+.team-card        { padding: 1.5rem; text-align: center; border-radius: 6px; }
+.pioneer-card     { padding: 1.5rem; text-align: center; border-radius: 6px; }
 
-/* ============ 图片占位 ============ */
-.img-placeholder {
-    background: #2a2d32;
-    border: 1px dashed #44474b;
-    border-radius: 4px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: #555;
-    font-size: 0.8rem;
-    overflow: hidden;
-    position: relative;
-    transition: all 0.3s;
-}
-.img-placeholder:hover {
-    border-color: #f59e0b;
-    color: #f59e0b;
-    background: #2d3035;
-}
-.img-placeholder i {
-    transition: all 0.3s;
-}
-.img-placeholder:hover i {
-    transform: scale(1.1);
+/* Copper accent — only on the signature flywheel element */
+.flywheel-sim .rpm-val {
+    color: var(--copper) !important;
 }
 
-/* 照片头像占位 */
-.photo-space {
-    position: relative;
-    overflow: hidden;
-    cursor: default;
-    background: #2a2d32;
-    border: 1.5px dashed #44474b;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto 1rem;
-    transition: all 0.3s;
-}
-.photo-space:hover {
-    border-color: #f59e0b;
-}
-
-/* 先行者头像 */
-.pioneer-avatar {
-    width: 72px; height: 72px;
-    border-radius: 50%;
-    margin: 0 auto 1rem;
-    display: flex; align-items: center; justify-content: center;
-    background: #2a2d32;
-    border: 2px solid #44474b;
-    color: #666;
-    transition: all 0.3s ease;
-}
-.pioneer-card:hover .pioneer-avatar {
-    border-color: #f59e0b;
-}
-
-.team-avatar {
-    width: 72px; height: 72px;
-    border-radius: 50%;
-    margin: 0 auto 1rem;
-    display: flex; align-items: center; justify-content: center;
-    background: #2a2d32;
-    border: 2px solid #44474b;
-    color: #666;
-    transition: all 0.3s ease;
-}
-.team-card:hover .team-avatar {
-    border-color: #f59e0b;
-}
-
-/* ----- GitHub 仓库链接 ----- */
-.github-link:hover {
-    border-color: #f59e0b !important;
-    box-shadow: 0 0 16px rgba(245, 158, 11, 0.15), 0 4px 12px rgba(0, 0, 0, 0.3);
-}
-.github-link:hover i.fa-github {
-    color: #f59e0b;
-}
-.github-link:hover i.fa-arrow-up-right-from-square {
-    color: #f59e0b;
-}
-
-/* ----- 回顶按钮 ----- */
-#back-to-top.visible { opacity: 1 !important; visibility: visible !important; }
-
-/* ----- 分区标题 ----- */
+/* Copper accent on section heading underlines */
 .section-heading h2 { position: relative; display: inline-block; }
 .section-heading h2::after {
     content: '';
-    position: absolute; bottom: -6px; left: 50%;
+    position: absolute;
+    bottom: -6px;
+    left: 50%;
     transform: translateX(-50%);
-    width: 50px; height: 2px;
-    background: #f59e0b;
+    width: 40px;
+    height: 2px;
+    background: var(--copper);
     border-radius: 1px;
 }
 
-/* ----- 表格 ----- */
-table { border-collapse: collapse; }
-tbody tr:hover td { background: rgba(245,158,11,0.03); }
-thead th { color: #f59e0b !important; }
-
-/* ============ 工业风动态特效 ============ */
-
-/* Hero 扫描线 */
-#hero::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    z-index: 5;
-    background: repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 3px,
-        rgba(0,0,0,0.03) 3px,
-        rgba(0,0,0,0.03) 4px
-    );
-    animation: scanlineMove 8s linear infinite;
-}
-@keyframes scanlineMove {
-    from { transform: translateY(0); }
-    to { transform: translateY(4px); }
-}
-
-/* 工业边框脉冲 */
-@keyframes industrialPulse {
-    0%, 100% { border-color: #33363b; box-shadow: 0 0 0 rgba(245,158,11,0); }
-    50% { border-color: #f59e0b; box-shadow: 0 0 8px rgba(245,158,11,0.3), 0 0 20px rgba(245,158,11,0.1); }
-}
-.metric-card {
-    animation: industrialPulse 4s ease-in-out infinite;
-}
-.metric-card:nth-child(2) { animation-delay: 1.3s; }
-.metric-card:nth-child(3) { animation-delay: 2.6s; }
-
-/* 金属光泽扫过 */
-@keyframes metalShimmer {
-    0% { background-position: -200% center; }
-    100% { background-position: 200% center; }
-}
-.spec-card:hover {
-    background: linear-gradient(110deg, #25282c 30%, #2d3035 45%, #25282c 60%);
-    background-size: 200% 100%;
-    animation: metalShimmer 1.5s ease-in-out;
-}
-
-/* 图表容器扫描线效果 */
-@keyframes chartGlow {
-    0%, 100% { box-shadow: inset 0 0 0 rgba(245,158,11,0); }
-    50% { box-shadow: inset 0 0 30px rgba(245,158,11,0.08); }
-}
-.chart-container {
-    animation: chartGlow 5s ease-in-out infinite;
-}
-.chart-container:nth-child(odd) { animation-delay: 2.5s; }
-
-/* 工业指示灯闪烁 */
-@keyframes indicatorBlink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.3; }
-}
-
-/* 安全卡片边框呼吸 */
-@keyframes safetyBreath {
-    0%, 100% { border-color: #33363b; box-shadow: inset 0 0 0 rgba(245,158,11,0); }
-    50% { border-color: rgba(245,158,11,0.5); box-shadow: inset 0 0 10px rgba(245,158,11,0.1); }
-}
-.safety-card {
-    animation: safetyBreath 5s ease-in-out infinite;
-}
-.safety-card:nth-child(2) { animation-delay: 1s; }
-.safety-card:nth-child(3) { animation-delay: 2s; }
-.safety-card:nth-child(4) { animation-delay: 3s; }
-.safety-card:nth-child(5) { animation-delay: 4s; }
-
-/* 性能卡片的数值跳动感 */
-@keyframes valuePulse {
-    0%, 100% { text-shadow: 0 0 0 transparent; }
-    50% { text-shadow: 0 0 18px rgba(245,158,11,0.5), 0 0 36px rgba(245,158,11,0.2); }
-}
-.perf-summary-card .text-3xl {
-    animation: valuePulse 2.5s ease-in-out infinite;
-}
-
-/* 工业齿轮旋转（仅装饰用） */
-@keyframes gearSpin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-.gear-icon {
-    animation: gearSpin 20s linear infinite;
-}
-
-/* Hero 下箭头工业风 */
-@keyframes industrialBounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(8px); }
-}
-#hero .fa-chevron-down {
-    animation: industrialBounce 2s ease-in-out infinite;
-    color: #f59e0b;
-}
-
-/* ----- 移动端 ----- */
-@media (max-width: 768px) {
-    /* 全局 */
-    html { font-size: 14px; }
-    body { text-align: center; }
-
-    /* Section */
-    section { padding: 2.5rem 0 !important; }
-
-    /* 导航 */
-    #navbar .h-16 { height: 3rem; }
-    #navbar .text-lg { font-size: 0.9rem; }
-    #mobile-menu a { padding: 0.6rem 1rem; font-size: 0.85rem; }
-
-    /* Hero */
-    #hero { min-height: 100vh; padding: 4rem 0.75rem 1.5rem; display: flex; align-items: center; }
-    #hero h1 { font-size: 1.6rem !important; line-height: 1.25 !important; margin-bottom: 0.75rem !important; }
-    #hero .text-xl { font-size: 0.85rem !important; max-width: 92%; margin-left: auto; margin-right: auto; }
-    #hero #hero-subtitle { font-size: 0.8rem !important; max-width: 92%; margin-bottom: 1rem !important; }
-    #hero .mb-8 { margin-bottom: 0.75rem; }
-    #hero .mb-12 { margin-bottom: 1rem; }
-    #hero .gap-x-3 { gap: 0.35rem; }
-    #hero .px-4.py-1\\.5 { padding: 0.25rem 0.6rem; font-size: 0.65rem; }
-
-    /* 指标卡：移动端保持3列 */
-    #hero .grid.grid-cols-1.sm\\:grid-cols-3 {
-        grid-template-columns: repeat(3, 1fr) !important;
-        gap: 0.35rem;
-    }
-    .metric-card { padding: 0.5rem 0.35rem; }
-    .metric-card .text-4xl { font-size: 1.15rem !important; }
-    .metric-card .text-lg { font-size: 0.65rem !important; }
-    .metric-card .text-sm { font-size: 0.6rem !important; }
-    .metric-card .text-3xl { font-size: 1.15rem !important; }
-
-    /* 标题 */
-    .section-heading h2 { font-size: 1.35rem !important; }
-    .section-heading p { font-size: 0.8rem; max-width: 90%; margin-left: auto; margin-right: auto; }
-
-    /* 通用卡片 */
-    .info-card, .arch-card, .spec-card, .comm-feature,
-    .code-feature-card, .safety-card, .perf-summary-card,
-    .info-section-card, .team-card, .pioneer-card {
-        padding: 0.85rem;
-        border-radius: 3px;
-    }
-    .info-card h3, .arch-card h4, .comm-feature h4, .spec-card-header h3 { font-size: 0.9rem !important; }
-    .info-card p, .arch-card p, .comm-feature p { font-size: 0.75rem; }
-
-    /* 架构卡片 */
-    .arch-card { text-align: left; }
-
-    /* 工作流 */
-    .workflow-card { width: 100%; max-width: 240px; padding: 1rem; margin: 0 auto; }
-
-    /* 规格卡 */
-    .spec-card { text-align: left; }
-    .spec-card-header .w-14 { width: 2.5rem; height: 2.5rem; }
-    .spec-card-header i { font-size: 1.1rem !important; }
-
-    /* 图表 */
-    .chart-container { padding: 0.75rem; }
-    .chart-container canvas { max-height: 180px; }
-    .chart-container h3 { font-size: 0.85rem !important; }
-
-    /* 表格 */
-    table { font-size: 0.7rem; }
-    th, td { padding: 0.4rem 0.5rem !important; }
-
-    /* 图片占位 */
-    .img-placeholder { min-height: 80px; font-size: 0.7rem; }
-
-    /* 网格 */
-    .lg\\:grid-cols-2, .lg\\:grid-cols-3, .lg\\:grid-cols-4, .lg\\:grid-cols-5 {
-        grid-template-columns: 1fr;
-        gap: 0.6rem;
-    }
-
-    /* 页脚 */
-    footer { padding: 1.5rem 1rem; text-align: center; }
-    footer .text-sm { font-size: 0.75rem; }
-    footer .github-link { padding: 0.5rem 0.75rem; font-size: 0.75rem; }
-    footer .github-link i { font-size: 0.85rem; }
-
-    /* 回顶 */
-    #back-to-top { bottom: 0.75rem; right: 0.75rem; width: 2.25rem; height: 2.25rem; }
-
-    /* 流程图纵向 */
-    .flex-wrap.items-center.justify-center { flex-direction: column; gap: 0.5rem; }
-
-    /* 间距紧缩 */
-    .mb-6 { margin-bottom: 0.75rem; }
-    .mb-8 { margin-bottom: 1rem; }
-    .mb-10 { margin-bottom: 1.25rem; }
-    .mb-12 { margin-bottom: 1.5rem; }
-    .mb-16 { margin-bottom: 1.75rem; }
-    .mt-6 { margin-top: 0.75rem; }
-    .mt-8 { margin-top: 1rem; }
-    .mt-10 { margin-top: 1.25rem; }
-    .mt-12 { margin-top: 1.5rem; }
-    .mt-16 { margin-top: 1.75rem; }
-    .gap-4 { gap: 0.5rem; }
-    .gap-6 { gap: 0.6rem; }
-    .gap-8 { gap: 0.75rem; }
-    .gap-12 { gap: 1rem; }
-    .space-y-2 > * + * { margin-top: 0.35rem; }
-    .space-y-3 > * + * { margin-top: 0.5rem; }
-    .space-y-4 > * + * { margin-top: 0.6rem; }
-    .space-y-5 > * + * { margin-top: 0.75rem; }
-    .py-20 { padding-top: 2.5rem !important; padding-bottom: 2.5rem !important; }
-
-    /* 统计条 */
-    .grid-cols-2 { grid-template-columns: repeat(2, 1fr); gap: 0.4rem; }
-
-    /* 内容居中 */
-    .max-w-7xl { padding-left: 0.75rem; padding-right: 0.75rem; }
-}
-@media (max-width: 480px) {
-    html { font-size: 13px; }
-
-    #hero { min-height: 100vh; padding: 3.5rem 0.5rem 1rem; }
-    #hero h1 { font-size: 1.35rem !important; }
-    #hero #hero-subtitle { font-size: 0.72rem !important; }
-
-    .metric-card { padding: 0.4rem 0.2rem; }
-    .metric-card .text-4xl { font-size: 1rem !important; }
-    .metric-card .text-3xl { font-size: 1rem !important; }
-
-    .grid-cols-2, .sm\\:grid-cols-2 { grid-template-columns: 1fr !important; }
-
-    /* 保持Hero指标卡3列 */
-    #hero .grid.grid-cols-1.sm\\:grid-cols-3 { grid-template-columns: repeat(3, 1fr) !important; gap: 0.25rem; }
-
-    .img-placeholder { min-height: 70px; }
-    .chart-container canvas { max-height: 150px; }
-
-    section { padding: 2rem 0 !important; }
-    .max-w-7xl { padding-left: 0.5rem; padding-right: 0.5rem; }
+/* Copper for the nav logo dot */
+#navbar .w-8.h-8.rounded-full {
+    background: linear-gradient(135deg, var(--copper), var(--copper-deep)) !important;
 }
 
 /* ============================================
-   交互效果样式
+   Image Placeholders
    ============================================ */
+.img-placeholder {
+    background: var(--steel-dark);
+    border: 1px dashed var(--rule);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--patina);
+    font-size: 0.8rem;
+    overflow: hidden;
+    transition: all 0.3s;
+}
+.img-placeholder:hover {
+    border-color: var(--copper);
+    color: var(--copper);
+    background: var(--steel-surface);
+}
+.img-placeholder i { transition: all 0.3s; }
+.img-placeholder:hover i { transform: scale(1.1); }
 
-/* ----- 1. 鼠标跟随能量光晕 ----- */
-#cursor-glow {
-    position: fixed;
-    pointer-events: none;
-    z-index: 9999;
-    width: 600px;
-    height: 600px;
+.photo-space {
+    position: relative; overflow: hidden; cursor: default;
+    background: var(--steel-dark);
+    border: 1.5px dashed var(--rule);
     border-radius: 50%;
-    background: radial-gradient(circle,
-        rgba(245, 158, 11, 0.12) 0%,
-        rgba(245, 158, 11, 0.06) 25%,
-        rgba(245, 158, 11, 0.02) 50%,
-        transparent 70%
-    );
-    transform: translate(-50%, -50%);
-    transition: opacity 0.4s;
-    will-change: left, top;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 1rem;
+    transition: all 0.3s;
+    color: var(--patina);
+}
+.photo-space:hover { border-color: var(--copper); }
+
+.pioneer-avatar, .team-avatar {
+    width: 72px; height: 72px;
+    border-radius: 50%;
+    margin: 0 auto 1rem;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--steel-dark);
+    border: 2px solid var(--rule);
+    color: var(--patina);
+    transition: all 0.3s ease;
+}
+.pioneer-card:hover .pioneer-avatar,
+.team-card:hover .team-avatar {
+    border-color: var(--copper);
 }
 
-/* ----- 2. 3D 透视卡片倾斜 ----- */
-.tilt-container {
-    perspective: 800px;
-    transform-style: preserve-3d;
-}
-.tilt-inner {
-    transition: transform 0.1s ease-out;
-    will-change: transform;
-}
-.tilt-inner.restoring {
-    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-}
-.tilt-glow {
-    position: absolute;
-    inset: 0;
-    border-radius: 4px;
-    pointer-events: none;
-    transition: opacity 0.3s;
-    opacity: 0;
-    background: radial-gradient(ellipse at var(--mx) var(--my),
-        rgba(245, 158, 11, 0.15) 0%,
-        transparent 60%
-    );
-    z-index: 1;
-}
-
-/* ----- 3. 飞轮转速模拟器 ----- */
+/* ============================================
+   Flywheel Simulator — THE signature element
+   ============================================ */
 .flywheel-sim {
     position: relative;
     display: flex;
@@ -509,81 +256,313 @@ thead th { color: #f59e0b !important; }
     border-radius: 50%;
     transition: filter 0.3s;
 }
-.flywheel-sim canvas:active {
-    cursor: grabbing;
-}
+.flywheel-sim canvas:active { cursor: grabbing; }
 .flywheel-sim .sim-label {
     font-size: 0.85rem;
-    color: #9ca3af;
+    color: var(--patina);
     text-align: center;
+    font-family: 'Space Grotesk', 'PingFang SC', 'Microsoft YaHei', sans-serif;
 }
 .flywheel-sim .sim-label .rpm-val {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     font-weight: 700;
-    color: #f59e0b;
+    color: var(--copper) !important;
     font-variant-numeric: tabular-nums;
+    font-family: 'Space Grotesk', sans-serif;
 }
 .flywheel-sim .sim-label .energy-val {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     font-weight: 600;
-    color: #22c55e;
+    color: var(--aluminum);
     font-variant-numeric: tabular-nums;
+    font-family: 'Space Grotesk', sans-serif;
 }
 .flywheel-sim .sim-hint {
     font-size: 0.7rem;
-    color: #555;
+    color: var(--patina);
+    opacity: 0.7;
     transition: opacity 0.6s;
 }
 
-/* ----- 4. 磁吸按钮效果 ----- */
+/* ============================================
+   Charts
+   ============================================ */
+.chart-container canvas {
+    filter: brightness(0.95);
+}
+
+/* ============================================
+   Tables
+   ============================================ */
+table { border-collapse: collapse; }
+thead th { color: var(--copper) !important; font-weight: 500; }
+tbody tr:hover td { background: rgba(212, 135, 74, 0.03); }
+
+/* ============================================
+   Interactive Effects (kept: cursor glow, tilt, magnetic, parallax, typewriter)
+   ============================================ */
+
+/* Cursor energy glow */
+#cursor-glow {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle,
+        rgba(212, 135, 74, 0.08) 0%,
+        rgba(212, 135, 74, 0.04) 30%,
+        rgba(212, 135, 74, 0.01) 55%,
+        transparent 70%
+    );
+    transform: translate(-50%, -50%);
+    transition: opacity 0.4s;
+    will-change: left, top;
+}
+
+/* 3D tilt */
+.tilt-container { perspective: 800px; transform-style: preserve-3d; }
+.tilt-inner {
+    transition: transform 0.1s ease-out;
+    will-change: transform;
+}
+.tilt-inner.restoring {
+    transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.tilt-glow {
+    position: absolute; inset: 0;
+    border-radius: 6px;
+    pointer-events: none;
+    transition: opacity 0.3s;
+    opacity: 0;
+    background: radial-gradient(ellipse at var(--mx) var(--my),
+        rgba(212, 135, 74, 0.1) 0%,
+        transparent 60%
+    );
+    z-index: 1;
+}
+
+/* Magnetic */
 .magnetic-target {
     transition: transform 0.15s ease-out;
     will-change: transform;
 }
-.magnetic-target .magnetic-inner {
-    transition: transform 0.15s ease-out;
-}
+.magnetic-target .magnetic-inner { transition: transform 0.15s ease-out; }
 
-/* ----- 5. 滚动视差 (Hero背景) ----- */
-.parallax-layer {
-    will-change: transform;
-}
+/* Parallax */
+.parallax-layer { will-change: transform; }
 
-/* ----- 6. 打字机效果 ----- */
+/* Typewriter */
 .typewriter-cursor {
     display: inline-block;
     width: 2px;
     height: 1.1em;
-    background: #f59e0b;
+    background: var(--copper);
     margin-left: 2px;
     vertical-align: text-bottom;
     animation: cursorBlink 0.8s step-end infinite;
 }
 @keyframes cursorBlink {
     0%, 100% { opacity: 1; }
-    50% { opacity: 0; }
+    50%      { opacity: 0; }
 }
 
-/* ----- 飞轮模拟器移动端适配 ----- */
+/* ============================================
+   Hero-specific
+   ============================================ */
+/* Hero chevron */
+@keyframes industrialBounce {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(8px); }
+}
+#hero .fa-chevron-down {
+    animation: industrialBounce 2s ease-in-out infinite;
+    color: var(--copper);
+}
+
+/* ============================================
+   Back to top
+   ============================================ */
+#back-to-top {
+    background: rgba(212, 135, 74, 0.08);
+    border: 1px solid rgba(212, 135, 74, 0.2);
+    color: var(--copper);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+}
+#back-to-top:hover {
+    background: rgba(212, 135, 74, 0.15);
+}
+#back-to-top.visible { opacity: 1 !important; visibility: visible !important; }
+
+/* ============================================
+   GitHub link in footer
+   ============================================ */
+.github-link {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.85rem;
+    transition: all 0.3s ease;
+}
+.github-link:hover {
+    border-color: var(--copper) !important;
+    box-shadow: 0 0 20px rgba(212, 135, 74, 0.12), 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+.github-link:hover i.fa-github               { color: var(--copper); }
+.github-link:hover i.fa-arrow-up-right-from-square { color: var(--copper); }
+
+/* ============================================
+   Architecture cards — copper left border
+   ============================================ */
+.arch-card.border-l-accent   { border-left-color: var(--copper) !important; }
+.arch-card.border-l-energy   { border-left-color: var(--patina) !important; }
+.arch-card.border-l-warning  { border-left-color: var(--steel-elevated) !important; }
+
+/* ============================================
+   Workflow mode indicator dots
+   ============================================ */
+.workflow-card .bg-green-500 { background-color: #5C8D6F !important; }
+.workflow-card .bg-yellow-500 { background-color: var(--copper) !important; }
+
+/* ============================================
+   Hero tags
+   ============================================ */
+#hero .border-amber-500\\/30 {
+    border-color: rgba(212, 135, 74, 0.3) !important;
+}
+#hero .bg-amber-500\\/5 {
+    background: rgba(212, 135, 74, 0.06) !important;
+}
+#hero .text-amber-400 { color: var(--copper) !important; }
+#hero .bg-amber-400 { background-color: var(--copper) !important; }
+
+/* ============================================
+   Mobile
+   ============================================ */
 @media (max-width: 768px) {
-    .flywheel-sim { margin-top: 0.75rem !important; gap: 0.4rem; }
-    .flywheel-sim canvas {
-        width: 140px !important;
-        height: 140px !important;
+    html { font-size: 14px; }
+    body { text-align: center; }
+    section { padding: 2.5rem 0 !important; }
+
+    #navbar .h-16 { height: 3rem; }
+    #navbar .text-lg { font-size: 0.9rem; }
+    #mobile-menu a { padding: 0.6rem 1rem; font-size: 0.85rem; }
+
+    #hero { min-height: 100vh; padding: 4rem 0.75rem 1.5rem; display: flex; align-items: center; }
+    #hero h1 { font-size: 1.6rem !important; line-height: 1.25 !important; margin-bottom: 0.75rem !important; }
+    #hero .text-xl { font-size: 0.85rem !important; max-width: 92%; margin-left: auto; margin-right: auto; }
+    #hero #hero-subtitle { font-size: 0.8rem !important; max-width: 92%; margin-bottom: 1rem !important; }
+    #hero .mb-8  { margin-bottom: 0.75rem; }
+    #hero .mb-12 { margin-bottom: 1rem; }
+    #hero .gap-x-3 { gap: 0.35rem; }
+
+    #hero .grid.grid-cols-1.sm\\:grid-cols-3 {
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 0.35rem;
     }
+    .metric-card { padding: 0.5rem 0.35rem; }
+    .metric-card .text-4xl { font-size: 1.15rem !important; }
+    .metric-card .text-lg  { font-size: 0.65rem !important; }
+    .metric-card .text-sm  { font-size: 0.6rem !important; }
+    .metric-card .text-3xl { font-size: 1.15rem !important; }
+
+    .section-heading h2 { font-size: 1.35rem !important; }
+    .section-heading p  { font-size: 0.8rem; max-width: 90%; margin-left: auto; margin-right: auto; }
+
+    .info-card, .arch-card, .spec-card, .comm-feature,
+    .code-feature-card, .safety-card, .perf-summary-card,
+    .info-section-card, .team-card, .pioneer-card {
+        padding: 0.85rem;
+        border-radius: 4px;
+    }
+    .info-card h3, .arch-card h4, .comm-feature h4,
+    .spec-card-header h3 { font-size: 0.9rem !important; }
+    .info-card p, .arch-card p, .comm-feature p { font-size: 0.75rem; }
+
+    .arch-card { text-align: left; }
+    .workflow-card { width: 100%; max-width: 240px; padding: 1rem; margin: 0 auto; }
+    .spec-card { text-align: left; }
+    .spec-card-header .w-14 { width: 2.5rem; height: 2.5rem; }
+    .spec-card-header i { font-size: 1.1rem !important; }
+
+    .chart-container { padding: 0.75rem; }
+    .chart-container canvas { max-height: 180px; }
+    .chart-container h3 { font-size: 0.85rem !important; }
+
+    table { font-size: 0.7rem; }
+    th, td { padding: 0.4rem 0.5rem !important; }
+
+    .img-placeholder { min-height: 80px; font-size: 0.7rem; }
+
+    .lg\\:grid-cols-2, .lg\\:grid-cols-3, .lg\\:grid-cols-4, .lg\\:grid-cols-5 {
+        grid-template-columns: 1fr;
+        gap: 0.6rem;
+    }
+
+    footer { padding: 1.5rem 1rem; text-align: center; }
+    footer .text-sm { font-size: 0.75rem; }
+    footer .github-link { padding: 0.5rem 0.75rem; font-size: 0.75rem; }
+    footer .github-link i { font-size: 0.85rem; }
+
+    #back-to-top { bottom: 0.75rem; right: 0.75rem; width: 2.25rem; height: 2.25rem; }
+    .flex-wrap.items-center.justify-center { flex-direction: column; gap: 0.5rem; }
+
+    .mb-6  { margin-bottom: 0.75rem; }
+    .mb-8  { margin-bottom: 1rem; }
+    .mb-10 { margin-bottom: 1.25rem; }
+    .mb-12 { margin-bottom: 1.5rem; }
+    .mb-16 { margin-bottom: 1.75rem; }
+    .mt-6  { margin-top: 0.75rem; }
+    .mt-8  { margin-top: 1rem; }
+    .mt-10 { margin-top: 1.25rem; }
+    .mt-12 { margin-top: 1.5rem; }
+    .mt-16 { margin-top: 1.75rem; }
+    .gap-4  { gap: 0.5rem; }
+    .gap-6  { gap: 0.6rem; }
+    .gap-8  { gap: 0.75rem; }
+    .gap-12 { gap: 1rem; }
+    .space-y-2 > * + * { margin-top: 0.35rem; }
+    .space-y-3 > * + * { margin-top: 0.5rem; }
+    .space-y-4 > * + * { margin-top: 0.6rem; }
+    .space-y-5 > * + * { margin-top: 0.75rem; }
+    .py-20 { padding-top: 2.5rem !important; padding-bottom: 2.5rem !important; }
+
+    .grid-cols-2 { grid-template-columns: repeat(2, 1fr); gap: 0.4rem; }
+    .max-w-7xl { padding-left: 0.75rem; padding-right: 0.75rem; }
+
+    .flywheel-sim { margin-top: 0.75rem !important; gap: 0.4rem; }
+    .flywheel-sim canvas { width: 140px !important; height: 140px !important; }
     .flywheel-sim .sim-label { font-size: 0.75rem; }
-    .flywheel-sim .sim-label .rpm-val { font-size: 1.1rem; }
-    .flywheel-sim .sim-label .energy-val { font-size: 0.85rem; }
+    .flywheel-sim .sim-label .rpm-val { font-size: 1.2rem; }
+    .flywheel-sim .sim-label .energy-val { font-size: 0.9rem; }
     .flywheel-sim .sim-hint { font-size: 0.65rem; }
     #cursor-glow { display: none; }
 }
+
 @media (max-width: 480px) {
-    .flywheel-sim { margin-top: 0.5rem !important; }
-    .flywheel-sim canvas {
-        width: 110px !important;
-        height: 110px !important;
+    html { font-size: 13px; }
+
+    #hero { min-height: 100vh; padding: 3.5rem 0.5rem 1rem; }
+    #hero h1 { font-size: 1.35rem !important; }
+    #hero #hero-subtitle { font-size: 0.72rem !important; }
+
+    .metric-card { padding: 0.4rem 0.2rem; }
+    .metric-card .text-4xl { font-size: 1rem !important; }
+    .metric-card .text-3xl { font-size: 1rem !important; }
+
+    .grid-cols-2, .sm\\:grid-cols-2 { grid-template-columns: 1fr !important; }
+    #hero .grid.grid-cols-1.sm\\:grid-cols-3 {
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 0.25rem;
     }
+
+    .img-placeholder { min-height: 70px; }
+    .chart-container canvas { max-height: 150px; }
+    section { padding: 2rem 0 !important; }
+    .max-w-7xl { padding-left: 0.5rem; padding-right: 0.5rem; }
+
+    .flywheel-sim { margin-top: 0.5rem !important; }
+    .flywheel-sim canvas { width: 110px !important; height: 110px !important; }
     .flywheel-sim .sim-label { font-size: 0.7rem; }
     .flywheel-sim .sim-label .rpm-val { font-size: 1rem; }
-    .flywheel-sim .sim-label .energy-val { font-size: 0.75rem; }
+    .flywheel-sim .sim-label .energy-val { font-size: 0.8rem; }
 }
