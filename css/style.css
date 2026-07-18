@@ -426,7 +426,7 @@ tbody tr:hover td { background: rgba(212, 135, 74, 0.02); }
     .img-placeholder { min-height: 80px; font-size: 0.7rem; }
 
     /* Grid collapse */
-    .lg\:grid-cols-2, .lg\:grid-cols-3, .lg\:grid-cols-4, .lg\:grid-cols-5 {
+    .lg\\:grid-cols-2, .lg\\:grid-cols-3, .lg\\:grid-cols-4, .lg\\:grid-cols-5 {
         grid-template-columns: 1fr; gap: 0.6rem;
     }
 
@@ -472,7 +472,7 @@ tbody tr:hover td { background: rgba(212, 135, 74, 0.02); }
 
     #hero .text-2xl { font-size: 0.9rem !important; }
 
-    .grid-cols-2, .sm\:grid-cols-2 { grid-template-columns: 1fr !important; }
+    .grid-cols-2, .sm\\:grid-cols-2 { grid-template-columns: 1fr !important; }
     #hero .grid.grid-cols-3 { gap: 0.3rem; }
 
     .img-placeholder { min-height: 70px; }

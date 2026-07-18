@@ -88,6 +88,9 @@
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 
+    <!-- MQTT.js（实时监控：MQTT over WebSocket，须在 js/live-monitor.js 之前加载） -->
+    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+
     <!-- Favicon (inline SVG flywheel) -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><circle cx='32' cy='32' r='28' fill='none' stroke='%23D4874A' stroke-width='3'/><circle cx='32' cy='32' r='20' fill='none' stroke='%239B8E7E' stroke-width='1.5'/><circle cx='32' cy='32' r='5' fill='%23D4874A'/><line x1='32' y1='12' x2='32' y2='27' stroke='%239B8E7E' stroke-width='1.5'/><line x1='32' y1='37' x2='32' y2='52' stroke='%239B8E7E' stroke-width='1.5'/><line x1='12' y1='32' x2='27' y2='32' stroke='%239B8E7E' stroke-width='1.5'/><line x1='37' y1='32' x2='52' y2='32' stroke='%239B8E7E' stroke-width='1.5'/><circle cx='32' cy='32' r='2.5' fill='%23232427'/></svg>">
 
@@ -114,6 +117,7 @@
                     <a href="#control" class="nav-link px-3 py-2 rounded-lg text-sm text-patina hover:text-aluminum hover:bg-white/5 transition-all">通信与控制</a>
                     <a href="#slave-station" class="nav-link px-3 py-2 rounded-lg text-sm text-patina hover:text-aluminum hover:bg-white/5 transition-all">从站系统</a>
                     <a href="#performance" class="nav-link px-3 py-2 rounded-lg text-sm text-patina hover:text-aluminum hover:bg-white/5 transition-all">性能测试</a>
+                    <a href="#live-monitor" class="nav-link px-3 py-2 rounded-lg text-sm text-patina hover:text-aluminum hover:bg-white/5 transition-all">实时监控</a>
                     <a href="#automotive" class="nav-link px-3 py-2 rounded-lg text-sm text-patina hover:text-aluminum hover:bg-white/5 transition-all">汽车应用</a>
                     <a href="#aerospace" class="nav-link px-3 py-2 rounded-lg text-sm text-patina hover:text-aluminum hover:bg-white/5 transition-all">航天技术</a>
                     <a href="#pioneers" class="nav-link px-3 py-2 rounded-lg text-sm text-patina hover:text-aluminum hover:bg-white/5 transition-all">先行者</a>
@@ -134,6 +138,7 @@
                 <a href="#control" class="block px-3 py-2 rounded-lg text-sm text-patina hover:text-aluminum hover:bg-white/5">通信与控制</a>
                 <a href="#slave-station" class="block px-3 py-2 rounded-lg text-sm text-patina hover:text-aluminum hover:bg-white/5">从站系统</a>
                 <a href="#performance" class="block px-3 py-2 rounded-lg text-sm text-patina hover:text-aluminum hover:bg-white/5">性能测试</a>
+                <a href="#live-monitor" class="block px-3 py-2 rounded-lg text-sm text-patina hover:text-aluminum hover:bg-white/5">实时监控</a>
                 <a href="#automotive" class="block px-3 py-2 rounded-lg text-sm text-patina hover:text-aluminum hover:bg-white/5">汽车应用</a>
                 <a href="#aerospace" class="block px-3 py-2 rounded-lg text-sm text-patina hover:text-aluminum hover:bg-white/5">航天技术</a>
                 <a href="#pioneers" class="block px-3 py-2 rounded-lg text-sm text-patina hover:text-aluminum hover:bg-white/5">先行者</a>
@@ -238,12 +243,9 @@
                 </div>
             </div>
 
-            <!-- 系统实物图占位 -->
+            <!-- 系统实物图 -->
             <div class="mb-12">
-                <div class="img-placeholder rounded w-full h-48 sm:h-64 flex flex-col items-center justify-center gap-2">
-                    <i class="fa-solid fa-image text-2xl"></i>
-                    <span>系统实物整体图</span>
-                </div>
+                <img src="images/system-overview.png" alt="飞轮储能UPS系统实物整体图" class="rounded w-full h-48 sm:h-64 object-cover border border-rule-color">
             </div>
 
             <!-- 系统架构图 -->
@@ -637,12 +639,9 @@
                 </div>
             </div>
 
-            <!-- RS485拓扑图占位 -->
+            <!-- RS485拓扑图 -->
             <div class="mt-8 mb-6">
-                <div class="img-placeholder rounded h-36 sm:h-48 flex flex-col items-center justify-center gap-2">
-                    <i class="fa-solid fa-diagram-project text-2xl"></i>
-                    <span>RS485 总线拓扑连接图</span>
-                </div>
+                <img src="images/rs485-topology.png" alt="RS485 总线拓扑连接图" class="rounded w-full h-36 sm:h-48 object-contain border border-rule-color bg-steel-dark/50">
             </div>
 
             <!-- 控制程序亮点 -->
@@ -1059,7 +1058,133 @@
         </div>
     </section>
 
-    <!-- ==================== 7. 汽车飞轮应用 ==================== -->
+    <!-- ==================== 7. 实时监控（MQTT） ==================== -->
+    <section id="live-monitor" class="py-20 lg:py-28">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 section-heading">
+                <h2 class="text-3xl sm:text-4xl font-bold text-aluminum mb-4">实时监控</h2>
+                <p class="text-patina max-w-2xl mx-auto">通过 MQTT over WebSocket 订阅设备 FW001 的实时遥测数据 · 无硬件时可开启演示模式</p>
+            </div>
+
+            <!-- 连接配置条 -->
+            <div class="info-card reveal mb-8">
+                <div class="flex flex-col lg:flex-row lg:items-center gap-4">
+                    <div class="flex items-center gap-3 flex-1 min-w-0">
+                        <i class="fa-solid fa-server text-copper flex-shrink-0"></i>
+                        <label for="lm-broker-url" class="text-patina text-sm whitespace-nowrap">Broker</label>
+                        <input id="lm-broker-url" type="text" spellcheck="false" autocomplete="off"
+                               class="lm-input flex-1 min-w-0" value="wss://broker.emqx.io:8084/mqtt"
+                               placeholder="wss://broker.emqx.io:8084/mqtt">
+                    </div>
+                    <div class="flex items-center gap-3 flex-wrap">
+                        <button id="lm-connect-btn" class="lm-btn lm-btn-primary">
+                            <i class="fa-solid fa-plug"></i> 连接
+                        </button>
+                        <button id="lm-disconnect-btn" class="lm-btn" disabled>
+                            <i class="fa-solid fa-plug-circle-xmark"></i> 断开
+                        </button>
+                        <span class="flex items-center gap-2">
+                            <span id="lm-conn-light" class="lm-light lm-light--off"></span>
+                            <span id="lm-conn-status" class="text-sm text-patina">未连接</span>
+                        </span>
+                        <button id="lm-demo-toggle" class="lm-btn lm-btn-demo">
+                            <i class="fa-solid fa-wand-magic-sparkles"></i> 演示模式
+                        </button>
+                        <span id="lm-mode-badge" class="lm-badge lm-badge-demo hidden">
+                            <i class="fa-solid fa-circle-play mr-1"></i>演示数据播放中
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 大数字仪表卡 -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
+                <div class="metric-card p-5 text-center" id="lm-card-rpm">
+                    <i class="fa-solid fa-gauge-high text-copper text-xl mb-2"></i>
+                    <div class="text-3xl font-bold text-aluminum lm-metric-value"><span id="lm-rpm">--</span><span class="text-sm text-patina"> rpm</span></div>
+                    <p class="text-patina text-xs mt-1">飞轮转速</p>
+                </div>
+                <div class="metric-card p-5 text-center" id="lm-card-temp">
+                    <i class="fa-solid fa-temperature-high text-copper text-xl mb-2"></i>
+                    <div class="text-3xl font-bold text-aluminum lm-metric-value"><span id="lm-temp">--</span><span class="text-sm text-patina"> °C</span></div>
+                    <p class="text-patina text-xs mt-1">电机温度</p>
+                </div>
+                <div class="metric-card p-5 text-center" id="lm-card-current">
+                    <i class="fa-solid fa-bolt text-copper text-xl mb-2"></i>
+                    <div class="text-3xl font-bold text-aluminum lm-metric-value"><span id="lm-current">--</span><span class="text-sm text-patina"> A</span></div>
+                    <p class="text-patina text-xs mt-1">母线电流</p>
+                </div>
+                <div class="metric-card p-5 text-center" id="lm-card-vibx">
+                    <i class="fa-solid fa-wave-square text-copper text-xl mb-2"></i>
+                    <div class="text-3xl font-bold text-aluminum lm-metric-value"><span id="lm-vib-x">--</span><span class="text-sm text-patina"> g</span></div>
+                    <p class="text-patina text-xs mt-1">振动 X 轴</p>
+                </div>
+                <div class="metric-card p-5 text-center" id="lm-card-viby">
+                    <i class="fa-solid fa-wave-square text-copper text-xl mb-2"></i>
+                    <div class="text-3xl font-bold text-aluminum lm-metric-value"><span id="lm-vib-y">--</span><span class="text-sm text-patina"> g</span></div>
+                    <p class="text-patina text-xs mt-1">振动 Y 轴</p>
+                </div>
+            </div>
+
+            <!-- 实时曲线 -->
+            <div class="grid lg:grid-cols-2 gap-8 mb-8">
+                <div class="chart-container">
+                    <h3 class="text-lg font-semibold text-aluminum mb-4 flex items-center gap-2">
+                        <i class="fa-solid fa-chart-line text-patina"></i> 实时转速曲线
+                    </h3>
+                    <div class="relative">
+                        <canvas id="lm-rpm-chart"></canvas>
+                    </div>
+                    <p class="text-patina text-xs mt-3 text-center">最近 60 秒滚动窗口 · 1 帧/秒</p>
+                </div>
+                <div class="chart-container">
+                    <h3 class="text-lg font-semibold text-aluminum mb-4 flex items-center gap-2">
+                        <i class="fa-solid fa-chart-area text-patina"></i> 实时振动曲线（X / Y）
+                    </h3>
+                    <div class="relative">
+                        <canvas id="lm-vib-chart"></canvas>
+                    </div>
+                    <p class="text-patina text-xs mt-3 text-center">最近 60 秒滚动窗口 · 报警阈值 10g</p>
+                </div>
+            </div>
+
+            <!-- 状态指示 + 报警面板 -->
+            <div class="grid lg:grid-cols-3 gap-8">
+                <div class="info-card reveal">
+                    <h3 class="text-lg font-semibold text-aluminum mb-4 flex items-center gap-2">
+                        <i class="fa-solid fa-satellite-dish text-copper"></i> 设备状态
+                    </h3>
+                    <div class="flex items-center gap-3 mb-5">
+                        <span id="lm-status-light" class="lm-light lm-light--off"></span>
+                        <span id="lm-status-text" class="lm-status-text text-patina">等待数据</span>
+                    </div>
+                    <div class="spec-card-body">
+                        <div class="spec-item"><span>设备编号</span><span>FW001</span></div>
+                        <div class="spec-item"><span>状态主题</span><span>flywheel/FW001/status</span></div>
+                        <div class="spec-item"><span>报警主题</span><span>flywheel/FW001/alarms</span></div>
+                        <div class="spec-item"><span>最后数据时间</span><span id="lm-last-time">--</span></div>
+                        <div class="spec-item"><span>数据帧计数</span><span id="lm-frame-count">0</span></div>
+                    </div>
+                </div>
+                <div class="info-card reveal lg:col-span-2" id="lm-alarm-panel">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-lg font-semibold text-aluminum flex items-center gap-2">
+                            <i class="fa-solid fa-bell text-copper"></i> 报警事件
+                            <span id="lm-alarm-count" class="lm-badge lm-badge-alarm hidden">0</span>
+                        </h3>
+                        <button id="lm-clear-alarms" class="lm-btn lm-btn-sm">
+                            <i class="fa-solid fa-trash-can"></i> 清空
+                        </button>
+                    </div>
+                    <ul id="lm-alarm-list" class="lm-alarm-list">
+                        <li id="lm-alarm-empty" class="lm-alarm-empty">暂无报警</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== 8. 汽车飞轮应用 ==================== -->
     <section id="automotive" class="py-20 lg:py-28 bg-[#1B1D20]/50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16 section-heading">
@@ -1197,7 +1322,7 @@
         </div>
     </section>
 
-    <!-- ==================== 8. 航天飞轮技术 ==================== -->
+    <!-- ==================== 9. 航天飞轮技术 ==================== -->
     <section id="aerospace" class="py-20 lg:py-28">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16 section-heading">
@@ -1471,7 +1596,7 @@
         </div>
     </section>
 
-    <!-- ==================== 9. 先行者 ==================== -->
+    <!-- ==================== 10. 先行者 ==================== -->
     <section id="pioneers" class="py-20 lg:py-28 bg-[#1B1D20]/50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16 section-heading">
@@ -1483,9 +1608,7 @@
             <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 <!-- 梁宇恒 -->
                 <div class="pioneer-card">
-                    <div class="pioneer-avatar photo-space">
-                        <i class="fa-solid fa-camera text-lg opacity-25"></i>
-                    </div>
+                    <img src="images/avatar-liangyuheng.png" alt="梁宇恒" class="w-[72px] h-[72px] rounded-full object-cover mx-auto mb-4 border-2 border-rule-color">
                     <h3 class="text-aluminum font-semibold text-lg">梁宇恒</h3>
                     <p class="text-patina/60 text-xs mb-3">项目创始人</p>
                     <p class="text-patina text-xs leading-relaxed">
@@ -1494,9 +1617,7 @@
                 </div>
                 <!-- 薛启辰 -->
                 <div class="pioneer-card">
-                    <div class="pioneer-avatar photo-space">
-                        <i class="fa-solid fa-camera text-lg opacity-25"></i>
-                    </div>
+                    <img src="images/avatar-xueqichen.png" alt="薛启辰" class="w-[72px] h-[72px] rounded-full object-cover mx-auto mb-4 border-2 border-rule-color">
                     <h3 class="text-aluminum font-semibold text-lg">薛启辰</h3>
                     <p class="text-patina/60 text-xs mb-3">硬件研发</p>
                     <p class="text-patina text-xs leading-relaxed">
@@ -1505,9 +1626,7 @@
                 </div>
                 <!-- 于博宇 -->
                 <div class="pioneer-card">
-                    <div class="pioneer-avatar photo-space">
-                        <i class="fa-solid fa-camera text-lg opacity-25"></i>
-                    </div>
+                    <img src="images/avatar-yuboyu.png" alt="于博宇" class="w-[72px] h-[72px] rounded-full object-cover mx-auto mb-4 border-2 border-rule-color">
                     <h3 class="text-aluminum font-semibold text-lg">于博宇</h3>
                     <p class="text-patina/60 text-xs mb-3">软件开发</p>
                     <p class="text-patina text-xs leading-relaxed">
@@ -1516,9 +1635,7 @@
                 </div>
                 <!-- 刘宇航 -->
                 <div class="pioneer-card">
-                    <div class="pioneer-avatar photo-space">
-                        <i class="fa-solid fa-camera text-lg opacity-25"></i>
-                    </div>
+                    <img src="images/avatar-liuyuhang.png" alt="刘宇航" class="w-[72px] h-[72px] rounded-full object-cover mx-auto mb-4 border-2 border-rule-color">
                     <h3 class="text-aluminum font-semibold text-lg">刘宇航</h3>
                     <p class="text-patina/60 text-xs mb-3">实验测试</p>
                     <p class="text-patina text-xs leading-relaxed">
@@ -1529,7 +1646,7 @@
         </div>
     </section>
 
-    <!-- ==================== 10. 团队介绍 ==================== -->
+    <!-- ==================== 11. 团队介绍 ==================== -->
     <section id="team" class="py-20 lg:py-28">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16 section-heading">
@@ -1585,9 +1702,7 @@
                         <p class="text-patina text-xs mt-2">硬件设计 · 系统集成</p>
                     </div>
                     <div class="team-card w-56">
-                        <div class="team-avatar photo-space" style="width:64px;height:64px;">
-                            <i class="fa-solid fa-camera opacity-25"></i>
-                        </div>
+                        <img src="images/avatar-dongqingxi.png" alt="董庆喜" class="w-16 h-16 rounded-full object-cover mx-auto mb-4 border-2 border-rule-color">
                         <h4 class="text-aluminum font-semibold">董庆喜</h4>
                         <p class="text-patina/60 text-xs">核心技术</p>
                         <p class="text-patina text-xs mt-2">软件工程 · 测试验证</p>
@@ -1597,7 +1712,7 @@
         </div>
     </section>
 
-    <!-- ==================== 11. 项目信息 ==================== -->
+    <!-- ==================== 12. 项目信息 ==================== -->
     <section id="info" class="py-20 lg:py-28">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16 section-heading">
@@ -1775,5 +1890,6 @@
     <!-- Scripts -->
     <script src="js/main.js"></script>
     <script src="js/charts.js"></script>
+    <script src="js/live-monitor.js"></script>
 </body>
 </html>    
