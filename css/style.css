@@ -665,3 +665,614 @@ tbody tr:hover td { background: rgba(212, 135, 74, 0.02); }
     .lm-input { font-size: 0.72rem; }
     .lm-alarm-list { max-height: 160px; }
 }
+
+/* ============================================
+   Visual Polish — 精密仪器质感升级
+   （纯视觉精修：仅追加覆盖规则，不删除/改动以上既有规则；
+     所有 JS 依赖的 id / class / DOM 结构完全保持不变）
+   ============================================ */
+
+/* ============================================
+   1. 排版层级 — 字距 / 行高 / 标题质感
+   ============================================ */
+body {
+    -webkit-font-smoothing: antialiased;   /* 文字抗锯齿，笔画更细腻 */
+    text-rendering: optimizeLegibility;
+    line-height: 1.75;                     /* 正文行高舒适化 */
+}
+
+/* 中文标题统一轻微字距，呈仪器铭牌感 */
+h1, h2, h3 {
+    letter-spacing: 0.02em;
+    line-height: 1.3;
+}
+
+/* Hero 主标题：铝→铜渐变文字 + 细腻铜色辉光，增强冲击力 */
+#hero h1 {
+    letter-spacing: 0.06em;
+    background: linear-gradient(135deg, #F2EDE3 0%, var(--aluminum) 38%, var(--copper) 80%, var(--copper-deep) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    filter: drop-shadow(0 0 22px rgba(212, 135, 74, 0.18));
+}
+
+/* Hero 副标题：加宽字距 + 舒适行高 */
+#hero #hero-subtitle {
+    letter-spacing: 0.08em;
+    line-height: 1.9;
+}
+
+/* 区块标题：中文标题加宽字距，描述文字行高舒适化 */
+.section-heading h2 { letter-spacing: 0.04em; }
+.section-heading p {
+    line-height: 1.9;
+    letter-spacing: 0.02em;
+}
+
+/* 区块标题铜色下划线：改为渐隐渐变线，更精致 */
+.section-heading h2::after {
+    width: 44px;
+    background: linear-gradient(90deg, var(--copper), rgba(212, 135, 74, 0.12));
+}
+
+/* ============================================
+   2. 导航栏 — 毛玻璃强化 + 铜色渐变分隔线 + 下划线动画
+   ============================================ */
+#navbar {
+    backdrop-filter: blur(16px) saturate(140%);      /* 毛玻璃加强并提饱和 */
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+}
+
+/* 导航底部：中间铜色微光的细分隔线 */
+#navbar::after {
+    content: '';
+    position: absolute; left: 0; right: 0; bottom: -1px; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(212, 135, 74, 0.28) 50%, transparent);
+    pointer-events: none;
+}
+
+/* 滚动后（main.js 会加 .shadow-lg）：底色更深，层次更稳 */
+#navbar.shadow-lg {
+    background: rgba(27, 28, 32, 0.88);
+}
+
+/* nav-link 悬停下划线：铜色渐变，从中向两端展开 */
+#navbar .nav-link { position: relative; }
+#navbar .nav-link::after {
+    content: '';
+    position: absolute; left: 12px; right: 12px; bottom: 3px;
+    height: 2px; border-radius: 1px;
+    background: linear-gradient(90deg, var(--copper), var(--copper-deep));
+    transform: scaleX(0);
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+#navbar .nav-link:hover::after { transform: scaleX(1); }
+
+/* active 状态：加重字重 + 下划线常显 */
+#navbar .nav-link.active { font-weight: 600; }
+#navbar .nav-link.active::after { transform: scaleX(1); }
+
+/* ============================================
+   3. 卡片质感 — 内高光 / 层次阴影 / 统一上浮曲线
+   ============================================ */
+.metric-card, .info-card, .arch-card, .workflow-card, .spec-card,
+.comm-feature, .code-feature-card, .chart-container,
+.perf-summary-card, .safety-card, .info-section-card,
+.team-card, .pioneer-card {
+    /* 顶部内高光 + 基础投影，卡片更显厚度 */
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03),
+                0 2px 8px rgba(0, 0, 0, 0.18);
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1),
+                border-color 0.3s ease,
+                box-shadow 0.3s ease;
+}
+.metric-card:hover, .info-card:hover, .arch-card:hover, .workflow-card:hover,
+.spec-card:hover, .code-feature-card:hover, .chart-container:hover,
+.perf-summary-card:hover, .safety-card:hover, .info-section-card:hover,
+.team-card:hover, .pioneer-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(212, 135, 74, 0.32);          /* 半透明铜色 hover 描边 */
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04),
+                0 14px 34px rgba(0, 0, 0, 0.45),      /* 柔和外阴影层次 */
+                0 0 0 1px rgba(212, 135, 74, 0.10),   /* 铜色微光环 */
+                0 0 24px rgba(212, 135, 74, 0.05);
+}
+/* comm-feature 保留原有右滑动效（列表项 affordance），仅叠加铜色描边 */
+.comm-feature:hover {
+    transform: translateX(4px);
+    border-color: rgba(212, 135, 74, 0.32);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04),
+                0 8px 22px rgba(0, 0, 0, 0.4);
+}
+/* 实时监控报警态保护：hover 时仍保持红色告警描边 */
+.metric-card.lm-value-alarm:hover {
+    border-color: #f87171;
+    box-shadow: 0 0 16px rgba(248, 113, 113, 0.30);
+}
+
+/* 规格条目：虚线分隔，仪表数据读数感 */
+.spec-item {
+    padding: 0.35rem 0;
+    border-bottom: 1px dashed rgba(58, 61, 66, 0.45);
+}
+.spec-item:last-child { border-bottom: none; }
+
+/* 工作流图标：细环 + hover 铜色呼应 */
+.workflow-icon {
+    border: 1px solid var(--rule);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+.workflow-card:hover .workflow-icon { border-color: rgba(212, 135, 74, 0.35); }
+
+/* 头像：hover 铜色描边 + 微光 */
+.pioneer-card:hover .pioneer-avatar,
+.team-card:hover .team-avatar {
+    border-color: rgba(212, 135, 74, 0.45);
+    box-shadow: 0 0 14px rgba(212, 135, 74, 0.12);
+}
+
+/* 图片占位符：hover 铜色虚线 */
+.img-placeholder:hover { border-color: rgba(212, 135, 74, 0.40); }
+
+/* ============================================
+   4. 按钮与交互元件 — 铜色渐变主按钮 / 幽灵按钮 / 回到顶部
+   ============================================ */
+.lm-btn {
+    border-radius: 5px;
+    letter-spacing: 0.02em;
+    transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.lm-btn-primary {
+    background: linear-gradient(135deg, #E09A5C, var(--copper) 45%, var(--copper-deep));
+    box-shadow: 0 2px 10px rgba(212, 135, 74, 0.22),
+                inset 0 1px 0 rgba(255, 255, 255, 0.15);   /* 顶部高光，金属质感 */
+}
+.lm-btn-primary:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(212, 135, 74, 0.32),
+                inset 0 1px 0 rgba(255, 255, 255, 0.18);
+}
+/* 所有按钮按下的微缩反馈 */
+.lm-btn:active:not(:disabled) { transform: translateY(0) scale(0.98); }
+
+/* 输入框聚焦：铜色柔光环 */
+.lm-input:focus { box-shadow: 0 0 0 3px rgba(212, 135, 74, 0.12); }
+
+/* 回到顶部：毛玻璃圆钮，hover 铜色描边 + 上浮 */
+#back-to-top {
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+}
+#back-to-top:hover {
+    border-color: rgba(212, 135, 74, 0.5);
+    color: var(--copper);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.40),
+                0 0 16px rgba(212, 135, 74, 0.18);
+}
+
+/* GitHub 链接：hover 上浮 + 铜色微光 */
+.github-link { letter-spacing: 0.02em; }
+.github-link:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35),
+                0 0 14px rgba(212, 135, 74, 0.10);
+}
+
+/* ============================================
+   5. 区块节奏 — 统一细分隔线
+   ============================================ */
+section[id] + section[id] {
+    border-top: 1px solid var(--rule-subtle);   /* 相邻区块统一发丝分隔线 */
+}
+
+/* ============================================
+   6. Hero 区 — 飞轮铜色光晕 + 指标读条分隔
+   ============================================ */
+/* 飞轮模拟器：铜色光晕，呼应粒子与签名元素地位 */
+.flywheel-sim canvas {
+    box-shadow: 0 0 55px rgba(212, 135, 74, 0.14),
+                0 0 130px rgba(212, 135, 74, 0.05);
+}
+.flywheel-sim canvas:hover { filter: brightness(1.06); }
+
+/* Hero 指标读条：上方铜色发丝线，读数更具仪表感 */
+#hero .grid.grid-cols-3 > div {
+    border-top: 1px solid rgba(212, 135, 74, 0.18);
+    padding-top: 0.9rem;
+}
+
+/* ============================================
+   7. 图表容器 — 精致标题栏（图标 + 标题 + 细线）
+   ============================================ */
+.chart-container h3 {
+    padding-bottom: 0.7rem;
+    border-bottom: 1px solid var(--rule-subtle);
+    letter-spacing: 0.02em;
+    font-size: 0.95rem;
+}
+.chart-container h3 i {
+    color: var(--copper) !important;
+    font-size: 0.85em;
+}
+
+/* 实时监控信息卡标题：同款标题栏处理 */
+#live-monitor .info-card h3 {
+    padding-bottom: 0.7rem;
+    border-bottom: 1px solid var(--rule-subtle);
+    letter-spacing: 0.02em;
+    font-size: 0.95rem;
+}
+
+/* ============================================
+   8. 表格 — 表头精修 + 斑马纹 + hover 强化
+   ============================================ */
+thead th {
+    letter-spacing: 0.04em;                 /* 表头字距拉开，仪器表盘感 */
+    font-size: 0.78rem;
+    border-bottom: 1px solid var(--rule);   /* 表头下方明确分隔线 */
+}
+/* 斑马纹：偶数行极浅底色 */
+tbody tr:nth-child(even) td { background: rgba(255, 255, 255, 0.015); }
+/* 行 hover：铜色淡染，与卡片 hover 语言统一 */
+tbody tr:hover td { background: rgba(212, 135, 74, 0.05); }
+
+/* ============================================
+   9. 页脚 — 铜色渐变顶线 + 图标微交互
+   ============================================ */
+footer {
+    position: relative;
+    letter-spacing: 0.02em;
+}
+/* 页脚顶部：铜色渐隐分隔线，与导航底部呼应 */
+footer::before {
+    content: '';
+    position: absolute; top: -1px; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(212, 135, 74, 0.35) 50%, transparent);
+    pointer-events: none;
+}
+/* 页脚 Logo 图标：hover 缓旋，细节趣味 */
+footer .fa-atom { transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1); }
+footer .w-8:hover .fa-atom { transform: rotate(90deg); }
+
+/* ============================================
+   10. 细节 — 选中色 / 滚动条 / 聚焦态
+   ============================================ */
+/* 文本选中：铜色淡染 */
+::selection {
+    background: rgba(212, 135, 74, 0.32);
+    color: #F5F1E8;
+    text-shadow: none;
+}
+
+/* 滚动条：细铜色渐变 */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-deep); }
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, var(--rule), #45484E);
+    border-radius: 3px;
+    border: 1px solid var(--bg-deep);
+}
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, var(--copper), var(--copper-deep));
+}
+
+/* 键盘聚焦：铜色描边 + 柔光环 */
+:focus-visible {
+    outline: 2px solid var(--copper);
+    outline-offset: 3px;
+    box-shadow: 0 0 0 4px rgba(212, 135, 74, 0.12);
+}
+
+/* ============================================
+   11. 移动端适配 — 确保新样式在 768px / 480px 不破版
+   ============================================ */
+@media (max-width: 768px) {
+    /* Hero 标题：收窄字距与辉光，避免小屏溢出 */
+    #hero h1 {
+        letter-spacing: 0.03em;
+        filter: drop-shadow(0 0 14px rgba(212, 135, 74, 0.14));
+    }
+    /* 图表 / 信息卡标题栏：收紧字号与留白 */
+    .chart-container h3,
+    #live-monitor .info-card h3 {
+        font-size: 0.85rem;
+        padding-bottom: 0.5rem;
+    }
+    /* 飞轮光晕：小屏收敛 */
+    .flywheel-sim canvas { box-shadow: 0 0 34px rgba(212, 135, 74, 0.12); }
+    /* 指标读条：留白收紧 */
+    #hero .grid.grid-cols-3 > div { padding-top: 0.6rem; }
+    /* 规格条目：行距收紧 */
+    .spec-item { padding: 0.25rem 0; }
+}
+
+@media (max-width: 480px) {
+    #hero h1 { letter-spacing: 0.02em; }
+    #hero #hero-subtitle { letter-spacing: 0.04em; }
+}
+
+/* ============================================
+   12. 插图相框 — 实物图 / 拓扑图的卡片式托底 + 图注
+   ============================================ */
+/* 外框：与全站卡片同源的暗色渐变托底 */
+.figure-frame {
+    background: linear-gradient(180deg, #25282c, #1f2226);
+    border: 1px solid #33363b;
+    border-radius: 6px;
+    padding: 14px 14px 0;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.04),
+        0 8px 24px rgba(0, 0, 0, 0.35);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* hover：铜色描边 + 柔光晕，呼应全站卡片语言 */
+.figure-frame:hover {
+    border-color: rgba(212, 135, 74, 0.35);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.05),
+        0 12px 32px rgba(0, 0, 0, 0.45),
+        0 0 24px rgba(212, 135, 74, 0.08);
+}
+
+/* 图片本体：白底图加细描边与圆角，避免与深色外框生硬相接 */
+.figure-frame img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 4px;
+}
+
+/* 图注栏：铜色小图标 + 灰色说明文字 */
+.figure-caption {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.65rem 0.2rem;
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+    color: #9aa0a6;
+}
+
+.figure-caption i {
+    color: #d4874a;
+    font-size: 0.72rem;
+}
+
+/* 移动端：相框留白收紧 */
+@media (max-width: 768px) {
+    .figure-frame { padding: 10px 10px 0; }
+    .figure-caption { font-size: 0.72rem; }
+}
+
+/* ============================================
+   13. 总线拓扑图 — HTML/CSS 重绘（暗色工业风）
+   替代原彩色图片：三层流式布局（云端层 → 网络/控制层 → 现场层）
+   （纯追加，不改动以上既有规则）
+   ============================================ */
+
+/* 总容器：三列 + 两个层间连接，桌面横向流式 */
+.topo {
+    display: grid;
+    grid-template-columns: 1fr auto 1.05fr auto 1.2fr;
+    gap: 0.8rem;
+    align-items: stretch;
+    padding: 0.75rem 0.25rem;
+    text-align: left;
+}
+
+/* 层级列：比节点更浅一级的托底 */
+.topo-col {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    padding: 0.9rem;
+    background: rgba(27, 28, 32, 0.45);
+    border: 1px solid var(--rule-subtle);
+    border-radius: 6px;
+}
+
+/* 列标题：小字距标签 + 细线 */
+.topo-col-title {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--rule-subtle);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    color: var(--patina);
+    font-family: 'Space Grotesk', 'PingFang SC', sans-serif;
+}
+.topo-col-title i { color: var(--copper); font-size: 0.75rem; }
+
+/* 节点卡片：全站卡片语言（渐变托底 + 细边框 + 顶部内高光） */
+.topo-node {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.55rem 0.7rem;
+    background: linear-gradient(180deg, #25282C, #1F2226);
+    border: 1px solid #33363B;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+    transition: border-color 0.25s ease, transform 0.25s ease;
+}
+.topo-node:hover {
+    border-color: rgba(212, 135, 74, 0.35);
+    transform: translateY(-1px);
+}
+.topo-node > i {
+    width: 1.4rem;
+    flex-shrink: 0;
+    text-align: center;
+    font-size: 0.95rem;
+    color: var(--patina);
+}
+.topo-node-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    min-width: 0;
+}
+.topo-node-name { font-size: 0.8rem; font-weight: 600; color: var(--aluminum); }
+.topo-node-desc { font-size: 0.66rem; color: var(--patina); line-height: 1.5; }
+.topo-node--sm { padding: 0.45rem 0.6rem; }
+
+/* 配色克制（全图 ≤3 种强调色）：
+   云端=钢蓝描边，枢纽=铜色描边微光，传感器=patina 灰绿，设备=铝灰 */
+.topo-node--cloud  { border-left: 2px solid #6B8CAE; }
+.topo-node--cloud > i { color: #6B8CAE; }
+.topo-node--hub {
+    border-color: rgba(212, 135, 74, 0.45);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03),
+                0 0 12px rgba(212, 135, 74, 0.08);
+}
+.topo-node--hub > i { color: var(--copper); }
+.topo-node--sensor { border-left: 2px solid var(--patina); }
+.topo-node--device { border-left: 2px solid #7D8288; }
+
+/* 传感器 RTU 小标签 */
+.topo-tag {
+    margin-left: auto;
+    flex-shrink: 0;
+    align-self: flex-start;
+    font-size: 0.55rem;
+    font-family: 'Space Grotesk', 'JetBrains Mono', monospace;
+    color: var(--copper);
+    border: 1px solid rgba(212, 135, 74, 0.35);
+    border-radius: 3px;
+    padding: 0 0.22rem;
+    line-height: 1.5;
+}
+
+/* 列内纵向连线 + 铜色协议小标签 */
+.topo-edge { position: relative; height: 1.15rem; flex-shrink: 0; }
+.topo-edge::before {
+    content: '';
+    position: absolute; left: 50%; top: 0; bottom: 0;
+    width: 1px; background: #4A4D52;
+}
+.topo-edge::after {
+    content: '';
+    position: absolute; left: 50%; bottom: 0;
+    transform: translateX(-50%);
+    border: 3px solid transparent;
+    border-top: 4px solid #4A4D52;      /* CSS 三角箭头（向下） */
+}
+.topo-edge-label {
+    position: absolute; left: calc(50% + 7px); top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+    font-size: 0.6rem;
+    color: var(--copper);
+    background: var(--bg-deep);
+    border: 1px solid rgba(212, 135, 74, 0.30);
+    border-radius: 3px;
+    padding: 0 0.3rem;
+    white-space: nowrap;
+}
+
+/* 并排小节点（HMI / PLC） */
+.topo-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.55rem;
+}
+
+/* 层间连接：铜色协议标签 + 细线箭头 */
+.topo-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    min-width: 72px;
+}
+.topo-link-label {
+    font-size: 0.62rem;
+    color: var(--copper);
+    background: var(--bg-deep);
+    border: 1px solid rgba(212, 135, 74, 0.30);
+    border-radius: 3px;
+    padding: 0.1rem 0.35rem;
+    white-space: nowrap;
+}
+.topo-link-line { position: relative; width: 100%; height: 1px; background: #4A4D52; }
+.topo-link-line::after {
+    content: '';
+    position: absolute; right: -1px; top: 50%;
+    transform: translateY(-50%);
+    border: 3px solid transparent;
+    border-left: 5px solid var(--copper);   /* CSS 三角箭头（向右） */
+}
+
+/* 现场层列：铜色描边呼应 + 「×n」角标 */
+.topo-col--unit { border-color: rgba(212, 135, 74, 0.22); }
+.topo-unit-badge {
+    position: absolute; top: -0.55rem; right: 0.7rem;
+    font-size: 0.62rem;
+    font-family: 'Space Grotesk', 'JetBrains Mono', monospace;
+    color: var(--copper);
+    background: var(--bg-deep);
+    border: 1px solid rgba(212, 135, 74, 0.40);
+    border-radius: 999px;
+    padding: 0.05rem 0.5rem;
+    line-height: 1.5;
+}
+
+/* 分组（传感采集 / 单元设备） */
+.topo-group { display: flex; flex-direction: column; gap: 0.45rem; }
+.topo-group-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.66rem;
+    letter-spacing: 0.06em;
+    color: var(--patina);
+}
+.topo-group-title span {
+    font-size: 0.58rem;
+    color: var(--copper);
+    border: 1px solid rgba(212, 135, 74, 0.30);
+    border-radius: 3px;
+    padding: 0 0.25rem;
+}
+.topo-sensors {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.45rem;
+}
+
+/* 层内关系注释（替代交叉箭头，保持画面干净） */
+.topo-note {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding-top: 0.45rem;
+    border-top: 1px dashed rgba(58, 61, 66, 0.45);
+}
+.topo-note span { font-size: 0.62rem; color: var(--patina); line-height: 1.5; }
+.topo-note i { color: var(--copper); font-size: 0.55rem; margin-right: 0.3rem; }
+
+/* 移动端：纵向堆叠，层间箭头转为向下 */
+@media (max-width: 768px) {
+    .topo { grid-template-columns: 1fr; gap: 0.6rem; padding: 0.5rem 0; }
+    .topo-link { min-width: 0; gap: 0.35rem; }
+    .topo-link-line { width: 1px; height: 1.4rem; }
+    .topo-link-line::after {
+        right: auto; left: 50%; top: auto; bottom: -1px;
+        transform: translateX(-50%);
+        border: 3px solid transparent;
+        border-top: 5px solid var(--copper);   /* 箭头改为向下 */
+    }
+    .topo-sensors { grid-template-columns: 1fr; }
+    .topo-edge-label { font-size: 0.58rem; }
+    .topo-col { padding: 0.75rem; }
+}

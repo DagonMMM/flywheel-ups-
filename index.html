@@ -244,9 +244,10 @@
             </div>
 
             <!-- 系统实物图 -->
-            <div class="mb-12">
-                <img src="images/system-overview.png" alt="飞轮储能UPS系统实物整体图" class="rounded w-full h-48 sm:h-64 object-cover border border-rule-color">
-            </div>
+            <figure class="figure-frame mb-12 max-w-md mx-auto">
+                <img src="images/system-overview.png" alt="飞轮储能UPS系统实物整体图">
+                <figcaption class="figure-caption"><i class="fa-solid fa-cube"></i>飞轮储能 UPS 系统实物整体图</figcaption>
+            </figure>
 
             <!-- 系统架构图 -->
             <div class="architecture-diagram mb-12">
@@ -639,10 +640,173 @@
                 </div>
             </div>
 
-            <!-- RS485拓扑图 -->
-            <div class="mt-8 mb-6">
-                <img src="images/rs485-topology.png" alt="RS485 总线拓扑连接图" class="rounded w-full h-36 sm:h-48 object-contain border border-rule-color bg-steel-dark/50">
-            </div>
+            <!-- 系统总线拓扑图（HTML+CSS 按全站暗色工业风重绘，替代原彩色图片） -->
+            <figure class="figure-frame mt-8 mb-6 reveal">
+                <div class="topo" role="img" aria-label="系统总线拓扑连接图：云端数据网页、控制网页与参数自优化大模型经 4G/以太网接入路由器与以太网交换机，连接 HMI、PLC 与串口服务器；串口服务器通过 Modbus 总线连接飞轮单元的四类传感器与电机设备">
+                    <!-- ========== 第一层：云端层 ========== -->
+                    <div class="topo-col">
+                        <div class="topo-col-title"><i class="fa-solid fa-cloud"></i>云端层</div>
+                        <div class="topo-node topo-node--cloud">
+                            <i class="fa-solid fa-cloud"></i>
+                            <div class="topo-node-text">
+                                <span class="topo-node-name">数据网页</span>
+                                <span class="topo-node-desc">展示实时参数 / 数据图表 / 运行状态</span>
+                            </div>
+                        </div>
+                        <div class="topo-node topo-node--cloud">
+                            <i class="fa-solid fa-sliders"></i>
+                            <div class="topo-node-text">
+                                <span class="topo-node-name">控制网页</span>
+                                <span class="topo-node-desc">远程控制 / 多人协同控制</span>
+                            </div>
+                        </div>
+                        <div class="topo-node topo-node--cloud">
+                            <i class="fa-solid fa-brain"></i>
+                            <div class="topo-node-text">
+                                <span class="topo-node-name">参数自优化大模型</span>
+                                <span class="topo-node-desc">优化控制策略</span>
+                            </div>
+                        </div>
+                        <!-- 云端层内部关系 -->
+                        <div class="topo-note">
+                            <span><i class="fa-solid fa-arrow-right"></i>大模型 → 数据网页：控制参数传递</span>
+                            <span><i class="fa-solid fa-arrows-left-right"></i>控制网页 ↔ 数据网页：协同</span>
+                        </div>
+                    </div>
+
+                    <!-- 层间连接：云端层 → 网络/控制层 -->
+                    <div class="topo-link">
+                        <span class="topo-link-label">4G / 以太网 TCP/IP</span>
+                        <span class="topo-link-line"></span>
+                    </div>
+
+                    <!-- ========== 第二层：网络/控制层 ========== -->
+                    <div class="topo-col">
+                        <div class="topo-col-title"><i class="fa-solid fa-server"></i>网络 / 控制层</div>
+                        <div class="topo-node topo-node--hub">
+                            <i class="fa-solid fa-router"></i>
+                            <div class="topo-node-text">
+                                <span class="topo-node-name">路由器</span>
+                                <span class="topo-node-desc">云上 / 云下数据互传</span>
+                            </div>
+                        </div>
+                        <div class="topo-edge"><span class="topo-edge-label">以太网 TCP/IP</span></div>
+                        <div class="topo-node">
+                            <i class="fa-solid fa-network-wired"></i>
+                            <div class="topo-node-text">
+                                <span class="topo-node-name">以太网交换机</span>
+                                <span class="topo-node-desc">汇聚现场控制设备</span>
+                            </div>
+                        </div>
+                        <div class="topo-edge"><span class="topo-edge-label">以太网内部协议</span></div>
+                        <div class="topo-pair">
+                            <div class="topo-node topo-node--sm">
+                                <i class="fa-solid fa-display"></i>
+                                <div class="topo-node-text">
+                                    <span class="topo-node-name">HMI 屏幕</span>
+                                </div>
+                            </div>
+                            <div class="topo-node topo-node--sm">
+                                <i class="fa-solid fa-microchip"></i>
+                                <div class="topo-node-text">
+                                    <span class="topo-node-name">PLC 控制器</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="topo-edge"><span class="topo-edge-label">Modbus-Tcp 协议</span></div>
+                        <div class="topo-node topo-node--hub">
+                            <i class="fa-solid fa-arrows-rotate"></i>
+                            <div class="topo-node-text">
+                                <span class="topo-node-name">串口服务器</span>
+                                <span class="topo-node-desc">TCP / RTU 协议互转</span>
+                            </div>
+                        </div>
+                        <!-- 串口服务器上行链路说明（避免交叉连线） -->
+                        <div class="topo-note">
+                            <span><i class="fa-solid fa-arrow-right"></i>上行：路由器直连 · 以太网 TCP/IP</span>
+                            <span><i class="fa-solid fa-arrow-right"></i>上行：以太网交换机 · Modbus-Tcp</span>
+                        </div>
+                    </div>
+
+                    <!-- 层间连接：网络/控制层 → 现场层 -->
+                    <div class="topo-link">
+                        <span class="topo-link-label">Modbus 总线通用线路 · RTU</span>
+                        <span class="topo-link-line"></span>
+                    </div>
+
+                    <!-- ========== 第三层：现场层（飞轮单元 ×n） ========== -->
+                    <div class="topo-col topo-col--unit">
+                        <span class="topo-unit-badge">×n · 飞轮单元 1…n</span>
+                        <div class="topo-col-title"><i class="fa-solid fa-satellite-dish"></i>现场层</div>
+                        <div class="topo-group">
+                            <div class="topo-group-title">传感采集<span>RTU 协议</span></div>
+                            <div class="topo-sensors">
+                                <div class="topo-node topo-node--sensor topo-node--sm">
+                                    <i class="fa-solid fa-gauge-high"></i>
+                                    <div class="topo-node-text">
+                                        <span class="topo-node-name">气压传感器</span>
+                                        <span class="topo-node-desc">气压值测量 / 气密性检测</span>
+                                    </div>
+                                    <span class="topo-tag">RTU</span>
+                                </div>
+                                <div class="topo-node topo-node--sensor topo-node--sm">
+                                    <i class="fa-solid fa-wave-square"></i>
+                                    <div class="topo-node-text">
+                                        <span class="topo-node-name">振动传感器</span>
+                                        <span class="topo-node-desc">振动频率 / 振动幅度检测</span>
+                                    </div>
+                                    <span class="topo-tag">RTU</span>
+                                </div>
+                                <div class="topo-node topo-node--sensor topo-node--sm">
+                                    <i class="fa-solid fa-tachometer-alt"></i>
+                                    <div class="topo-node-text">
+                                        <span class="topo-node-name">转速传感器</span>
+                                        <span class="topo-node-desc">飞轮转速检测</span>
+                                    </div>
+                                    <span class="topo-tag">RTU</span>
+                                </div>
+                                <div class="topo-node topo-node--sensor topo-node--sm">
+                                    <i class="fa-solid fa-temperature-half"></i>
+                                    <div class="topo-node-text">
+                                        <span class="topo-node-name">温度传感器</span>
+                                        <span class="topo-node-desc">电机温度测量 / 温度异常检测</span>
+                                    </div>
+                                    <span class="topo-tag">RTU</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="topo-group">
+                            <div class="topo-group-title">单元设备</div>
+                            <div class="topo-node topo-node--device topo-node--sm">
+                                <i class="fa-solid fa-circle-dot"></i>
+                                <div class="topo-node-text">
+                                    <span class="topo-node-name">负压飞轮舱室</span>
+                                </div>
+                            </div>
+                            <div class="topo-node topo-node--device topo-node--sm">
+                                <i class="fa-solid fa-fan"></i>
+                                <div class="topo-node-text">
+                                    <span class="topo-node-name">高速电机</span>
+                                    <span class="topo-node-desc">连接储能飞轮进行能量转化</span>
+                                </div>
+                            </div>
+                            <div class="topo-node topo-node--device topo-node--sm">
+                                <i class="fa-solid fa-bolt"></i>
+                                <div class="topo-node-text">
+                                    <span class="topo-node-name">高速电机驱动器</span>
+                                    <span class="topo-node-desc">实时修改控制参数</span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- 现场层内部关系 -->
+                        <div class="topo-note">
+                            <span><i class="fa-solid fa-arrow-right"></i>气压传感器 → 负压飞轮舱室</span>
+                            <span><i class="fa-solid fa-arrow-right"></i>驱动器 → 高速电机：运行模式控制</span>
+                        </div>
+                    </div>
+                </div>
+                <figcaption class="figure-caption"><i class="fa-solid fa-network-wired"></i>系统总线拓扑连接图</figcaption>
+            </figure>
 
             <!-- 控制程序亮点 -->
             <div class="mt-16">
@@ -1661,17 +1825,13 @@
                 </h3>
                 <div class="flex flex-wrap justify-center gap-6">
                     <div class="team-card w-64">
-                        <div class="team-avatar photo-space">
-                            <i class="fa-solid fa-camera text-lg opacity-25"></i>
-                        </div>
+                        <img src="images/avatar-zhangtianyu.jpg" alt="张天宇" class="w-[72px] h-[72px] rounded-full object-cover mx-auto mb-4 border-2 border-rule-color">
                         <h4 class="text-aluminum font-semibold">张天宇</h4>
                         <p class="text-patina/60 text-xs">指导老师 / 讲师</p>
                         <p class="text-patina text-xs mt-2">飞轮储能技术路线规划 · 项目方向指导</p>
                     </div>
                     <div class="team-card w-64">
-                        <div class="team-avatar photo-space">
-                            <i class="fa-solid fa-camera text-lg opacity-25"></i>
-                        </div>
+                        <img src="images/avatar-luhong.jpg" alt="路红" class="w-[72px] h-[72px] rounded-full object-cover mx-auto mb-4 border-2 border-rule-color">
                         <h4 class="text-aluminum font-semibold">路红</h4>
                         <p class="text-patina/60 text-xs">指导老师</p>
                         <p class="text-patina text-xs mt-2">项目研发指导 · 技术支持</p>
@@ -1686,17 +1846,13 @@
                 </h3>
                 <div class="flex flex-wrap justify-center gap-6">
                     <div class="team-card w-56">
-                        <div class="team-avatar photo-space" style="width:64px;height:64px;">
-                            <i class="fa-solid fa-camera opacity-25"></i>
-                        </div>
+                        <img src="images/avatar-yesifeng.jpg" alt="叶思冯" class="w-16 h-16 rounded-full object-cover mx-auto mb-4 border-2 border-rule-color">
                         <h4 class="text-aluminum font-semibold">叶思冯</h4>
                         <p class="text-patina/60 text-xs">核心技术</p>
                         <p class="text-patina text-xs mt-2">系统研发 · 控制算法</p>
                     </div>
                     <div class="team-card w-56">
-                        <div class="team-avatar photo-space" style="width:64px;height:64px;">
-                            <i class="fa-solid fa-camera opacity-25"></i>
-                        </div>
+                        <img src="images/avatar-zhaomingyu.png" alt="赵鸣宇" class="w-16 h-16 rounded-full object-cover mx-auto mb-4 border-2 border-rule-color">
                         <h4 class="text-aluminum font-semibold">赵鸣宇</h4>
                         <p class="text-patina/60 text-xs">核心技术</p>
                         <p class="text-patina text-xs mt-2">硬件设计 · 系统集成</p>
