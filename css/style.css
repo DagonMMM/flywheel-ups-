@@ -426,7 +426,7 @@ tbody tr:hover td { background: rgba(212, 135, 74, 0.02); }
     .img-placeholder { min-height: 80px; font-size: 0.7rem; }
 
     /* Grid collapse */
-    .lg\\:grid-cols-2, .lg\\:grid-cols-3, .lg\\:grid-cols-4, .lg\\:grid-cols-5 {
+    .lg\:grid-cols-2, .lg\:grid-cols-3, .lg\:grid-cols-4, .lg\:grid-cols-5 {
         grid-template-columns: 1fr; gap: 0.6rem;
     }
 
@@ -472,11 +472,196 @@ tbody tr:hover td { background: rgba(212, 135, 74, 0.02); }
 
     #hero .text-2xl { font-size: 0.9rem !important; }
 
-    .grid-cols-2, .sm\\:grid-cols-2 { grid-template-columns: 1fr !important; }
+    .grid-cols-2, .sm\:grid-cols-2 { grid-template-columns: 1fr !important; }
     #hero .grid.grid-cols-3 { gap: 0.3rem; }
 
     .img-placeholder { min-height: 70px; }
     .chart-container canvas { max-height: 150px; }
     section { padding: 2rem 0 !important; }
     .max-w-7xl { padding-left: 0.5rem; padding-right: 0.5rem; }
+}
+
+/* ============================================
+   Live Monitor — MQTT 实时监控区块
+   （仅追加，不改动以上既有规则）
+   ============================================ */
+
+/* 连接配置条：输入框与按钮 */
+.lm-input {
+    background: var(--bg-deep);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    color: var(--aluminum);
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8rem;
+    font-family: 'Space Grotesk', 'JetBrains Mono', 'Consolas', monospace;
+    transition: border-color 0.2s ease;
+}
+.lm-input:focus {
+    outline: none;
+    border-color: var(--copper);
+}
+.lm-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--steel-elevated);
+    border: 1px solid var(--rule);
+    border-radius: 4px;
+    color: var(--aluminum);
+    font-size: 0.8rem;
+    padding: 0.5rem 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+.lm-btn:hover:not(:disabled) {
+    border-color: var(--patina);
+    transform: translateY(-1px);
+}
+.lm-btn:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+.lm-btn-primary {
+    background: linear-gradient(135deg, var(--copper), var(--copper-deep));
+    border-color: var(--copper-deep);
+    color: #1B1D20;
+    font-weight: 600;
+}
+.lm-btn-primary:hover:not(:disabled) {
+    border-color: var(--copper);
+    box-shadow: 0 4px 14px rgba(212, 135, 74, 0.25);
+}
+.lm-btn-sm {
+    padding: 0.3rem 0.7rem;
+    font-size: 0.72rem;
+}
+/* 演示模式按钮激活态：铜色描边标识 */
+.lm-btn-demo.lm-active {
+    border-color: var(--copper);
+    color: var(--copper);
+    background: rgba(212, 135, 74, 0.10);
+}
+
+/* 状态指示灯：绿=已连接/运行，黄=连接中/报警，红=断开/故障，灰=未连接/停止 */
+.lm-light {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #6b7280;
+    flex-shrink: 0;
+}
+.lm-light--on {
+    background: #4ade80;
+    box-shadow: 0 0 8px rgba(74, 222, 128, 0.7);
+}
+.lm-light--connecting {
+    background: #facc15;
+    box-shadow: 0 0 8px rgba(250, 204, 21, 0.6);
+    animation: lmPulse 1s ease-in-out infinite;
+}
+.lm-light--err {
+    background: #f87171;
+    box-shadow: 0 0 8px rgba(248, 113, 113, 0.7);
+}
+.lm-light--alarm {
+    background: #facc15;
+    box-shadow: 0 0 8px rgba(250, 204, 21, 0.7);
+    animation: lmPulse 0.6s ease-in-out infinite;
+}
+.lm-light--off { background: #6b7280; }
+@keyframes lmPulse {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.3; }
+}
+
+/* 角标 */
+.lm-badge {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 999px;
+    font-size: 0.68rem;
+    padding: 0.1rem 0.55rem;
+    font-weight: 600;
+    line-height: 1.4;
+}
+.lm-badge-demo {
+    background: rgba(212, 135, 74, 0.14);
+    border: 1px solid var(--copper);
+    color: var(--copper);
+}
+.lm-badge-alarm {
+    background: #f87171;
+    color: #1B1D20;
+    margin-left: 0.4rem;
+}
+
+/* 仪表卡超阈值变红 */
+.metric-card.lm-value-alarm {
+    border-color: #f87171;
+    box-shadow: 0 0 14px rgba(248, 113, 113, 0.25);
+}
+.metric-card.lm-value-alarm .lm-metric-value {
+    color: #f87171 !important;
+}
+
+/* 运行状态文字配色 */
+.lm-status-text { font-weight: 600; font-size: 1rem; }
+.lm-status-running { color: #4ade80; }
+.lm-status-stopped { color: var(--patina); }
+.lm-status-fault   { color: #f87171; }
+.lm-status-alarm   { color: #facc15; }
+
+/* 报警面板 */
+.lm-alarm-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    max-height: 220px;
+    overflow-y: auto;
+}
+.lm-alarm-item {
+    display: flex;
+    gap: 0.75rem;
+    align-items: baseline;
+    background: var(--bg-deep);
+    border: 1px solid var(--rule-subtle);
+    border-left: 3px solid #f87171;
+    border-radius: 4px;
+    padding: 0.45rem 0.75rem;
+    font-size: 0.78rem;
+    color: var(--aluminum);
+    text-align: left;
+}
+.lm-alarm-item time {
+    color: var(--patina);
+    font-family: 'Space Grotesk', 'JetBrains Mono', 'Consolas', monospace;
+    font-size: 0.72rem;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+.lm-alarm-empty {
+    color: var(--patina);
+    font-size: 0.8rem;
+    padding: 0.75rem 0;
+}
+/* 新报警时面板边框闪烁 */
+@keyframes lmPanelFlash {
+    0%, 100% { box-shadow: none; border-color: var(--rule); }
+    50%      { box-shadow: 0 0 18px rgba(248, 113, 113, 0.45); border-color: #f87171; }
+}
+#lm-alarm-panel.lm-flash {
+    animation: lmPanelFlash 0.6s ease 3;
+}
+
+/* 移动端微调 */
+@media (max-width: 768px) {
+    .lm-btn { padding: 0.45rem 0.7rem; font-size: 0.72rem; }
+    .lm-input { font-size: 0.72rem; }
+    .lm-alarm-list { max-height: 160px; }
 }
