@@ -1049,3 +1049,230 @@ footer .w-8:hover .fa-atom { transform: rotate(90deg); }
     .figure-frame { padding: 10px 10px 0; }
     .figure-caption { font-size: 0.72rem; }
 }
+
+/* ============================================
+   13. 总线拓扑图 — HTML/CSS 重绘（暗色工业风）
+   替代原彩色图片：三层流式布局（云端层 → 网络/控制层 → 现场层）
+   （纯追加，不改动以上既有规则）
+   ============================================ */
+
+/* 总容器：三列 + 两个层间连接，桌面横向流式 */
+.topo {
+    display: grid;
+    grid-template-columns: 1fr auto 1.05fr auto 1.2fr;
+    gap: 0.8rem;
+    align-items: stretch;
+    padding: 0.75rem 0.25rem;
+    text-align: left;
+}
+
+/* 层级列：比节点更浅一级的托底 */
+.topo-col {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    padding: 0.9rem;
+    background: rgba(27, 28, 32, 0.45);
+    border: 1px solid var(--rule-subtle);
+    border-radius: 6px;
+}
+
+/* 列标题：小字距标签 + 细线 */
+.topo-col-title {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--rule-subtle);
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    color: var(--patina);
+    font-family: 'Space Grotesk', 'PingFang SC', sans-serif;
+}
+.topo-col-title i { color: var(--copper); font-size: 0.75rem; }
+
+/* 节点卡片：全站卡片语言（渐变托底 + 细边框 + 顶部内高光） */
+.topo-node {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.55rem 0.7rem;
+    background: linear-gradient(180deg, #25282C, #1F2226);
+    border: 1px solid #33363B;
+    border-radius: 4px;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+    transition: border-color 0.25s ease, transform 0.25s ease;
+}
+.topo-node:hover {
+    border-color: rgba(212, 135, 74, 0.35);
+    transform: translateY(-1px);
+}
+.topo-node > i {
+    width: 1.4rem;
+    flex-shrink: 0;
+    text-align: center;
+    font-size: 0.95rem;
+    color: var(--patina);
+}
+.topo-node-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    min-width: 0;
+}
+.topo-node-name { font-size: 0.8rem; font-weight: 600; color: var(--aluminum); }
+.topo-node-desc { font-size: 0.66rem; color: var(--patina); line-height: 1.5; }
+.topo-node--sm { padding: 0.45rem 0.6rem; }
+
+/* 配色克制（全图 ≤3 种强调色）：
+   云端=钢蓝描边，枢纽=铜色描边微光，传感器=patina 灰绿，设备=铝灰 */
+.topo-node--cloud  { border-left: 2px solid #6B8CAE; }
+.topo-node--cloud > i { color: #6B8CAE; }
+.topo-node--hub {
+    border-color: rgba(212, 135, 74, 0.45);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03),
+                0 0 12px rgba(212, 135, 74, 0.08);
+}
+.topo-node--hub > i { color: var(--copper); }
+.topo-node--sensor { border-left: 2px solid var(--patina); }
+.topo-node--device { border-left: 2px solid #7D8288; }
+
+/* 传感器 RTU 小标签 */
+.topo-tag {
+    margin-left: auto;
+    flex-shrink: 0;
+    align-self: flex-start;
+    font-size: 0.55rem;
+    font-family: 'Space Grotesk', 'JetBrains Mono', monospace;
+    color: var(--copper);
+    border: 1px solid rgba(212, 135, 74, 0.35);
+    border-radius: 3px;
+    padding: 0 0.22rem;
+    line-height: 1.5;
+}
+
+/* 列内纵向连线 + 铜色协议小标签 */
+.topo-edge { position: relative; height: 1.15rem; flex-shrink: 0; }
+.topo-edge::before {
+    content: '';
+    position: absolute; left: 50%; top: 0; bottom: 0;
+    width: 1px; background: #4A4D52;
+}
+.topo-edge::after {
+    content: '';
+    position: absolute; left: 50%; bottom: 0;
+    transform: translateX(-50%);
+    border: 3px solid transparent;
+    border-top: 4px solid #4A4D52;      /* CSS 三角箭头（向下） */
+}
+.topo-edge-label {
+    position: absolute; left: calc(50% + 7px); top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+    font-size: 0.6rem;
+    color: var(--copper);
+    background: var(--bg-deep);
+    border: 1px solid rgba(212, 135, 74, 0.30);
+    border-radius: 3px;
+    padding: 0 0.3rem;
+    white-space: nowrap;
+}
+
+/* 并排小节点（HMI / PLC） */
+.topo-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.55rem;
+}
+
+/* 层间连接：铜色协议标签 + 细线箭头 */
+.topo-link {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    min-width: 72px;
+}
+.topo-link-label {
+    font-size: 0.62rem;
+    color: var(--copper);
+    background: var(--bg-deep);
+    border: 1px solid rgba(212, 135, 74, 0.30);
+    border-radius: 3px;
+    padding: 0.1rem 0.35rem;
+    white-space: nowrap;
+}
+.topo-link-line { position: relative; width: 100%; height: 1px; background: #4A4D52; }
+.topo-link-line::after {
+    content: '';
+    position: absolute; right: -1px; top: 50%;
+    transform: translateY(-50%);
+    border: 3px solid transparent;
+    border-left: 5px solid var(--copper);   /* CSS 三角箭头（向右） */
+}
+
+/* 现场层列：铜色描边呼应 + 「×n」角标 */
+.topo-col--unit { border-color: rgba(212, 135, 74, 0.22); }
+.topo-unit-badge {
+    position: absolute; top: -0.55rem; right: 0.7rem;
+    font-size: 0.62rem;
+    font-family: 'Space Grotesk', 'JetBrains Mono', monospace;
+    color: var(--copper);
+    background: var(--bg-deep);
+    border: 1px solid rgba(212, 135, 74, 0.40);
+    border-radius: 999px;
+    padding: 0.05rem 0.5rem;
+    line-height: 1.5;
+}
+
+/* 分组（传感采集 / 单元设备） */
+.topo-group { display: flex; flex-direction: column; gap: 0.45rem; }
+.topo-group-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.66rem;
+    letter-spacing: 0.06em;
+    color: var(--patina);
+}
+.topo-group-title span {
+    font-size: 0.58rem;
+    color: var(--copper);
+    border: 1px solid rgba(212, 135, 74, 0.30);
+    border-radius: 3px;
+    padding: 0 0.25rem;
+}
+.topo-sensors {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.45rem;
+}
+
+/* 层内关系注释（替代交叉箭头，保持画面干净） */
+.topo-note {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    padding-top: 0.45rem;
+    border-top: 1px dashed rgba(58, 61, 66, 0.45);
+}
+.topo-note span { font-size: 0.62rem; color: var(--patina); line-height: 1.5; }
+.topo-note i { color: var(--copper); font-size: 0.55rem; margin-right: 0.3rem; }
+
+/* 移动端：纵向堆叠，层间箭头转为向下 */
+@media (max-width: 768px) {
+    .topo { grid-template-columns: 1fr; gap: 0.6rem; padding: 0.5rem 0; }
+    .topo-link { min-width: 0; gap: 0.35rem; }
+    .topo-link-line { width: 1px; height: 1.4rem; }
+    .topo-link-line::after {
+        right: auto; left: 50%; top: auto; bottom: -1px;
+        transform: translateX(-50%);
+        border: 3px solid transparent;
+        border-top: 5px solid var(--copper);   /* 箭头改为向下 */
+    }
+    .topo-sensors { grid-template-columns: 1fr; }
+    .topo-edge-label { font-size: 0.58rem; }
+    .topo-col { padding: 0.75rem; }
+}
