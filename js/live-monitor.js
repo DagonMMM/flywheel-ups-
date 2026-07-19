@@ -6,6 +6,11 @@
  *   - 主题 flywheel/FW001/alarms ：报警事件 JSON
  * 无硬件环境下可开启「演示模式」，由前端本地生成同格式模拟数据。
  *
+ * 数据格式（论文真实体系，与上位机 flywheel_monitor 一致）：
+ *   rpm / temperature(电机温度) / bus_voltage / bus_current / bus_power(母线侧)
+ *   output_voltage / output_current(输出侧) / mode(0待机 1充能 2储能 3输出 4故障)
+ *   mode_text / energy_kwh(累计电量) / status / alarms
+ *
  * 结构与 main.js 保持一致：DOMContentLoaded 时统一初始化，
  * 每个子功能封装为独立的 init*() / 功能函数。
  * 依赖：Chart.js（charts.js 已加载）、MQTT.js（mqtt.min.js）。
@@ -26,22 +31,34 @@ document.addEventListener('DOMContentLoaded', function () {
     const CHART_WINDOW = 60;        // 实时曲线滚动窗口长度（秒，1 帧/秒）
     const MAX_ALARMS = 50;          // 报警列表最多保留条数
 
-    // 告警阈值：超过即让仪表卡变红
+    // 告警阈值（论文真实保护体系）：超过即让仪表卡变红
     const THRESHOLDS = {
-        rpmHigh: 28000,   // 转速上限（rpm）
-        rpmLow: 500,      // 转速下限（仅运行状态时判定）
-        tempHigh: 80,     // 温度上限（°C）
-        vibHigh: 10,      // 振动上限（g）
-        currentHigh: 50   // 电流上限（A）
+        ratedRpm: 8400,          // 额定转速（rpm）
+        rpmOverspeed: 8820,      // 转速上限 = 额定 × 1.05（rpm）
+        tempHigh: 60,            // 电机温度上限（°C，>60 紧急制动）
+        outputVoltageLow: 20.0   // 输出电压下限（V，仅输出模式判定）
     };
 
     // 设备运行状态 -> 界面文案 / 样式映射
+    // （上位机 status_text 取值：running/stopped/fault/warning）
     const STATUS_MAP = {
         running: { text: '运行中', light: 'lm-light--on',   textCls: 'lm-status-running' },
         stopped: { text: '已停止', light: 'lm-light--off',  textCls: 'lm-status-stopped' },
         fault:   { text: '故障',   light: 'lm-light--err',  textCls: 'lm-status-fault' },
+        warning: { text: '警告',   light: 'lm-light--alarm', textCls: 'lm-status-alarm' },
         alarm:   { text: '报警',   light: 'lm-light--alarm', textCls: 'lm-status-alarm' }
     };
+
+    // 工作模式码 -> 中文名 / 样式类（待机灰 / 充能绿闪 / 储能绿 / 输出黄 / 故障红）
+    const MODE_MAP = {
+        0: { text: '待机', cls: 'lm-mode-standby' },
+        1: { text: '充能', cls: 'lm-mode-charge' },
+        2: { text: '储能', cls: 'lm-mode-storage' },
+        3: { text: '输出', cls: 'lm-mode-output' },
+        4: { text: '故障', cls: 'lm-mode-fault' }
+    };
+    const MODE_CLASSES = ['lm-mode-standby', 'lm-mode-charge', 'lm-mode-storage',
+        'lm-mode-output', 'lm-mode-fault'];
 
     // ============ 模块状态 ============
     const state = {
@@ -52,18 +69,17 @@ document.addEventListener('DOMContentLoaded', function () {
         reconnectTimer: null,    // 重连定时器
         demoMode: false,         // 演示模式开关
         demoTimer: null,         // 演示数据定时器
-        demoTick: 0,             // 演示帧序号
+        demoTick: 0,             // 演示帧序号（1 帧 = 1 秒）
         frameCount: 0,           // 已接收数据帧计数
         alarmCount: 0,           // 报警计数
         // 实时曲线数据（与 Chart.js dataset 共享引用）
         chartLabels: [],
         rpmSeries: [],
-        vibXSeries: [],
-        vibYSeries: [],
+        tempSeries: [],
         rpmChart: null,
-        vibChart: null,
-        // 演示模式数据游标（缓慢波动用）
-        demo: { rpm: 11500, temp: 42.0 }
+        tempChart: null,
+        // 演示模式数据游标（模拟慢变量）
+        demo: { temp: 35.0, energyKwh: 0.0 }
     };
 
     /** 简写：按 id 取元素 */
@@ -272,26 +288,41 @@ document.addEventListener('DOMContentLoaded', function () {
     // 4. 大数字仪表卡（含阈值变红）
     // ============================================================
     function updateMetrics(frame) {
-        const running = frame.status === 'running';
-
-        // 转速：> 28000 或运行时 < 500 判定异常
+        // 转速：> 8820（超额定 5%）判定异常
         const rpmAlarm = typeof frame.rpm === 'number' &&
-            (frame.rpm > THRESHOLDS.rpmHigh || (running && frame.rpm < THRESHOLDS.rpmLow));
+            frame.rpm > THRESHOLDS.rpmOverspeed;
         setMetric('lm-card-rpm', 'lm-rpm', fmt(frame.rpm, 0), rpmAlarm);
 
-        // 温度：> 80°C 判定异常
+        // 电机温度：> 60°C 判定异常
         setMetric('lm-card-temp', 'lm-temp', fmt(frame.temperature, 1),
             typeof frame.temperature === 'number' && frame.temperature > THRESHOLDS.tempHigh);
 
-        // 电流：> 50A 判定异常
-        setMetric('lm-card-current', 'lm-current', fmt(frame.current, 1),
-            typeof frame.current === 'number' && frame.current > THRESHOLDS.currentHigh);
+        // 母线电压 / 母线功率：无阈值，仅显示
+        setMetric('lm-card-busv', 'lm-bus-voltage', fmt(frame.bus_voltage, 1), false);
+        setMetric('lm-card-busp', 'lm-bus-power', fmt(frame.bus_power, 0), false);
 
-        // 振动 X / Y：> 10g 判定异常
-        setMetric('lm-card-vibx', 'lm-vib-x', fmt(frame.vibration_x, 2),
-            typeof frame.vibration_x === 'number' && frame.vibration_x > THRESHOLDS.vibHigh);
-        setMetric('lm-card-viby', 'lm-vib-y', fmt(frame.vibration_y, 2),
-            typeof frame.vibration_y === 'number' && frame.vibration_y > THRESHOLDS.vibHigh);
+        // 输出电压：输出模式(3) 下 < 20V 判定低压异常
+        const outLow = frame.mode === 3 && typeof frame.output_voltage === 'number' &&
+            frame.output_voltage < THRESHOLDS.outputVoltageLow;
+        setMetric('lm-card-outv', 'lm-output-voltage', fmt(frame.output_voltage, 1), outLow);
+
+        // 工作模式卡片：文字 + 状态色（待机灰/充能绿闪/储能绿/输出黄/故障红）
+        updateModeCard(frame);
+    }
+
+    /**
+     * 更新工作模式卡片
+     * @param {object} frame 状态帧（mode 为模式码，mode_text 为中文名）
+     */
+    function updateModeCard(frame) {
+        const el = $('lm-mode');
+        const card = $('lm-card-mode');
+        const conf = MODE_MAP[frame.mode] ||
+            { text: frame.mode_text || '--', cls: 'lm-mode-standby' };
+        // 优先使用设备上报的 mode_text，缺失时回退到本地映射
+        el.textContent = frame.mode_text || conf.text;
+        MODE_CLASSES.forEach(function (c) { card.classList.remove(c); });
+        card.classList.add(conf.cls);
     }
 
     /**
@@ -313,6 +344,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // ============================================================
     // 5. 实时曲线（Chart.js，60 秒滚动窗口）
+    //    转速曲线 + 电机温度曲线（对齐论文测试章节）
     // ============================================================
     function initLiveCharts() {
         // Chart.js 未加载时跳过图表，其余功能不受影响
@@ -325,7 +357,7 @@ document.addEventListener('DOMContentLoaded', function () {
             labels: { usePointStyle: true, padding: 20, color: '#9ca3af', font: { size: 11 } }
         };
 
-        // --- 转速实时曲线：琥珀铜色主线，与全站 accent 一致 ---
+        // --- 转速实时曲线：琥珀铜色主线 + 8820 超速阈值虚线 ---
         const rpmCtx = $('lm-rpm-chart');
         if (rpmCtx) {
             state.rpmChart = new Chart(rpmCtx, {
@@ -343,6 +375,14 @@ document.addEventListener('DOMContentLoaded', function () {
                         pointRadius: 0,
                         pointHoverRadius: 4,
                         pointHoverBackgroundColor: '#D4874A'
+                    }, {
+                        label: '超速阈值 (8820)',
+                        data: [], // 长度随窗口同步补齐
+                        borderColor: 'rgba(239, 68, 68, 0.4)',
+                        borderWidth: 1.5,
+                        borderDash: [8, 4],
+                        fill: false,
+                        pointRadius: 0
                     }]
                 },
                 options: {
@@ -375,37 +415,26 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
 
-        // --- 振动 X/Y 实时曲线：青 / 绿双主线，与既有图表配色一致 ---
-        const vibCtx = $('lm-vib-chart');
-        if (vibCtx) {
-            state.vibChart = new Chart(vibCtx, {
+        // --- 电机温度实时曲线：琥珀主线 + 60°C 报警阈值红色虚线 ---
+        const tempCtx = $('lm-temp-chart');
+        if (tempCtx) {
+            state.tempChart = new Chart(tempCtx, {
                 type: 'line',
                 data: {
                     labels: state.chartLabels,
                     datasets: [{
-                        label: '振动 X (g)',
-                        data: state.vibXSeries,
-                        borderColor: '#00d4ff',
-                        backgroundColor: 'rgba(0, 212, 255, 0.08)',
+                        label: '电机温度 (°C)',
+                        data: state.tempSeries,
+                        borderColor: '#ffab00',
+                        backgroundColor: 'rgba(255, 171, 0, 0.08)',
                         borderWidth: 2,
                         fill: true,
                         tension: 0.3,
                         pointRadius: 0,
                         pointHoverRadius: 4,
-                        pointHoverBackgroundColor: '#00d4ff'
+                        pointHoverBackgroundColor: '#ffab00'
                     }, {
-                        label: '振动 Y (g)',
-                        data: state.vibYSeries,
-                        borderColor: '#00ff88',
-                        backgroundColor: 'rgba(0, 255, 136, 0.06)',
-                        borderWidth: 2,
-                        fill: false,
-                        tension: 0.3,
-                        pointRadius: 0,
-                        pointHoverRadius: 4,
-                        pointHoverBackgroundColor: '#00ff88'
-                    }, {
-                        label: '报警阈值 (10g)',
+                        label: '报警阈值 (60°C)',
                         data: [], // 长度随窗口同步补齐
                         borderColor: 'rgba(239, 68, 68, 0.4)',
                         borderWidth: 1.5,
@@ -422,7 +451,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         legend: legendOpts,
                         tooltip: {
                             callbacks: {
-                                label: function (ctx) { return ctx.dataset.label + ': ' + ctx.parsed.y + ' g'; }
+                                label: function (ctx) { return ctx.dataset.label + ': ' + ctx.parsed.y + ' °C'; }
                             }
                         }
                     },
@@ -435,7 +464,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         y: {
                             grid: { color: gridColor },
                             ticks: { color: tickColor, font: { size: 10 } },
-                            title: { display: true, text: '振动 (g)', color: tickColor },
+                            title: { display: true, text: '温度 (°C)', color: tickColor },
                             min: 0
                         }
                     },
@@ -456,26 +485,34 @@ document.addEventListener('DOMContentLoaded', function () {
 
         state.chartLabels.push(label);
         state.rpmSeries.push(typeof frame.rpm === 'number' ? frame.rpm : null);
-        state.vibXSeries.push(typeof frame.vibration_x === 'number' ? frame.vibration_x : null);
-        state.vibYSeries.push(typeof frame.vibration_y === 'number' ? frame.vibration_y : null);
+        state.tempSeries.push(typeof frame.temperature === 'number' ? frame.temperature : null);
 
         // 超出 60 秒窗口则左移
         if (state.chartLabels.length > CHART_WINDOW) {
             state.chartLabels.shift();
             state.rpmSeries.shift();
-            state.vibXSeries.shift();
-            state.vibYSeries.shift();
+            state.tempSeries.shift();
         }
 
-        // 振动图的阈值虚线需要与窗口等长
-        if (state.vibChart) {
-            const thr = state.vibChart.data.datasets[2].data;
-            while (thr.length < state.chartLabels.length) thr.push(THRESHOLDS.vibHigh);
-            while (thr.length > state.chartLabels.length) thr.shift();
-        }
+        // 两张图的阈值虚线都需要与窗口等长
+        syncThresholdLine(state.rpmChart, 1, THRESHOLDS.rpmOverspeed);
+        syncThresholdLine(state.tempChart, 1, THRESHOLDS.tempHigh);
 
         if (state.rpmChart) state.rpmChart.update('none');
-        if (state.vibChart) state.vibChart.update('none');
+        if (state.tempChart) state.tempChart.update('none');
+    }
+
+    /**
+     * 让指定图表的阈值虚线数据集与当前窗口等长
+     * @param {Chart} chart 图表实例（可为 null）
+     * @param {number} dsIndex 阈值虚线所在 dataset 下标
+     * @param {number} value 阈值
+     */
+    function syncThresholdLine(chart, dsIndex, value) {
+        if (!chart) return;
+        const thr = chart.data.datasets[dsIndex].data;
+        while (thr.length < state.chartLabels.length) thr.push(value);
+        while (thr.length > state.chartLabels.length) thr.shift();
     }
 
     // ============================================================
@@ -543,19 +580,29 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // ============================================================
     // 8. 演示模式（与 MQTT 模式互斥）
+    //    模拟 180 秒完整工作循环（对齐论文测试流程与上位机模拟模式）：
+    //    0~50s 充能(0→8400rpm) → 50~110s 储能(保持) →
+    //    110~170s 输出(放电到 0，24V/3.3W) → 170~180s 待机
     // ============================================================
     function startDemoMode() {
         state.demoMode = true;
         state.demoTick = 0;
+        state.demo.temp = 35.0;
+        state.demo.energyKwh = 0.0;
         $('lm-demo-toggle').classList.add('lm-active');
         $('lm-mode-badge').classList.remove('hidden');
         setConnState('off', '演示模式（本地模拟数据）');
         // 每秒生成一帧与真实格式一致的模拟数据
         state.demoTimer = setInterval(function () {
             handleStatusFrame(generateDemoFrame());
-            // 周期性注入一条演示报警，便于展示报警面板效果
+            const tc = state.demoTick % 180;
+            // 每个循环进入储能段时注入一条演示过热报警（新体系）
+            if (tc === 60) {
+                addAlarm('[演示] 电机过热：电机温度 61.0 ℃ 超过上限 60 ℃');
+            }
+            // 周期性注入例行自检信息，便于展示报警面板效果
             if (state.demoTick > 0 && state.demoTick % 45 === 0) {
-                addAlarm('[演示] 例行自检：各传感器读数正常');
+                addAlarm('[演示] 例行自检：电参量 / 转速 / 温度读数正常');
             }
         }, 1000);
     }
@@ -572,34 +619,70 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     /**
-     * 生成一帧演示数据：转速在 8000~15000rpm 间缓慢波动，
-     * 温度缓升震荡，振动/电流小幅随机，格式与真实设备一致。
+     * 生成一帧演示数据：180 秒完整工作循环，格式与真实设备一致。
+     * 母线电压 220V 波动，输出侧 24V/3.3W，温度缓升缓降，电量充能段累加。
      */
     function generateDemoFrame() {
         const d = state.demo;
         state.demoTick++;
+        const tc = state.demoTick % 180;  // 循环内时间（秒）
 
-        // 转速：随机游走 + 低频正弦，夹在 8000~15000
-        d.rpm += (Math.random() - 0.5) * 500 + Math.sin(state.demoTick / 12) * 150;
-        d.rpm = Math.min(15000, Math.max(8000, d.rpm));
+        // ---- 阶段与转速 ----
+        let mode, rpm;
+        if (tc < 50) {
+            mode = 1;                        // 充能
+            rpm = 8400 * (tc / 50);
+        } else if (tc < 110) {
+            mode = 2;                        // 储能
+            rpm = 8400;
+        } else if (tc < 170) {
+            mode = 3;                        // 输出
+            rpm = 8400 * (1 - (tc - 110) / 60);
+        } else {
+            mode = 0;                        // 待机
+            rpm = 0;
+        }
+        if (rpm > 0) rpm += (Math.random() - 0.5) * 10;
+        rpm = Math.max(0, rpm);
 
-        // 温度：38~56°C 缓慢漂移
-        d.temp += (Math.random() - 0.45) * 0.35;
-        d.temp = Math.min(56, Math.max(38, d.temp));
+        // ---- 母线侧（电能表）----
+        const busVoltage = 220 + 2 * Math.sin(state.demoTick / 30) + (Math.random() - 0.5);
+        let busCurrent;
+        if (mode === 1) busCurrent = 8.0 - 7.5 * (tc / 50) + (Math.random() - 0.5) * 0.2;
+        else if (mode === 2) busCurrent = 0.3 + (Math.random() - 0.5) * 0.1;
+        else busCurrent = 0;
+        busCurrent = Math.max(0, busCurrent);
+        const busPower = busVoltage * busCurrent;
 
-        // 振动：1~5g 之间波动，Y 轴略小于 X 轴
-        const vibX = 1.5 + Math.random() * 2.2 + Math.abs(Math.sin(state.demoTick / 9));
-        const vibY = vibX * (0.6 + Math.random() * 0.3);
+        // ---- 输出侧（SK120X，输出模式 24V / ~3.3W）----
+        const outputVoltage = mode === 3 ? 24 + (Math.random() - 0.5) * 0.4 : 0;
+        const outputCurrent = mode === 3 ? 0.14 + (Math.random() - 0.5) * 0.02 : 0;
+
+        // ---- 温度缓升缓降（充能/储能发热，输出/待机回落）----
+        if (mode === 1 || mode === 2) d.temp += 2.5 / 60;
+        else d.temp -= 0.8 / 60;
+        d.temp = Math.min(55, Math.max(25, d.temp));
+        const temperature = d.temp + (Math.random() - 0.5) * 0.1;
+
+        // ---- 累计电量（充能段按母线功率累加）----
+        if (mode === 1) d.energyKwh += busPower / 3.6e6;
+
+        const running = mode === 1 || mode === 2 || mode === 3;
 
         return {
             timestamp: new Date().toISOString(),
             device_id: 'FW001',
-            rpm: parseFloat(d.rpm.toFixed(1)),
-            temperature: parseFloat(d.temp.toFixed(1)),
-            vibration_x: parseFloat(vibX.toFixed(2)),
-            vibration_y: parseFloat(vibY.toFixed(2)),
-            current: parseFloat((8 + Math.random() * 9).toFixed(1)),
-            status: 'running',
+            rpm: parseFloat(rpm.toFixed(1)),
+            temperature: parseFloat(temperature.toFixed(1)),
+            bus_voltage: parseFloat(busVoltage.toFixed(1)),
+            bus_current: parseFloat(busCurrent.toFixed(2)),
+            bus_power: parseFloat(busPower.toFixed(1)),
+            output_voltage: parseFloat(outputVoltage.toFixed(1)),
+            output_current: parseFloat(outputCurrent.toFixed(2)),
+            mode: mode,
+            mode_text: MODE_MAP[mode].text,
+            energy_kwh: parseFloat(d.energyKwh.toFixed(2)),
+            status: running ? 'running' : 'stopped',
             alarms: []
         };
     }
