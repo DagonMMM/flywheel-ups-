@@ -69,7 +69,7 @@ Breakpoints at 768px and 480px in `style.css`. Mobile nav is a toggle menu (`#mo
 2. **System Overview** — Research background, system architecture diagram (4 columns: power/control/energy-storage/sensors), workflow flowchart
 3. **Tech Specs** — 6 component spec cards (PLC, motor, flywheel, driver, sensors, frame)
 4. **Communication & Control** — RS485 + Modbus-RTU network, device address table, PLC program highlights
-5. **Slave Station** — Dual-PLC architecture (Easy-301 master + Easy-320 slave), HMI, cloud/SCADA integration, data flow diagram
+5. **Slave Station** — Dual-PLC architecture (Easy-320 master + Easy-301 slave), HMI, cloud/SCADA integration, data flow diagram
 6. **Performance Testing** — 4 charts, safety protection system (5 fault types)
 7. **Automotive KERS** — F1/WEC flywheel history, commercial vehicle applications
 8. **Aerospace** — IPACS, Flywheel-Net neural network control, space vs ground comparison

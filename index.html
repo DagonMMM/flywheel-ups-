@@ -115,7 +115,7 @@
                     <a href="#overview" class="nav-link px-3 py-2 rounded-lg text-sm text-patina hover:text-aluminum hover:bg-white/5 transition-all">系统概述</a>
                     <a href="#specs" class="nav-link px-3 py-2 rounded-lg text-sm text-patina hover:text-aluminum hover:bg-white/5 transition-all">技术规格</a>
                     <a href="#control" class="nav-link px-3 py-2 rounded-lg text-sm text-patina hover:text-aluminum hover:bg-white/5 transition-all">通信与控制</a>
-                    <a href="#slave-station" class="nav-link px-3 py-2 rounded-lg text-sm text-patina hover:text-aluminum hover:bg-white/5 transition-all">从站系统</a>
+                    <a href="#slave-station" class="nav-link px-3 py-2 rounded-lg text-sm text-patina hover:text-aluminum hover:bg-white/5 transition-all">双机互联</a>
                     <a href="#performance" class="nav-link px-3 py-2 rounded-lg text-sm text-patina hover:text-aluminum hover:bg-white/5 transition-all">性能测试</a>
                     <a href="#live-monitor" class="nav-link px-3 py-2 rounded-lg text-sm text-patina hover:text-aluminum hover:bg-white/5 transition-all">实时监控</a>
                     <a href="#automotive" class="nav-link px-3 py-2 rounded-lg text-sm text-patina hover:text-aluminum hover:bg-white/5 transition-all">汽车应用</a>
@@ -136,7 +136,7 @@
                 <a href="#overview" class="block px-3 py-2 rounded-lg text-sm text-patina hover:text-aluminum hover:bg-white/5">系统概述</a>
                 <a href="#specs" class="block px-3 py-2 rounded-lg text-sm text-patina hover:text-aluminum hover:bg-white/5">技术规格</a>
                 <a href="#control" class="block px-3 py-2 rounded-lg text-sm text-patina hover:text-aluminum hover:bg-white/5">通信与控制</a>
-                <a href="#slave-station" class="block px-3 py-2 rounded-lg text-sm text-patina hover:text-aluminum hover:bg-white/5">从站系统</a>
+                <a href="#slave-station" class="block px-3 py-2 rounded-lg text-sm text-patina hover:text-aluminum hover:bg-white/5">双机互联</a>
                 <a href="#performance" class="block px-3 py-2 rounded-lg text-sm text-patina hover:text-aluminum hover:bg-white/5">性能测试</a>
                 <a href="#live-monitor" class="block px-3 py-2 rounded-lg text-sm text-patina hover:text-aluminum hover:bg-white/5">实时监控</a>
                 <a href="#automotive" class="block px-3 py-2 rounded-lg text-sm text-patina hover:text-aluminum hover:bg-white/5">汽车应用</a>
@@ -387,7 +387,7 @@
                         </div>
                         <div>
                             <h3 class="text-aluminum font-bold">汇川 Easy-301 PLC</h3>
-                            <p class="text-patina text-sm">主控制器</p>
+                            <p class="text-patina text-sm">飞轮主控 · 通信从站</p>
                         </div>
                     </div>
                     <div class="spec-card-body">
@@ -558,7 +558,7 @@
                                 </div>
                                 <div>
                                     <h4 class="text-aluminum font-medium mb-1">数据链路层</h4>
-                                    <p class="text-patina text-sm">Modbus-RTU 协议，主从架构。PLC 作为主站主动轮询，CRC 循环冗余校验确保数据完整性。相比 CANopen 报文复杂度更低，有效缩短开发周期。</p>
+                                    <p class="text-patina text-sm">Modbus-RTU 协议，主从架构。Easy-320 作为主站主动轮询，CRC 循环冗余校验确保数据完整性。相比 CANopen 报文复杂度更低，有效缩短开发周期。</p>
                                 </div>
                             </div>
                         </div>
@@ -837,12 +837,12 @@
         </div>
     </section>
 
-    <!-- ==================== 5. 从站系统与双机互联 ==================== -->
+    <!-- ==================== 5. 双机互联与主从架构 ==================== -->
     <section id="slave-station" class="py-20 lg:py-28 bg-[#1B1D20]/50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16 section-heading">
-                <h2 class="text-3xl sm:text-4xl font-bold text-aluminum mb-4">从站系统与双机互联</h2>
-                <p class="text-patina max-w-2xl mx-auto">Easy-320 从站 + 汇川 HMI + 云端互联，构建完整工业自动化架构</p>
+                <h2 class="text-3xl sm:text-4xl font-bold text-aluminum mb-4">双机互联与主从架构</h2>
+                <p class="text-patina max-w-2xl mx-auto">Easy-320 主站网关 + Easy-301 从站主控 + 汇川 HMI + 云端互联，构建完整工业自动化架构</p>
             </div>
 
             <!-- 双PLC架构对比表 -->
@@ -855,8 +855,8 @@
                         <thead>
                             <tr class="bg-gray-900/30">
                                 <th class="text-left py-4 px-5 text-patina font-medium">对比维度</th>
-                                <th class="text-left py-4 px-5 text-patina font-medium">主站 · Easy-301</th>
-                                <th class="text-left py-4 px-5 text-patina font-medium">从站 · Easy-320</th>
+                                <th class="text-left py-4 px-5 text-patina font-medium">从站 · Easy-301</th>
+                                <th class="text-left py-4 px-5 text-patina font-medium">主站 · Easy-320</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-white/5">
@@ -878,7 +878,7 @@
                             <tr class="hover:bg-white/[0.01]">
                                 <td class="py-3 px-5 text-aluminum text-xs font-medium">核心任务</td>
                                 <td class="py-3 px-5 text-patina text-xs">飞轮调速 · 充能/输出切换 · 安全互锁 · 传感器采集</td>
-                                <td class="py-3 px-5 text-patina text-xs">HMI驱动 · 云端上报 · 上位机通信 · 主从数据同步</td>
+                                <td class="py-3 px-5 text-patina text-xs">HMI驱动 · 云端上报 · 上位机通信 · 主站轮询采集</td>
                             </tr>
                             <tr class="hover:bg-white/[0.01]">
                                 <td class="py-3 px-5 text-aluminum text-xs font-medium">通信接口</td>
@@ -897,8 +897,8 @@
                             </tr>
                             <tr class="hover:bg-white/[0.01]">
                                 <td class="py-3 px-5 text-aluminum text-xs font-medium">主从互联</td>
-                                <td class="py-3 px-5 text-patina text-xs">RS485 Modbus-RTU · 主站模式（轮询从站）</td>
-                                <td class="py-3 px-5 text-patina text-xs">RS485 Modbus-RTU · 从站模式（响应主站）</td>
+                                <td class="py-3 px-5 text-patina text-xs">RS485 Modbus-RTU · 从站模式（响应主站轮询）</td>
+                                <td class="py-3 px-5 text-patina text-xs">RS485 Modbus-RTU · 主站模式（100ms 周期轮询）</td>
                             </tr>
                         </tbody>
                     </table>
@@ -907,7 +907,7 @@
 
             <!-- Easy-320 + HMI 双栏 -->
             <div class="grid lg:grid-cols-2 gap-8 mb-12">
-                <!-- Easy-320 从站规格 -->
+                <!-- Easy-320 主站规格 -->
                 <div class="spec-card">
                     <div class="spec-card-header">
                         <div class="w-14 h-14 rounded-2xl bg-patina/10 flex items-center justify-center flex-shrink-0">
@@ -915,7 +915,7 @@
                         </div>
                         <div>
                             <h3 class="text-aluminum font-bold">汇川 Easy-320 PLC</h3>
-                            <p class="text-patina text-sm">从站控制器 · 通信网关</p>
+                            <p class="text-patina text-sm">主站控制器 · 通信网关</p>
                         </div>
                     </div>
                     <div class="spec-card-body">
@@ -946,7 +946,7 @@
                         <div class="spec-item"><span>分辨率</span><span>800 × 480</span></div>
                         <div class="spec-item"><span>触摸方式</span><span>电阻式触摸</span></div>
                         <div class="spec-item"><span>通信接口</span><span>RS485 · 以太网 · USB</span></div>
-                        <div class="spec-item"><span>连接PLC</span><span>Easy-320 (Modbus-RTU)</span></div>
+                        <div class="spec-item"><span>连接PLC</span><span>Easy-320 (Modbus-TCP 以太网)</span></div>
                         <div class="spec-item"><span>监控画面</span><span>转速 · 温度 · 电压 · 状态</span></div>
                         <div class="spec-item"><span>报警管理</span><span>5类故障实时弹窗</span></div>
                         <div class="spec-item"><span>数据记录</span><span>历史曲线 · CSV导出</span></div>
@@ -1047,21 +1047,21 @@
                         <p class="text-patina mt-1">采集层</p>
                     </div>
                     <div class="text-patina text-xl"><i class="fa-solid fa-arrow-right"></i></div>
-                    <!-- 主站 -->
+                    <!-- 从站 -->
                     <div class="text-center">
                         <div class="w-28 p-3 rounded-xl bg-patina/10 border border-copper/20">
                             <i class="fa-solid fa-microchip text-patina text-lg mb-1 block"></i>
-                            <p class="text-aluminum font-medium">主站 Easy-301</p>
+                            <p class="text-aluminum font-medium">从站 Easy-301</p>
                             <p class="text-patina mt-1">实时控制<br>安全互锁</p>
                         </div>
                         <p class="text-patina mt-1">控制层</p>
                     </div>
                     <div class="text-patina text-xl"><i class="fa-solid fa-arrow-right"></i></div>
-                    <!-- 从站 -->
+                    <!-- 主站 -->
                     <div class="text-center">
                         <div class="w-28 p-3 rounded-xl bg-patina/10 border border-patina/20 ring-2 ring-patina/30">
                             <i class="fa-solid fa-server text-patina text-lg mb-1 block"></i>
-                            <p class="text-aluminum font-medium">从站 Easy-320</p>
+                            <p class="text-aluminum font-medium">主站 Easy-320</p>
                             <p class="text-patina mt-1">数据汇聚<br>通信枢纽</p>
                         </div>
                         <p class="text-patina mt-1">网关层</p>
