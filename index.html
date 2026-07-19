@@ -1262,7 +1262,7 @@
             </div>
 
             <!-- 大数字仪表卡 -->
-            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
+            <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
                 <div class="metric-card p-5 text-center" id="lm-card-rpm">
                     <i class="fa-solid fa-gauge-high text-copper text-xl mb-2"></i>
                     <div class="text-3xl font-bold text-aluminum lm-metric-value"><span id="lm-rpm">--</span><span class="text-sm text-patina"> rpm</span></div>
@@ -1273,20 +1273,25 @@
                     <div class="text-3xl font-bold text-aluminum lm-metric-value"><span id="lm-temp">--</span><span class="text-sm text-patina"> °C</span></div>
                     <p class="text-patina text-xs mt-1">电机温度</p>
                 </div>
-                <div class="metric-card p-5 text-center" id="lm-card-current">
+                <div class="metric-card p-5 text-center" id="lm-card-busv">
                     <i class="fa-solid fa-bolt text-copper text-xl mb-2"></i>
-                    <div class="text-3xl font-bold text-aluminum lm-metric-value"><span id="lm-current">--</span><span class="text-sm text-patina"> A</span></div>
-                    <p class="text-patina text-xs mt-1">母线电流</p>
+                    <div class="text-3xl font-bold text-aluminum lm-metric-value"><span id="lm-bus-voltage">--</span><span class="text-sm text-patina"> V</span></div>
+                    <p class="text-patina text-xs mt-1">母线电压</p>
                 </div>
-                <div class="metric-card p-5 text-center" id="lm-card-vibx">
-                    <i class="fa-solid fa-wave-square text-copper text-xl mb-2"></i>
-                    <div class="text-3xl font-bold text-aluminum lm-metric-value"><span id="lm-vib-x">--</span><span class="text-sm text-patina"> g</span></div>
-                    <p class="text-patina text-xs mt-1">振动 X 轴</p>
+                <div class="metric-card p-5 text-center" id="lm-card-busp">
+                    <i class="fa-solid fa-plug-circle-bolt text-copper text-xl mb-2"></i>
+                    <div class="text-3xl font-bold text-aluminum lm-metric-value"><span id="lm-bus-power">--</span><span class="text-sm text-patina"> W</span></div>
+                    <p class="text-patina text-xs mt-1">母线功率</p>
                 </div>
-                <div class="metric-card p-5 text-center" id="lm-card-viby">
-                    <i class="fa-solid fa-wave-square text-copper text-xl mb-2"></i>
-                    <div class="text-3xl font-bold text-aluminum lm-metric-value"><span id="lm-vib-y">--</span><span class="text-sm text-patina"> g</span></div>
-                    <p class="text-patina text-xs mt-1">振动 Y 轴</p>
+                <div class="metric-card p-5 text-center" id="lm-card-outv">
+                    <i class="fa-solid fa-car-battery text-copper text-xl mb-2"></i>
+                    <div class="text-3xl font-bold text-aluminum lm-metric-value"><span id="lm-output-voltage">--</span><span class="text-sm text-patina"> V</span></div>
+                    <p class="text-patina text-xs mt-1">输出电压</p>
+                </div>
+                <div class="metric-card p-5 text-center" id="lm-card-mode">
+                    <i class="fa-solid fa-gears text-copper text-xl mb-2"></i>
+                    <div class="text-3xl font-bold text-aluminum lm-metric-value"><span id="lm-mode">--</span></div>
+                    <p class="text-patina text-xs mt-1">工作模式</p>
                 </div>
             </div>
 
@@ -1299,16 +1304,16 @@
                     <div class="relative">
                         <canvas id="lm-rpm-chart"></canvas>
                     </div>
-                    <p class="text-patina text-xs mt-3 text-center">最近 60 秒滚动窗口 · 1 帧/秒</p>
+                    <p class="text-patina text-xs mt-3 text-center">最近 60 秒滚动窗口 · 超速阈值 8820 rpm</p>
                 </div>
                 <div class="chart-container">
                     <h3 class="text-lg font-semibold text-aluminum mb-4 flex items-center gap-2">
-                        <i class="fa-solid fa-chart-area text-patina"></i> 实时振动曲线（X / Y）
+                        <i class="fa-solid fa-chart-area text-patina"></i> 实时电机温度曲线
                     </h3>
                     <div class="relative">
-                        <canvas id="lm-vib-chart"></canvas>
+                        <canvas id="lm-temp-chart"></canvas>
                     </div>
-                    <p class="text-patina text-xs mt-3 text-center">最近 60 秒滚动窗口 · 报警阈值 10g</p>
+                    <p class="text-patina text-xs mt-3 text-center">最近 60 秒滚动窗口 · 报警阈值 60°C</p>
                 </div>
             </div>
 
