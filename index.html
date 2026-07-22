@@ -85,11 +85,11 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    <!-- Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <!-- Chart.js（本地vendor，避免CDN不稳定导致区块打不开） -->
+    <script src="js/vendor/chart.umd.min.js"></script>
 
-    <!-- MQTT.js（实时监控：MQTT over WebSocket，须在 js/live-monitor.js 之前加载） -->
-    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+    <!-- MQTT.js（本地vendor：MQTT over WebSocket，须在 js/live-monitor.js 之前加载） -->
+    <script src="js/vendor/mqtt.min.js"></script>
 
     <!-- Favicon (inline SVG flywheel) -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'><circle cx='32' cy='32' r='28' fill='none' stroke='%23D4874A' stroke-width='3'/><circle cx='32' cy='32' r='20' fill='none' stroke='%239B8E7E' stroke-width='1.5'/><circle cx='32' cy='32' r='5' fill='%23D4874A'/><line x1='32' y1='12' x2='32' y2='27' stroke='%239B8E7E' stroke-width='1.5'/><line x1='32' y1='37' x2='32' y2='52' stroke='%239B8E7E' stroke-width='1.5'/><line x1='12' y1='32' x2='27' y2='32' stroke='%239B8E7E' stroke-width='1.5'/><line x1='37' y1='32' x2='52' y2='32' stroke='%239B8E7E' stroke-width='1.5'/><circle cx='32' cy='32' r='2.5' fill='%23232427'/></svg>">
