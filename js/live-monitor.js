@@ -7,8 +7,9 @@
  * 无硬件环境下可开启「演示模式」，由前端本地生成同格式模拟数据。
  *
  * 数据格式（论文真实体系，与上位机 flywheel_monitor 一致）：
- *   rpm / temperature(电机温度) / bus_voltage / bus_current / bus_power(母线侧)
- *   output_voltage / output_current(输出侧) / mode(0待机 1充能 2储能 3输出 4故障)
+ *   rpm / temperature(电机温度) / storage_j(储能 J) / input_voltage(输入电压 V)
+ *   bus_voltage / bus_current / bus_power(母线侧，待 301 扩充，当前为 null)
+ *   output_voltage / output_current(输出侧，待扩充) / mode(0待机 1充能 2储能 3输出 4故障)
  *   mode_text / energy_kwh(累计电量) / status / alarms
  *
  * 结构与 main.js 保持一致：DOMContentLoaded 时统一初始化，
@@ -35,7 +36,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const THRESHOLDS = {
         ratedRpm: 8400,          // 额定转速（rpm）
         rpmOverspeed: 8820,      // 转速上限 = 额定 × 1.05（rpm）
-        tempHigh: 60,            // 电机温度上限（°C，>60 紧急制动）
+        tempHigh: 70,            // 电机温度上限（°C，模拟器阶段上位机放宽到 70）
         outputVoltageLow: 20.0   // 输出电压下限（V，仅输出模式判定）
     };
 
@@ -293,13 +294,18 @@ document.addEventListener('DOMContentLoaded', function () {
             frame.rpm > THRESHOLDS.rpmOverspeed;
         setMetric('lm-card-rpm', 'lm-rpm', fmt(frame.rpm, 0), rpmAlarm);
 
-        // 电机温度：> 60°C 判定异常
+        // 电机温度：> 70°C 判定异常（模拟器阶段上位机阈值）
         setMetric('lm-card-temp', 'lm-temp', fmt(frame.temperature, 1),
             typeof frame.temperature === 'number' && frame.temperature > THRESHOLDS.tempHigh);
 
-        // 母线电压 / 母线功率：无阈值，仅显示
-        setMetric('lm-card-busv', 'lm-bus-voltage', fmt(frame.bus_voltage, 1), false);
-        setMetric('lm-card-busp', 'lm-bus-power', fmt(frame.bus_power, 0), false);
+        // 储能（storage_j，J）：>=1000 J 自动换算为 kJ 显示；null/缺字段显示 --
+        const st = fmtStorage(frame.storage_j);
+        $('lm-storage').textContent = st.text;
+        $('lm-storage-unit').textContent = ' ' + st.unit;
+        $('lm-card-storage').classList.remove('lm-value-alarm');
+
+        // 输入电压（input_voltage，V）：无阈值，仅显示
+        setMetric('lm-card-inpv', 'lm-input-voltage', fmt(frame.input_voltage, 1), false);
 
         // 输出电压：输出模式(3) 下 < 20V 判定低压异常
         const outLow = frame.mode === 3 && typeof frame.output_voltage === 'number' &&
@@ -340,6 +346,17 @@ document.addEventListener('DOMContentLoaded', function () {
     /** 数字格式化：非法值显示 -- */
     function fmt(v, digits) {
         return (typeof v === 'number' && isFinite(v)) ? v.toFixed(digits) : '--';
+    }
+
+    /**
+     * 储能格式化：>= 1000 J 自动换算为 kJ；非法值显示 --
+     * @param {number|null} v 储能（J）
+     * @returns {{text: string, unit: string}} 数值文本与单位
+     */
+    function fmtStorage(v) {
+        if (typeof v !== 'number' || !isFinite(v)) return { text: '--', unit: 'J' };
+        if (Math.abs(v) >= 1000) return { text: (v / 1000).toFixed(1), unit: 'kJ' };
+        return { text: v.toFixed(0), unit: 'J' };
     }
 
     // ============================================================
@@ -415,7 +432,7 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         }
 
-        // --- 电机温度实时曲线：琥珀主线 + 60°C 报警阈值红色虚线 ---
+        // --- 电机温度实时曲线：琥珀主线 + 70°C 报警阈值红色虚线 ---
         const tempCtx = $('lm-temp-chart');
         if (tempCtx) {
             state.tempChart = new Chart(tempCtx, {
@@ -434,7 +451,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         pointHoverRadius: 4,
                         pointHoverBackgroundColor: '#ffab00'
                     }, {
-                        label: '报警阈值 (60°C)',
+                        label: '报警阈值 (70°C)',
                         data: [], // 长度随窗口同步补齐
                         borderColor: 'rgba(239, 68, 68, 0.4)',
                         borderWidth: 1.5,
@@ -596,9 +613,9 @@ document.addEventListener('DOMContentLoaded', function () {
         state.demoTimer = setInterval(function () {
             handleStatusFrame(generateDemoFrame());
             const tc = state.demoTick % 180;
-            // 每个循环进入储能段时注入一条演示过热报警（新体系）
+            // 每个循环进入储能段时注入一条演示过热报警（阈值 70℃，模拟器阶段）
             if (tc === 60) {
-                addAlarm('[演示] 电机过热：电机温度 61.0 ℃ 超过上限 60 ℃');
+                addAlarm('[演示] 电机过热：电机温度 71.0 ℃ 超过上限 70 ℃');
             }
             // 周期性注入例行自检信息，便于展示报警面板效果
             if (state.demoTick > 0 && state.demoTick % 45 === 0) {
@@ -620,6 +637,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     /**
      * 生成一帧演示数据：180 秒完整工作循环，格式与真实设备一致。
+     * 储能 50000 J 满充（放电段线性降至 15000 J），输入电压 24V（待机归零），
      * 母线电压 220V 波动，输出侧 24V/3.3W，温度缓升缓降，电量充能段累加。
      */
     function generateDemoFrame() {
@@ -644,6 +662,23 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         if (rpm > 0) rpm += (Math.random() - 0.5) * 10;
         rpm = Math.max(0, rpm);
+
+        // ---- 储能 storage_j（J）与输入电压 input_voltage（V）：
+        //      公式与 320 模拟器一致（充能段 E∝t²，放电段线性降至 15000 J）----
+        let storageJ, inputVoltage;
+        if (tc < 50) {
+            storageJ = 50000 * Math.pow(tc / 50, 2);
+            inputVoltage = 24;
+        } else if (tc < 110) {
+            storageJ = 50000;
+            inputVoltage = 24;
+        } else if (tc < 170) {
+            storageJ = 50000 - (50000 - 15000) * ((tc - 110) / 60);
+            inputVoltage = 23.5;
+        } else {
+            storageJ = 15000;
+            inputVoltage = 0;
+        }
 
         // ---- 母线侧（电能表）----
         const busVoltage = 220 + 2 * Math.sin(state.demoTick / 30) + (Math.random() - 0.5);
@@ -674,6 +709,8 @@ document.addEventListener('DOMContentLoaded', function () {
             device_id: 'FW001',
             rpm: parseFloat(rpm.toFixed(1)),
             temperature: parseFloat(temperature.toFixed(1)),
+            storage_j: parseFloat(storageJ.toFixed(1)),
+            input_voltage: parseFloat(inputVoltage.toFixed(1)),
             bus_voltage: parseFloat(busVoltage.toFixed(1)),
             bus_current: parseFloat(busCurrent.toFixed(2)),
             bus_power: parseFloat(busPower.toFixed(1)),

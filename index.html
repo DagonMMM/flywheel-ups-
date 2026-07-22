@@ -1273,15 +1273,15 @@
                     <div class="text-3xl font-bold text-aluminum lm-metric-value"><span id="lm-temp">--</span><span class="text-sm text-patina"> °C</span></div>
                     <p class="text-patina text-xs mt-1">电机温度</p>
                 </div>
-                <div class="metric-card p-5 text-center" id="lm-card-busv">
-                    <i class="fa-solid fa-bolt text-copper text-xl mb-2"></i>
-                    <div class="text-3xl font-bold text-aluminum lm-metric-value"><span id="lm-bus-voltage">--</span><span class="text-sm text-patina"> V</span></div>
-                    <p class="text-patina text-xs mt-1">母线电压</p>
+                <div class="metric-card p-5 text-center" id="lm-card-storage">
+                    <i class="fa-solid fa-battery-three-quarters text-copper text-xl mb-2"></i>
+                    <div class="text-3xl font-bold text-aluminum lm-metric-value"><span id="lm-storage">--</span><span class="text-sm text-patina" id="lm-storage-unit"> J</span></div>
+                    <p class="text-patina text-xs mt-1">储能</p>
                 </div>
-                <div class="metric-card p-5 text-center" id="lm-card-busp">
-                    <i class="fa-solid fa-plug-circle-bolt text-copper text-xl mb-2"></i>
-                    <div class="text-3xl font-bold text-aluminum lm-metric-value"><span id="lm-bus-power">--</span><span class="text-sm text-patina"> W</span></div>
-                    <p class="text-patina text-xs mt-1">母线功率</p>
+                <div class="metric-card p-5 text-center" id="lm-card-inpv">
+                    <i class="fa-solid fa-plug text-copper text-xl mb-2"></i>
+                    <div class="text-3xl font-bold text-aluminum lm-metric-value"><span id="lm-input-voltage">--</span><span class="text-sm text-patina"> V</span></div>
+                    <p class="text-patina text-xs mt-1">输入电压</p>
                 </div>
                 <div class="metric-card p-5 text-center" id="lm-card-outv">
                     <i class="fa-solid fa-car-battery text-copper text-xl mb-2"></i>
@@ -1313,7 +1313,7 @@
                     <div class="relative">
                         <canvas id="lm-temp-chart"></canvas>
                     </div>
-                    <p class="text-patina text-xs mt-3 text-center">最近 60 秒滚动窗口 · 报警阈值 60°C</p>
+                    <p class="text-patina text-xs mt-3 text-center">最近 60 秒滚动窗口 · 报警阈值 70°C（模拟器阶段上位机阈值）</p>
                 </div>
             </div>
 
