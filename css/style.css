@@ -1293,3 +1293,18 @@ footer .w-8:hover .fa-atom { transform: rotate(90deg); }
     0%, 100% { opacity: 1; }
     50%      { opacity: 0.35; }
 }
+
+/* ============================================================
+   15. 硬件实物照片墙（系统概述区块，纯追加）
+   统一显示高度 + object-fit cover，居中取景；
+   移动端单列时适当加高，避免竖版照片裁切过多
+   ============================================================ */
+.hw-photo img {
+    height: 20rem;
+    object-fit: cover;
+    object-position: center;
+}
+
+@media (max-width: 640px) {
+    .hw-photo img { height: 24rem; }
+}
